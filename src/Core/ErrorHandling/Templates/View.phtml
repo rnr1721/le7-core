@@ -1,0 +1,47 @@
+<?php
+/* @var $topologyWeb TopologyPublicInterface */
+/* @var $language string */
+/* @var $exception Throwable */
+/* @var $errors array */
+
+use le7\Core\Config\TopologyPublicInterface;
+?>
+
+<div class="container">
+
+    <div class="row">
+        <h1><?php echo _('Response'); ?> 503</h1>
+        <?php if (!empty($errors)): ?>
+            <div class="col-12">
+                <h2><?php echo _('Errors'); ?></h2>
+                <?php foreach ($errors as $error): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading"><?php echo $error['errorString']; ?></h4>
+                        <div style="overflow: scroll">
+                            <span style="font-weight: bold;color: black;"><?php echo $error['errorType']; ?></span>:
+                            <?php echo $error['errorFile'] ?> (<?php echo $error['errorLine']; ?>)
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($exception)): ?>
+            <div class="col-12">
+                <h2><?php echo _('Fatal Error'); ?></h2>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading"><?php echo $exception->getMessage(); ?></h4>
+                    <?php echo $exception->getFile(); ?> (<?php echo $exception->getLine(); ?>)
+                </div>
+                <?php foreach ($exception->getTrace() as $traceItem): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading"><?php echo $traceItem['function']; ?></h4>
+                        <?php echo $traceItem['file']; ?> (<?php echo $traceItem['line']; ?>)
+                        <?php if (!empty($traceItem['class'])): ?> => <?php echo $traceItem['class']; ?><?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+</div>
+<link href="<?php echo $this->topologyWeb->getLibsUrl(); ?>/bootstrap5/dist/css/bootstrap.min.css" rel="stylesheet">

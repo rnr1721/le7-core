@@ -1,0 +1,7 @@
+<div>
+    <select class="<?php echo $class ?>" id="<?php echo $formId; ?><?php echo $field; ?>" name="<?php echo $formId; ?><?php echo $field; ?>">
+    <?php foreach ($list as $item => $value): ?>
+        <option value="<?php echo $item; ?>"<?php echo ((string) $item === (string) $current ? ' selected' : ''); ?>><?php echo $this->e($value); ?></option>
+    <?php endforeach; ?>
+    </select>
+</div>

@@ -1,0 +1,58 @@
+{
+    "name": "rnr1721/le7-core",
+    "description": "Lightwaight PHP framework with API,CLI,WEB controllers - core files",
+    "keywords": ["le7", "le7-framework", "framework", "basic", "project template"],
+    "authors": [
+        {
+            "name": "Eugeny G",
+            "email": "rnr1721@gmail.com",
+            "homepage": "https://xhamster.biz.ua",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "le7\\Core\\": "src/Core"
+        }
+    },
+    "authors": [
+        {
+            "name": "rnr1721",
+            "email": "rnr1721@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-gettext": "*",
+        "ext-gd": "*",
+        "ext-xml": "*",
+        "ext-imap": "*",
+        "ext-iconv": "*",
+        "ext-zip": "*",
+        "ext-pdo": "*",
+        "ext-fileinfo": "*",
+        "ext-imagick": "*",
+        "ext-openssl": "*",
+        "ext-posix": "*",
+        "ext-pcntl": "*",
+        "ext-simplexml": "*",
+        "psr/log": "^3.0",
+        "psr/http-message": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/event-dispatcher": "^1.0",
+        "fig/http-message-util": "^1.1",
+        "php-di/php-di": "^7.0",
+        "nyholm/psr7": "^1.5",
+        "nyholm/psr7-server": "^1.0",
+        "smarty/smarty": "^4.1",
+        "phpmailer/phpmailer": "^6.0",
+        "gabordemooij/redbean": "^5.7",
+        "maximebf/debugbar": "1.*",
+        "psr/simple-cache": "^3.0"
+    }
+}

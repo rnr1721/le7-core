@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="<?php echo $lang ?>">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex">
+    <title><?= _('Page not found');?></title>
+    <link type="text/css" rel="stylesheet" href="<?php echo $urlLibs; ?>/bootstrap5/dist/css/bootstrap.min.css">
+    <?php echo $styles; ?>
+    <?php echo $scripts_header; ?>
+</head>
+
+<body>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">404</h1>
+        <p class="fs-3"> <span class="text-danger"><?php echo _('Terrorists win!'); ?></span> <?= _('Method not allowed');?></p>
+        <p class="lead">
+            <?php echo _("Are your thoughts impure?"); ?>
+        </p>
+        <a href="<?php echo $url; ?>" class="btn btn-primary"><?php echo _('Please take me home!'); ?></a>
+    </div>
+</div>
+    <?php echo $scripts_footer; ?>
+</body>
+
+</html>

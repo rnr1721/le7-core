@@ -1,0 +1,37 @@
+<?php
+/** @var le7\Core\Helpers\UrlHelper $url */
+?>
+<!DOCTYPE html>
+<html lang="<?php echo $lang; ?>">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title><?php echo $projectName; ?> - <?php echo _('Stub page'); ?></title>
+        <link href="<?php echo $urlLibs; ?>/bootstrap5/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="<?php echo $urlLibs; ?>/fontawesome6/js/all.js"></script>
+        <script src="<?php echo $urlLibs; ?>/bootstrap5/dist/js/bootstrap.bundle.min.js"></script>
+        <?php echo $styles; ?>
+        <?php echo $scripts_header; ?>
+    </head>
+    <body class="sb-nav-fixed">
+        <div class="jumbotron jumbotron-fluid"> 
+            <div class="container">
+                <img class="mx-auto d-block" alt="<?php echo $projectName; ?>" width="75%" src="<?php echo $urlImages; ?>/logo_red.svg"/>
+                |<?php foreach ($otherLanguages as $lng): ?>
+                    <a href = "<?php echo $lng['url']; ?>"><?php echo $lng['label']; ?></a> | 
+                <?php endforeach; ?>
+                <h1><?php echo _("Lame PHP engine placeholder page"); ?></h1>
+                <p class="lead"><?php echo _("As long as you haven't created a main controller (IndexController by default) and an indexed master page (indexAction by default), this stub will be displayed."); ?></p>
+
+                <p>
+                <ul>
+                    <li><a href="<?php echo $url->get('phpinfo'); ?>">phpinfo</a></li>
+                </ul>
+                </p>
+                <p><?php echo _('Project page:'); ?> <a rel="nofollow" href="https://github.com/rnr1721/le7-framework">https://github.com/rnr1721/le7-framework</a></p>
+            </div>
+        </div>
+        <?php echo $scripts_footer; ?>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<?php
+
+namespace le7\Core\Log;
+
+use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\Config\TopologyFsInterface;
+use Psr\Log\LoggerInterface;
+
+class LoggerFactory {
+    
+    private TopologyFsInterface $topology;
+
+    private LoggerInterface $logSystem;
+    private LoggerInterface $logUser;
+    private ErrorLog $errorLog;
+
+    public function __construct(TopologyFsInterface $topologyFs) {
+        $this->topology = $topologyFs;
+    }
+    
+    public function getFileLogger($filename) : LoggerInterface {
+        $logger = new Logger();
+        $logger->addBroadcast(new LoggerRouteFile(['filePath' => $this->topology->getLogFolder() . DIRECTORY_SEPARATOR . $filename]));
+        return $logger;
+    }
+    
+    public function getUserLogger() : LoggerInterface {
+        if (empty($this->logUser)) {
+            $this->logUser = $this->getFileLogger('log.txt');
+        }
+        return $this->logUser;
+    }
+
+    public function getSystemLogger() : LoggerInterface {
+        if (empty($this->logSystem)) {
+            $this->logSystem = $this->getFileLogger('system.txt');
+        }
+        return $this->logSystem;
+    }
+
+    public function getErrorLog() : ErrorLog {
+        if (empty($this->errorLog)) {
+            $this->errorLog = new ErrorLog($this->getSystemLogger());
+        }
+        return $this->errorLog;
+    }
+    
+}

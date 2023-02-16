@@ -1,0 +1,13 @@
+<?php
+
+namespace le7\Controller\Web;
+
+use le7\Controller\ControllerWeb{viewEngine};
+
+class {controllerName} extends ControllerWeb{viewEngine} {
+
+    public function indexAction() {
+        echo "new controller";
+    }
+    
+}

@@ -1,0 +1,13 @@
+<?php
+
+namespace le7\Controller\Cli;
+
+use le7\Core\Controller\ControllerCli;
+
+class {controllerName} extends ControllerCli {
+
+    public function indexAction() {
+        echo "new controller";
+    }
+    
+}

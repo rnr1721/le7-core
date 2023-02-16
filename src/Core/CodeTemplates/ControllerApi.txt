@@ -1,0 +1,13 @@
+<?php
+
+namespace le7\Controller\Api\{apiVersion};
+
+use le7\Controller\ControllerApi;
+
+class {controllerName} extends ControllerApi {
+
+    public function indexGetAction() {
+        $this->response->InJson([],200);
+    }
+    
+}

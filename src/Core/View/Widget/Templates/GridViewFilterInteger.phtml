@@ -1,0 +1,8 @@
+<div>
+    <input class="<?php echo $classInput; ?>" type="number" step="0.001" id="<?php echo $formId; ?><?php echo $field; ?>" name="<?php echo $formId; ?><?php echo $field ?>" value="<?php echo $this->e($currentValue); ?>">
+    <select class="<?php echo $classSelect; ?>" id="<?php echo $formId; ?><?php echo $field; ?>_cond" name="<?php echo $formId; ?><?php echo $field; ?>_cond">
+        <?php foreach ($list as $key=>$value): ?>
+        <option value="<?php echo $key; ?>"<?php echo (strval($key) === strval($currentCond) ? ' selected':''); ?>><?php echo $this->e($value); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>

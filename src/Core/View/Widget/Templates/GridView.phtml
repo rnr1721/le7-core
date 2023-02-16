@@ -1,0 +1,166 @@
+<div class="widget<?php echo (empty($widgetClasses) ? '' : ' ' . $widgetClasses); ?>">
+    <?php if (!empty($title)): ?>
+        <div class="row pt-2">
+            <div class="col-12">
+                <h2><?php echo $this->e($title); ?></h2>
+            </div>
+        </div>
+    <?php endif; ?>
+    <form<?php echo (empty($formId) ? '' : ' name="' . $formId . '"'); ?> action="<?php echo $base; ?>" method="<?php echo $method; ?>">
+        <?php if (!empty($actionButtons['top']) || $perPage || $search): ?>
+            <div class="row mt-2 pt-2">
+                <div class="col-xl-3">
+                    <div class="input-group mb-3">
+                        <?php if ($perPage): ?>
+                            <select class="form-select per_page" name="<?php echo $formId; ?>per_page">
+                                <?php foreach ($perPageOptions as $perPageOption): ?>
+                                    <option value="<?php echo $perPageOption; ?>"<?php echo (intval($info['per_page']) === intval($perPageOption) ? ' selected' : '') ?>><?php echo $perPageOption; ?> <?php echo _('per page'); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button class="btn btn-outline-secondary" type="submit"><?php echo _('Show'); ?></button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <div class="btn-group" role="group">
+                        <?php if (!empty($actionButtons['top'])): ?>
+                            <?php foreach ($actionButtons['top'] as $actionButton): ?>
+                                <?php echo $actionButton['content']; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-xl-3">
+                    <?php if ($ordering): ?>
+                        <div class="input-group">
+                            <select id="<?php echo $formId; ?>order_field" name="<?php echo $formId; ?>order_field" class="form-select">
+                                <option value=""><?php echo _('Default') ?></option>
+                                <?php foreach ($columns as $orderColumnField => $orderColumnValue): ?>
+                                    <?php if (!in_array($orderColumnField, $hiddenForOrder)): ?>
+                                        <option value="<?php echo $orderColumnField ?>"<?php echo ($orderColumnField === $orderField ? ' selected' : ''); ?>><?php echo _('by'); ?> <?php echo $this->e($orderColumnValue) ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select id="<?php echo $formId; ?>order_direction" name="<?php echo $formId; ?>order_direction" class="form-select">
+                                <option value="asc"<?php echo $orderDirection === 'asc' ? ' selected' : '' ?>><?php echo _('Asc'); ?></option>
+                                <option value="desc"<?php echo $orderDirection === 'desc' ? ' selected' : '' ?>><?php echo _('Desc'); ?></option>
+                            </select>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-xl-3">
+                    <?php if ($search): ?>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control searchfilter" id="<?php echo $formId; ?>search" name="<?php echo $formId; ?>search" placeholder="<?php echo _('Search or filter'); ?>" value="<?php echo $this->e($searchWord) ?? '' ?>">
+                            <button class="btn btn-outline-secondary" type="submit"><?php echo _('Search'); ?></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table id="<?php echo $formId; ?>table" class="table<?php echo (empty($tableClasses) ? '' : ' ' . $tableClasses); ?>">
+                        <tr>
+                            <?php foreach ($customColumns as $currentColumn => $currentColumnValue): ?>
+                                <?php if ($currentColumn === 'actions'): ?>
+                                    <?php if (!empty($actionButtons['body'])): ?>
+                                        <th><?php echo _('Action'); ?></th>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <?php if (array_key_exists($currentColumn, $columns)): ?>
+                                        <th><?php echo $columns[$currentColumn]; ?><?php echo (empty($filters[$currentColumn]) ? '' : $filters[$currentColumn]); ?></th>
+                                    <?php else: ?>
+                                        <th><?php echo $currentColumnValue['name'] ?? $currentColumn; ?></th>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tr>
+                        <?php foreach ($data as $item): ?>
+                            <tr class="<?php echo $formId; ?>tcontent">  
+                                <?php foreach ($customColumns as $orderColumn => $orderColumnValue): ?>
+                                    <?php if ($orderColumn === 'actions'): ?>
+                                        <?php if (!empty($actionButtons['body'])): ?>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                                    <?php foreach ($actionButtons['body'] as $actionButton): ?>
+                                                        <?php if (empty($actionButton['field'])): ?>
+                                                            <?php echo $actionButton['content']; ?>
+                                                        <?php else: ?>
+                                                            <?php echo str_replace('{' . $actionButton['field'] . '}', $item[$actionButton['field']], $actionButton['content']); ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                </div>	
+                                            </td>
+                                        <?php endif; ?> 
+                                    <?php else: ?>
+                                        <?php if (is_callable($orderColumnValue)): ?>
+                                            <td><?php echo $orderColumnValue($item); ?></td>
+                                        <?php elseif (is_string($orderColumnValue) || is_int($orderColumnValue) || is_float($orderColumnValue)): ?>
+                                            <td><?php echo (empty($item[$orderColumn]) ? strval($orderColumnValue) : $this->e($item[$orderColumn])); ?></td>
+                                        <?php elseif (is_array($orderColumnValue)): ?>
+                                            <?php if (isset($orderColumnValue['action']) && is_callable($orderColumnValue['action'])): ?>
+                                                <td><?php echo $orderColumnValue['action']($item); ?></td>
+                                            <?php else: ?>
+                                                <td></td>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <td><?php echo $this->e($item[$orderColumn]); ?></td>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php if ($recordsStatistic || $paginate): ?>
+            <div class="row">
+                <div class="col-6">
+                    <?php if ($recordsStatistic): ?>
+                        <?php echo _('Records:'); ?> <?php echo count($data); ?>
+                        <?php if (!empty($info)): ?>
+                            <?php echo _('of'); ?> <?php echo $info['count'] ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="col-6">
+                    <?php if ($paginate): ?>
+                        <?php if (!empty($info)): ?>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <?php if (!empty($info['first_page'])): ?>
+                                        <li class="page-item"><button name="page" type="submit" class="page-link" value="<?php echo $info['first_page']; ?>"><?php echo _('At start'); ?></button></li>
+                                    <?php endif; ?>
+                                    <?php if (!empty($info['prev_pages'])): ?>
+                                        <?php foreach ($info['prev_pages'] as $prev_page): ?>
+                                            <?php if ($prev_page !== 0): ?>
+                                                <li class="page-item"><button type="submit" name="page" class="page-link" value="<?php echo $prev_page; ?>"><?php echo $prev_page; ?></button></li>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    <?php if (!empty($info['page'])): ?>
+                                        <li class="page-item"><a class="page-link active" href="#"><?php echo $info['page']; ?></a></li>
+                                    <?php endif; ?>
+                                    <?php if (!empty($info['next_pages'])): ?>
+                                        <?php foreach ($info['next_pages'] as $next_page): ?>
+                                            <?php if ($next_page !== 0): ?>
+                                                <li class="page-item"><button name="page" type="submit" class="page-link" value="<?php echo $next_page; ?>"><?php echo $next_page; ?></a></button>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        <?php if (!empty($info['last_page'])): ?>
+                                        <li class="page-item"><button type="submit" name="page" class="page-link" value="<?php echo $info['last_page']; ?>"><?php echo _('At end'); ?></button></li>
+                                        <?php endif; ?>
+                                </ul>
+                            </nav>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </form>
+</div>
