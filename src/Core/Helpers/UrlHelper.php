@@ -62,12 +62,12 @@ class UrlHelper {
      */
     public function getLanguageUrlVariants(RouteHttpInterface $currentRoute): array {
         $uri = $this->request->getUri();
-        $base = $this->topologyWeb->getBaseUrl() . $currentRoute->getBase();
+        $base = $this->topologyWeb->getBaseUrl() . $currentRoute->getBaseRoot();
 
         $defaultLocale = $this->locales->getDefaultLocaleShortname();
         $currentLocale = $this->locales->getCurrentLocaleShortname();
 
-        $cleanUri = str_replace($base, '', (string) $uri);
+        $cleanUri = '/' . ltrim(str_replace($base, '', (string) $uri), '/');
 
         $result = [];
         foreach ($this->locales->getLocalesByShortname() as $locale => $value) {
@@ -79,7 +79,7 @@ class UrlHelper {
                     $locale = '/' . $locale;
                 }
 
-                $newbase = str_replace('/' . $currentLocale, $locale, rtrim($currentRoute->getBase(), '/'));
+                $newbase = str_replace('/' . $currentLocale, $locale, rtrim($currentRoute->getBaseRoot(), '/'));
 
                 if ($currentLocale === $defaultLocale) {
                     $newbase = $newbase . $locale;
