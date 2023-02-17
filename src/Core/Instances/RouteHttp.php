@@ -10,6 +10,10 @@ class RouteHttp extends Route implements RouteHttpInterface {
         return $this->route['base'];
     }
 
+    public function getBaseRoot(): string {
+        return $this->route['base_root'];
+    }
+
     public function getMethod(): string {
         return $this->route['method'];
     }

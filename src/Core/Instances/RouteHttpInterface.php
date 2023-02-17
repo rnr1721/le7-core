@@ -13,6 +13,12 @@ interface RouteHttpInterface extends RouteInterface {
     public function getBase(): string;
 
     /**
+     * Get base root
+     * @return string
+     */
+    public function getBaseRoot():string;
+
+    /**
      * Get current uri of route
      * @return string
      */

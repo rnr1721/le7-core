@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace le7\Core\Instances;
 
 use le7\Core\Response\Response;
+use Psr\Container\ContainerInterface;
 
-class RouteRunnerHttp implements RouteRunnerInterface {
+class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface {
 
     private Response $response;
 
-    public function __construct(Response $response) {
+    public function __construct(ContainerInterface $container, Response $response) {
+        parent::__construct($container);
         $this->response = $response;
     }
 
-    public function run(object $controller, RouteInterface $route):void {
+    public function run(RouteInterface $route): void {
+
+        $controller = $this->getController($route->getControllerClass(), $route);
 
         $controllerAction = $route->getActionMethod();
 

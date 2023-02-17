@@ -105,11 +105,12 @@ abstract class Router {
         if (count($data['params']) > $allowedParams) {
             return $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language);
         }
-
+        
         return array(
             'type' => $data['type'],
             'case' => $data['case'],
             'base' => $data['base'],
+            'base_root' => $data['base_root'],
             'method' => $method,
             'uri' => $uri,
             'language' => $language,
@@ -143,6 +144,7 @@ abstract class Router {
             'type' => $data['type'],
             'case' => $data['case'],
             'base' => $data['base'],
+            'base_root' => $data['base_root'],
             'method' => $method,
             'uri' => $uri,
             'language' => $language,

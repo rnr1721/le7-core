@@ -41,7 +41,7 @@ class InstanceHttpData {
             'api' => new RouterApi($this->config, $this->request, $root,$notfound),
             'web' => new RouterWeb($this->config, $this->request, $root,$notfound)
         };
-        
+
         return new RouteHttp($router->getRoute($uri, $parsedRoute));
     }
     
@@ -56,7 +56,8 @@ class InstanceHttpData {
                 $result['case'] = $rKey;
                 $result['namespace'] = $route['namespace'];
                 $result['namespaceSys'] = $route['namespaceSys'];
-                $result['base'] = $root . $route['base'];
+                $result['base'] = rtrim($root,'/') . '/' . ltrim($route['base'],'/');
+                $result['base_root'] = '/'.ltrim($route['base'],'/');
                 $result['language'] = $route['language'];
                 break;
             } else {
@@ -65,6 +66,7 @@ class InstanceHttpData {
                 $result['namespace'] = 'le7\Controller\Web';
                 $result['namespaceSys'] = 'le7\Core\Controllers\System\Web';
                 $result['base'] = $root;
+                $result['base_root'] = '/';
                 $result['language'] = $this->config->getDefaultLanguage();
             }
         }

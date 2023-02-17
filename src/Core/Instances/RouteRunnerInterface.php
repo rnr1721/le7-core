@@ -4,5 +4,5 @@ namespace le7\Core\Instances;
 
 interface RouteRunnerInterface {
 
-    public function run(object $controller, RouteInterface $route): void;
+    public function run(RouteInterface $route): void;
 }

@@ -6,11 +6,14 @@ namespace le7\Core\Instances;
 
 use le7\Core\Traits\ConsoleTrait;
 
-class RouteRunnerCli implements RouteRunnerInterface {
+class RouteRunnerCli extends RouteRunner implements RouteRunnerInterface {
 
     use ConsoleTrait;
 
-    public function run(object $controller, RouteInterface $route): void {
+    public function run(RouteInterface $route): void {
+        
+        $controller = $this->getController($route->getControllerClass(), $route);
+        
         $controllerAction = $route->getActionMethod();
 
         $params = [];

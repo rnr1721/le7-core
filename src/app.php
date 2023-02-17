@@ -57,30 +57,10 @@ if (php_sapi_name() === 'cli') {
     }
 }
 
-// Prepare the controller with parametres
-$controllerMeat = new ReflectionClass($route->getControllerClass());
-$classParameters = $controllerMeat->getConstructor()->getParameters();
-
-$params = [];
-
-foreach ($classParameters as $param) {
-    $type = $param->getType();
-    if ($type instanceof ReflectionNamedType) {
-        $typeHint = $type->getName();
-        $params[] = $container->get($typeHint);
-    }
-}
-
 // start the instance and get route runner
 $runner = $instance->startInstance($route);
 
-// New instance of controller as object
-$controller = $controllerMeat->newInstanceArgs($params);
-
-// Inject route to controller object
-$controller->route = $route;
-
 // Run route
-$runner->run($controller, $route);
+$runner->run($route);
 
 exit;
