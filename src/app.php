@@ -10,7 +10,7 @@ use le7\Core\Instances\InstanceHttpData;
 use le7\Core\Php;
 use le7\Core\Config\TopologyFs;
 use le7\Core\Config\ConfigFromObject;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -32,7 +32,7 @@ $topology = new TopologyFs(BASE_PATH, CORE_PATH, PUBLIC_PATH, $config);
 $container = require $topology->getCorePath() . '/dependencies.php';
 
 try {
-    $errorLog = $container->get(ErrorLog::class);
+    $errorLog = $container->get(ErrorLogInterface::class);
     $log = $container->get(LoggerInterface::class);
     $php = $container->get(Php::class);
 } catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {

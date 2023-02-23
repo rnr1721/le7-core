@@ -1,5 +1,10 @@
 <?php
 
+use le7\Core\Locales\TranslateInterface;
+use le7\Core\Locales\Translate;
+use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Helpers\ValidationHelperFactory;
 use le7\Core\Config\PublicEnvFactory;
 //use le7\Core\DebugPanel\DebugPanel;
@@ -11,7 +16,7 @@ use le7\Core\Config\TopologyPublicInterface;
 use le7\Core\Config\UserConfig;
 use le7\Core\Config\UserConfigInterface;
 use le7\Core\ErrorHandling\ErrorHandlerHttpFactory;
-//use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLog;
 //use le7\Core\EventDispatcher\EventInvoker;
 use le7\Core\EventDispatcher\Providers\ListenerProvider;
 use le7\Core\GlobalEnvironment;
@@ -85,7 +90,7 @@ return [
         /** @var LoggerFactory $f */
         return $f->getSystemLogger();
     }),
-    //ErrorLog::class => autowire(ErrorLog::class),
+    ErrorLogInterface::class => autowire(ErrorLog::class),
     //LoggerFactory::class => autowire(LoggerFactory::class),
     //InstanceWeb::class => autowire(InstanceWeb::class),
     //InstanceApi::class => autowire(InstanceApi::class),
@@ -103,5 +108,7 @@ return [
     //RouteRunnerCli::class => autowire(RouteRunnerCli::class),
     //RouteRunnerHttp::class => autowire(RouteRunnerHttp::class),
     //DebugPanel::class => autowire()
-    ValidationHelperFactory::class => autowire(ValidationHelperFactory::class)
+    ValidationHelperFactory::class => autowire(ValidationHelperFactory::class),
+    LocalesInterface::class => autowire(Locales::class),
+    TranslateInterface::class => autowire(Translate::class)
 ];

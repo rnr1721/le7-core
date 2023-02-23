@@ -17,7 +17,13 @@ class ConfigFromObject implements ConfigInterface {
     private array $locales = array();
 
     public function __construct(string $basePath) {
-        $this->configData = parse_ini_file($basePath . '/config/config.ini', true);
+        $configDev = $basePath . '/config/config_dev.ini';
+        $config = $basePath . '/config/config.ini';
+        if (file_exists($configDev)) {
+            $this->configData = parse_ini_file($configDev, true);
+        } else {
+            $this->configData = parse_ini_file($config, true);
+        }
         foreach ($this->configData['locales']['locales'] as $item => $value) {
             $localeData = explode('|', $value);
             $current = array(
@@ -172,7 +178,7 @@ class ConfigFromObject implements ConfigInterface {
         return true;
     }
 
-    public function getCacheLifetime() : int|null {
+    public function getCacheLifetime(): int|null {
         $cacheLifetime = $this->configData['cache']['cacheLifetime'];
         if ($cacheLifetime === "") {
             return null;
@@ -202,4 +208,24 @@ class ConfigFromObject implements ConfigInterface {
         return $this->configData['general']['flashMessageStorage'];
     }
 
+    public function getUserManagementOn(): bool {
+        $value = $this->configData['users']['userManagement'];
+        if (empty($value)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getEmailConfig(): array {
+        return $this->configData['email']['config'];
+    }
+
+    public function getNotificationClasses():array {
+        return $this->configData['notification']['classes'];
+    }
+    
+    public function getNotificationCases():string {
+        return $this->configData['notification']['cases'];
+    }
+    
 }

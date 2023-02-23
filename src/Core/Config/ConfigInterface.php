@@ -164,7 +164,7 @@ interface ConfigInterface {
      * Get memcached config for connect ip:port
      * @return string
      */
-    public function getMemcachedConfig() : string;
+    public function getMemcachedConfig(): string;
 
     /**
      * Get global cache lifetime from config
@@ -173,31 +173,47 @@ interface ConfigInterface {
      * 0 - permanent cache without lifetime
      * @return int|null
      */
-    public function getCacheLifetime() : int|null;
-    
+    public function getCacheLifetime(): int|null;
+
     /**
      * Get memcache config for connect ip:port
      * @return string
      */
-    public function getMemcacheConfig() : string;
-    
+    public function getMemcacheConfig(): string;
+
     /**
      * Get default caching method
      * file, memcache, memcached possible
      * @return string
      */
     public function getDefaultCacheMethod(): string;
-    
-     /**
+
+    /**
      * Export config as array
      * @return array
      */
     public function exportConfig(): array;
-    
+
     /**
      * Storage for flash messages
      * session or cookies
      * @return string
      */
     public function getFlashMessagesStorage(): string;
+
+    /**
+     * Is user management on?
+     * @return bool
+     */
+    public function getUserManagementOn(): bool;
+
+    /**
+     * Get email configuration as array
+     * @return array
+     */
+    public function getEmailConfig(): array;
+    
+    public function getNotificationClasses():array;
+    
+    public function getNotificationCases():string;
 }

@@ -6,13 +6,13 @@ namespace le7\Core\Locales;
 
 use le7\Core\Helpers\StringHelper;
 
-class Translate
+class Translate implements TranslateInterface
 {
 
     private StringHelper $stringHelper;
-    private Locales $locales;
+    private LocalesInterface $locales;
 
-    public function __construct(Locales $locales, StringHelper $stringHelper) {
+    public function __construct(LocalesInterface $locales, StringHelper $stringHelper) {
         $this->stringHelper = $stringHelper;
         $this->locales = $locales;
     }

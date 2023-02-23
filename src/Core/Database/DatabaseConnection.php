@@ -9,8 +9,9 @@ use le7\Core\Config\DbConfigInterface;
 use RedBeanPHP\R;
 use RedBeanPHP\BeanHelper;
 use RedBeanPHP\RedException;
+use \PDO;
 
-class DatabaseConnection {
+class DatabaseConnection implements DatabaseConnectionInterface {
 
     private bool $connected = false;
     private DbConfigInterface $c;
@@ -80,7 +81,7 @@ class DatabaseConnection {
         return R::selectDatabase($key, $force);
     }
 
-    public function getPDO() {
+    public function getPDO() : PDO {
         return R::getDatabaseAdapter()->getDatabase()->getPDO();
     }
 

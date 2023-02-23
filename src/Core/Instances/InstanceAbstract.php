@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace le7\Core\Instances;
 
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 use le7\Core\Php;
 use le7\Core\EventDispatcher\EventInvoker;
 use Psr\Container\ContainerInterface;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\Config\TopologyFsInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -17,10 +17,10 @@ use Psr\Log\LoggerInterface;
 abstract class InstanceAbstract {
 
     protected Php $php;
-    protected Locales $locales;
+    protected LocalesInterface $locales;
     protected EventInvoker $eventInvoker;
     protected ContainerInterface $container;
-    protected ErrorLog $log;
+    protected ErrorLogInterface $log;
     protected LoggerInterface $systemLog;
     protected ConfigInterface $config;
     protected TopologyFsInterface $topology;
@@ -33,10 +33,10 @@ abstract class InstanceAbstract {
             ConfigInterface $config,
             TopologyFsInterface $topology,
             LoggerInterface $systemLog,
-            ErrorLog $log,
+            ErrorLogInterface $log,
             EventInvoker $eventInvoker,
             Php $php,
-            Locales $locales
+            LocalesInterface $locales
     ) {
         $this->container = $container;
         $this->config = $config;

@@ -8,14 +8,14 @@ use le7\Core\EventDispatcher\EventInvoker;
 use le7\Core\ErrorHandling\ErrorHandlerHttpFactory;
 use le7\Core\Php;
 use le7\Core\Instances\RouteRunnerHttp;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\Config\TopologyFsInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
 use le7\Core\Request\Request;
 use le7\Core\Response\Response;
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 
 class InstanceWeb extends InstanceAbstract implements InstanceInterface {
 
@@ -29,13 +29,13 @@ class InstanceWeb extends InstanceAbstract implements InstanceInterface {
             ConfigInterface $config,
             TopologyFsInterface $topology,
             LoggerInterface $systemLog,
-            ErrorLog $log,
+            ErrorLogInterface $log,
             Request $request,
             Response $response,
             RouteRunnerHttp $routeRunner,
             EventInvoker $eventInvoker,
             Php $php,
-            Locales $locales,
+            LocalesInterface $locales,
             ErrorHandlerHttpFactory $errorHandlerHttpFactory
     ) {
 

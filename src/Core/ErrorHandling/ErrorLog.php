@@ -7,7 +7,7 @@ namespace le7\Core\ErrorHandling;
 use Exception;
 use Psr\Log\LoggerInterface;
 
-class ErrorLog
+class ErrorLog implements ErrorLogInterface
 {
 
     private LoggerInterface $logger;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace le7\Core\Entity\Group\DataProvider;
 
 use RedBeanPHP\R;
-use le7\Core\Database\DatabaseConnection;
+use le7\Core\Database\DatabaseConnectionInterface;
 use le7\Core\Entity\Group\EntityGroupFactory;
 use le7\Core\Entity\Group\EntityGroupInterface;
 use le7\Core\Entity\Rules\RulesInterface;
@@ -17,7 +17,7 @@ class BeansProvider implements GroupDataProviderInterface {
     private EntityGroupFactory $entityFactory;
     private RulesInterface $rules;
 
-    public function __construct(DatabaseConnection $dbConnection, RulesInterface $rules, EntityGroupFactory $entityFactory) {
+    public function __construct(DatabaseConnectionInterface $dbConnection, RulesInterface $rules, EntityGroupFactory $entityFactory) {
         $dbConnection->connect();
         $this->rules = $rules;
         $this->entityFactory = $entityFactory;

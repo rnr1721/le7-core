@@ -7,7 +7,7 @@ namespace le7\Core\Locales;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\Config\TopologyFsInterface;
 
-class Locales
+class Locales implements LocalesInterface
 {
 
     protected ConfigInterface $config;

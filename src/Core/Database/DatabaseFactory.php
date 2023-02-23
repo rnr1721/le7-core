@@ -19,7 +19,7 @@ class DatabaseFactory {
         'mysql',
         'pgsql'
     );
-    private DatabaseConnection $dbConnection;
+    private DatabaseConnectionInterface $dbConnection;
     private DbConfigInterface $dbConfig;
     private Database $db;
     private TopologyFsInterface $topologyFs;
@@ -41,7 +41,7 @@ class DatabaseFactory {
         return $this->db;
     }
 
-    public function getDatabaseConnection(): DatabaseConnection {
+    public function getDatabaseConnection(): DatabaseConnectionInterface {
         if (empty($this->dbConnection)) {
             $this->getDatabaseConfig();
             $driver = $this->dbConfig->getDbDriver();

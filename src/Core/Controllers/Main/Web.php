@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
+use le7\Core\User\UserIdentityFactory;
 use le7\Core\View\Widget\WidgetFactory;
 use le7\Core\Config\CodePartsFactory;
 use le7\Core\Config\PublicEnvFactory;
@@ -25,6 +26,7 @@ class Web extends Main {
 
     use PageTrait;
 
+    protected UserIdentityFactory $userIdentityFactory;
     protected WidgetFactory $widgets;
     private MessageGetInterface $messageGet;
     private MessagePutInterface $messagePut;
@@ -55,10 +57,12 @@ class Web extends Main {
             CodePartsFactory $codePartsFactory,
             DebugPanel $debugbar,
             MessageFactory $messageFactory,
-            WidgetFactory $widgetFactory
+            WidgetFactory $widgetFactory,
+            UserIdentityFactory $userIdentityFactory
     ) {
 
         parent::__construct($env);
+
         $this->request = $request;
         $this->response = $response;
         $this->topologyWeb = $topologyPublic;
@@ -67,22 +71,24 @@ class Web extends Main {
         $this->codePartsFactory = $codePartsFactory;
         $this->publicEnvFactory = $publicEnvFactory;
         $this->publicEnvironment = $publicEnvFactory->getEnvHtml();
-
         $this->cacheLifetime = $this->config->getCacheLifetime();
-
         $this->messageGet = $messageFactory->getGetStorage();
         $this->messagePut = $messageFactory->getPutStorage();
         $this->messagesFlash = $messageFactory->newInstance();
         $this->widgets = $widgetFactory;
+        $this->userIdentityFactory = $userIdentityFactory;
+
+        if ($this->config->getUserManagementOn()) {
+            $userIdentity = $this->userIdentityFactory->getUserWeb();
+            $this->user = $userIdentity->getUser($this->dbConnection);
+        }
     }
 
     public function preRender() {
 
         $otherLanguages = $this->urlHelper->getLanguageUrlVariants($this->route);
 
-        // Flash messages in session or cookies (depend config params)
-        $this->messages->loadMessages($this->messageGet);
-        $this->messagesFlash->putMessages($this->messagePut);
+        $this->handleFlashMessages();
 
         $vars = array(
             'url' => $this->urlHelper,
@@ -117,7 +123,8 @@ class Web extends Main {
             'uconfig' => $this->uconfig,
             'snippets_top' => $this->codePartsFactory->getStatTop() ?? '',
             'snippets_middle' => $this->codePartsFactory->getStatMiddle() ?? '',
-            'snippets_bottom' => $this->codePartsFactory->getStatBottom() ?? ''
+            'snippets_bottom' => $this->codePartsFactory->getStatBottom() ?? '',
+            'user' => $this->user
         );
 
         foreach ($vars as $cKey => $cValue) {
@@ -222,6 +229,16 @@ class Web extends Main {
                 $this->cache->set($this->cacheIndex, $rendered, $cacheTimeSec);
             }
         }
+    }
+
+    public function setContent($contentTemplate) {
+        $this->vars['content'] = $contentTemplate;
+    }
+
+    protected function handleFlashMessages() {
+        // Flash messages in session or cookies (depend config params)
+        $this->messages->loadMessages($this->messageGet);
+        $this->messagesFlash->putMessages($this->messagePut);
     }
 
 }

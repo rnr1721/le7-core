@@ -6,13 +6,13 @@ namespace le7\Core\Instances;
 
 use le7\Core\EventDispatcher\EventInvoker;
 use le7\Core\Php;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\ErrorHandling\ErrorHandlerCliFactory;
 use le7\Core\Traits\ConsoleTrait;
 use le7\Core\Helpers\ConsoleHelper;
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -29,10 +29,10 @@ class InstanceCli extends InstanceAbstract implements InstanceInterface {
             ConfigInterface $config,
             TopologyFsInterface $topology,
             LoggerInterface $systemLog,
-            ErrorLog $log,
+            ErrorLogInterface $log,
             EventInvoker $eventInvoker,
             Php $php,
-            Locales $locales,
+            LocalesInterface $locales,
             ErrorHandlerCliFactory $errorHandlerCliFactory,
             RouteRunnerCli $routeRunner,
             ConsoleHelper $consoleHelper

@@ -4,18 +4,18 @@ namespace le7\Core\Helpers;
 
 use le7\Core\Instances\RouteHttpInterface;
 use le7\Core\Request\Request;
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 use le7\Core\Config\TopologyPublicInterface;
 use le7\Core\Config\ConfigInterface;
 
 class UrlHelper {
 
     private Request $request;
-    private Locales $locales;
+    private LocalesInterface $locales;
     private TopologyPublicInterface $topologyWeb;
     private ConfigInterface $config;
 
-    public function __construct(ConfigInterface $config, TopologyPublicInterface $topologyWeb, Locales $locales, Request $request) {
+    public function __construct(ConfigInterface $config, TopologyPublicInterface $topologyWeb, LocalesInterface $locales, Request $request) {
         $this->config = $config;
         $this->topologyWeb = $topologyWeb;
         $this->locales = $locales;

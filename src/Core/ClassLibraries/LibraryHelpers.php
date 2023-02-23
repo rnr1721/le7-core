@@ -5,7 +5,7 @@ namespace le7\Core\ClassLibraries;
 use le7\Core\Request\Request;
 use le7\Core\Config\TopologyPublicInterface;
 use le7\Core\Config\ConfigInterface;
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Helpers\ValidationHelperInterface;
 use le7\Core\Helpers\ApiRequest;
@@ -18,7 +18,7 @@ use le7\Core\Helpers\DateTimeHelper;
 use le7\Core\View\HtmlTemplate;
 use le7\Core\Helpers\ValidationHelper;
 use le7\Core\Helpers\ExcelHelper;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use Psr\Container\ContainerInterface;
 
 class LibraryHelpers implements LibraryHelpersInterface {
@@ -26,9 +26,9 @@ class LibraryHelpers implements LibraryHelpersInterface {
     protected Request $request;
     protected TopologyPublicInterface $topologyWeb;
     protected ConfigInterface $config;
-    protected Locales $locales;
+    protected LocalesInterface $locales;
     protected TopologyFsInterface $topologyFs;
-    protected ErrorLog $log;
+    protected ErrorLogInterface $log;
     protected ContainerInterface $container;
     
     protected StringHelper $string;
@@ -42,7 +42,7 @@ class LibraryHelpers implements LibraryHelpersInterface {
     protected UrlHelper $url;
     protected ApiRequest $apiRequest;
     
-    public function __construct(ErrorLog $log, TopologyFsInterface $topologyFs, TopologyPublicInterface $topologyWeb, Locales $locales, ConfigInterface $config, Request $request) {
+    public function __construct(ErrorLogInterface $log, TopologyFsInterface $topologyFs, TopologyPublicInterface $topologyWeb, LocalesInterface $locales, ConfigInterface $config, Request $request) {
         $this->log = $log;
         $this->topologyFs = $topologyFs;
         $this->topologyWeb = $topologyWeb;

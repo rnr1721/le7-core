@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
+use le7\Core\User\UserIdentityFactory;
 use le7\Core\GlobalEnvironment;
 use le7\Core\Request\Request;
 use le7\Core\Response\ResponseApi;
@@ -12,6 +13,8 @@ use le7\Core\Config\TopologyPublicInterface;
 
 class Api extends Main {
     
+    protected UserIdentityFactory $userIdentityFactory;
+
     /**
      * @var Request
      */
@@ -32,12 +35,20 @@ class Api extends Main {
             GlobalEnvironment $env,
             Request $request,
             ResponseApi $response,
-            TopologyPublicInterface $topologyPublic
+            TopologyPublicInterface $topologyPublic,
+            UserIdentityFactory $userIdentityFactory
             ) {
         parent::__construct($env);
         $this->request = $request;
         $this->response = $response;
         $this->topologyPublic = $topologyPublic;
+        $this->userIdentityFactory = $userIdentityFactory;
+        
+        if ($this->config->getUserManagementOn()) {
+            $userIdentity = $this->userIdentityFactory->getUserApi();
+            $this->user = $userIdentity->getUser($this->dbConnection);
+        }
+        
     }
     
     public function indexGetAction() {

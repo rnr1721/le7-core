@@ -83,7 +83,7 @@ class Database {
     }
 
     public function fancyDebug(bool $value = true) {
-        R::fancyDebug(TRUE);
+        R::fancyDebug($value);
     }
 
     public function getLogger() {

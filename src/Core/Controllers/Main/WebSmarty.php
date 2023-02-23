@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
+use le7\Core\User\UserIdentityFactory;
 use le7\Core\View\Widget\WidgetFactory;
 use le7\Core\Messages\MessageFactory;
 use le7\Core\Config\CodePartsFactory;
@@ -34,6 +35,7 @@ class WebSmarty extends Web {
             DebugPanel $debugbar,
             MessageFactory $messagesFactory,
             WidgetFactory $widgetFactory,
+            UserIdentityFactory $userIdentityFactory,
             SmartyConnector $smartyConnector
     ) {
         parent::__construct(
@@ -46,7 +48,8 @@ class WebSmarty extends Web {
                 $codePartsFactory,
                 $debugbar,
                 $messagesFactory,
-                $widgetFactory
+                $widgetFactory,
+                $userIdentityFactory
                 );
         $this->smarty = $smartyConnector->getEngine();
     }

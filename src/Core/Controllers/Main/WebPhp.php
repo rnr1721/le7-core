@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
+use le7\Core\User\UserIdentityFactory;
 use le7\Core\View\Widget\WidgetFactory;
 use le7\Core\Messages\MessageFactory;
 use le7\Core\Config\CodePartsFactory;
@@ -32,6 +33,7 @@ class WebPhp extends Web {
             DebugPanel $debugbar,
             MessageFactory $messagesFactory,
             WidgetFactory $widgetFactory,
+            UserIdentityFactory $userIdentityFactory,
             PhpViewFactory $phpViewFactory
     ) {
         parent::__construct(
@@ -44,8 +46,9 @@ class WebPhp extends Web {
                 $codePartsFactory,
                 $debugbar,
                 $messagesFactory,
-                $widgetFactory
-                );
+                $widgetFactory,
+                $userIdentityFactory
+        );
         $this->phpView = $phpViewFactory->getPhpView();
     }
 
@@ -71,7 +74,7 @@ class WebPhp extends Web {
      * @param string $template
      * @param array $data
      */
-    public function render(string $template, array $data = array(), int|null $cacheTimeSec = null) {
+    public function render(string $template = 'layout.phtml', array $data = array(), int|null $cacheTimeSec = null) {
         $this->preRender();
 
         // if cached

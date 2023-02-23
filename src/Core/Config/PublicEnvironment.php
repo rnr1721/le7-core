@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace le7\Core\Config;
 
 use le7\Core\Config\UserConfigInterface;
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 use le7\Core\Config\TopologyPublicInterface;
 
 class PublicEnvironment {
 
     private array $userVars = array();
     private PublicEnvInterface $publicEnv;
-    private Locales $locales;
+    private LocalesInterface $locales;
     private UserConfigInterface $uconfig;
     private TopologyPublicInterface $topologyWeb;
 
-    public function __construct(Locales $locales, TopologyPublicInterface $topologyWeb, UserConfigInterface $userConfig, PublicEnvInterface $publicEnv) {
+    public function __construct(LocalesInterface $locales, TopologyPublicInterface $topologyWeb, UserConfigInterface $userConfig, PublicEnvInterface $publicEnv) {
         $this->locales = $locales;
         $this->uconfig = $userConfig;
         $this->topologyWeb = $topologyWeb;

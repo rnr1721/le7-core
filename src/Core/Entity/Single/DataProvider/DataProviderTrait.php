@@ -16,6 +16,9 @@ trait DataProviderTrait {
                         $this->check_field_unique($field, $this->bean[$field] ?? '');
                     }
                 }
+                if (!empty($value['filter'])) {
+                    $this->bean[$field] = $this->check_field_filter($field, $this->bean[$field]);
+                }
                 if (isset($value['default']) && $value['default'] !== null) {
                     $this->bean[$field] = $this->check_field_default($value['default'], $this->bean[$field] ?? '');
                 } else {
@@ -24,25 +27,26 @@ trait DataProviderTrait {
                 if (!empty($value['check'])) {
                     $this->check_field_own($field, $this->bean[$field]);
                 }
-                if (!empty($value['filter'])) {
-                    $this->bean[$field] = $this->check_field_filter($field, $this->bean[$field]);
-                }
                 $this->check_field_valid_create($field, $value);
             }
         } else {
             // If update record
             foreach ($this->bean as $field => $value) {
+                if (!empty($rulesArray[$field]['readonly'])) {
+                    $message = $rulesArray['field']['label'] . _('is read only');
+                    throw new Exception($message, E_NOTICE);
+                }
                 if (!empty($rulesArray[$field]['unique'])) {
                     $this->check_field_unique($field, $value, true);
+                }
+                if (!empty($rulesArray[$field]['filter'])) {
+                    $this->bean[$field] = $this->check_field_filter($field, $value);
                 }
                 if (!empty($rulesArray[$field]['default'])) {
                     $this->bean[$field] = $this->check_field_default($rulesArray[$field]['default'], $value);
                 }
                 if (!empty($rulesArray[$field]['check'])) {
                     $this->check_field_own($field, $value);
-                }
-                if (!empty($rulesArray[$field]['filter'])) {
-                    $this->bean[$field] = $this->check_field_filter($field, $value);
                 }
                 if (array_key_exists($field, $rulesArray)) {
                     $this->check_field_valid_update($field, $rulesArray[$field], $value);
@@ -93,7 +97,7 @@ trait DataProviderTrait {
         }
     }
 
-    private function check_field_filter(string $field, string $value): string {
+    private function check_field_filter(string $field, mixed $value): string {
         $action = 'filter_' . $field;
         if (method_exists($this, $action)) {
             return $this->{$action}($value);

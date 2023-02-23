@@ -2,13 +2,13 @@
 
 namespace le7\Core\ClassLibraries;
 
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 
 class LibraryUser {
     
-    protected ErrorLog $log;
+    protected ErrorLogInterface $log;
     
-    public function __construct(ErrorLog $errorLog) {
+    public function __construct(ErrorLogInterface $errorLog) {
         $this->log = $errorLog;
     }
     

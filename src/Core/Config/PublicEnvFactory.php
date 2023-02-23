@@ -2,15 +2,15 @@
 
 namespace le7\Core\Config;
 
-use le7\Core\Locales\Locales;
+use le7\Core\Locales\LocalesInterface;
 
 class PublicEnvFactory {
 
-    private Locales $locales;
+    private LocalesInterface $locales;
     private TopologyPublicInterface $topologyWeb;
     private UserConfigInterface $userConfig;
 
-    public function __construct(Locales $locales, TopologyPublicInterface $topologyWeb, UserConfigInterface $userConfig) {
+    public function __construct(LocalesInterface $locales, TopologyPublicInterface $topologyWeb, UserConfigInterface $userConfig) {
         $this->locales = $locales;
         $this->topologyWeb = $topologyWeb;
         $this->userConfig = $userConfig;

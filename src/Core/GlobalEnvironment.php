@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core;
 
+use le7\Core\User\UserInterface;
 use le7\Core\Database\DatabaseFactory;
 use le7\Core\Cache\SCFactory;
 use le7\Core\Config\UserConfigInterface;
@@ -11,21 +12,23 @@ use le7\Custom\UserHelpersLibrary;
 use le7\Custom\UserGlobalLibrary;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Config\ConfigInterface;
-use le7\Core\Locales\Locales;
-use le7\Core\Locales\Translate;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\Locales\LocalesInterface;
+use le7\Core\Locales\TranslateInterface;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Messages\MessageCollectionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use \RedBeanPHP\OODBBean;
 
 class GlobalEnvironment {
 
+    public UserInterface|OODBBean|null $user = null;
     public DatabaseFactory $dbFactory;
     public MessageCollectionInterface $messages;
-    public Translate $translate;
-    public Locales $locales;
+    public TranslateInterface $translate;
+    public LocalesInterface $locales;
     public LoggerInterface $ulog;
-    public ErrorLog $log;
+    public ErrorLogInterface $log;
     public SCFactory $cacheFactory;
     public CacheInterface $cache;
     public ConfigInterface $config;
@@ -38,9 +41,9 @@ class GlobalEnvironment {
             ConfigInterface $config,
             TopologyFsInterface $topology,
             UserConfigInterface $userConfig,
-            Locales $locales,
-            Translate $translate,
-            ErrorLog $errorLog,
+            LocalesInterface $locales,
+            TranslateInterface $translate,
+            ErrorLogInterface $errorLog,
             LoggerInterface $ulog,
             SCFactory $cacheFactory,
             CacheInterface $cache,

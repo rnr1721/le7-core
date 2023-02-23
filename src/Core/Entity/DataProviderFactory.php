@@ -12,15 +12,15 @@ use le7\Core\Entity\Single\EntitySingleFactory;
 use le7\Core\Entity\Single\DataProvider\GenericModel;
 use le7\Core\Entity\Group\EntityGroupFactory;
 use le7\Core\Entity\Rules\RulesClass;
-use le7\Core\Database\DatabaseConnection;
+use le7\Core\Database\DatabaseConnectionInterface;
 use le7\Core\Entity\Group\DataProvider\BeansProvider;
 use le7\Core\Entity\Group\DataProvider\BeansPaginatedProvider;
 
 class DataProviderFactory {
 
-    private DatabaseConnection $dbConnection;
+    private DatabaseConnectionInterface $dbConnection;
 
-    public function __construct(DatabaseConnection $dbConnection) {
+    public function __construct(DatabaseConnectionInterface $dbConnection) {
         $this->dbConnection = $dbConnection;
     }
 

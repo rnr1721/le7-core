@@ -13,9 +13,9 @@ use le7\Core\Config\UserConfigInterface;
 use le7\Core\Database\Database;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Config\ConfigInterface;
-use le7\Core\Locales\Locales;
-use le7\Core\Locales\Translate;
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\Locales\LocalesInterface;
+use le7\Core\Locales\TranslateInterface;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Messages\MessageCollectionInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Log\LoggerInterface;
@@ -23,10 +23,10 @@ use Psr\Log\LoggerInterface;
 /**
  * @property GlobalEnvironment $env
  * @property MessageCollectionInterface $messages
- * @property Translate $translate
- * @property Locales $locales
+ * @property TranslateInterface $translate
+ * @property LocalesInterface $locales
  * @property LoggerInterface $ulog
- * @property ErrorLog $log
+ * @property ErrorLogInterface $log
  * @property SCFactory $cacheFactory
  * @property CacheInterface $cache
  * @property ConfigInterface $config

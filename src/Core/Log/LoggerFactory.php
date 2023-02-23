@@ -2,7 +2,7 @@
 
 namespace le7\Core\Log;
 
-use le7\Core\ErrorHandling\ErrorLog;
+use le7\Core\ErrorHandling\ErrorLogInterface;
 use le7\Core\Config\TopologyFsInterface;
 use Psr\Log\LoggerInterface;
 
@@ -12,7 +12,7 @@ class LoggerFactory {
 
     private LoggerInterface $logSystem;
     private LoggerInterface $logUser;
-    private ErrorLog $errorLog;
+    private ErrorLogInterface $errorLog;
 
     public function __construct(TopologyFsInterface $topologyFs) {
         $this->topology = $topologyFs;
@@ -38,7 +38,7 @@ class LoggerFactory {
         return $this->logSystem;
     }
 
-    public function getErrorLog() : ErrorLog {
+    public function getErrorLog() : ErrorLogInterface {
         if (empty($this->errorLog)) {
             $this->errorLog = new ErrorLog($this->getSystemLogger());
         }
