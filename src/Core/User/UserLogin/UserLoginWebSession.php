@@ -25,9 +25,7 @@ class UserLoginWebSession implements UserLoginProvider {
                 $this->passwords->update($user['id'], $newHash);
             }
             $token = $this->tokens->create($user['id']);
-            $userCredentialServer = $this->request->getServerParam('HTTP_USER_AGENT', null);
             if ($token) {
-                $_SESSION['user_credential'] = password_hash($token.$userCredentialServer, PASSWORD_DEFAULT);
                 $_SESSION['user_token'] = $token;
                 return $token;
             }
@@ -35,8 +33,7 @@ class UserLoginWebSession implements UserLoginProvider {
         return null;
     }
 
-    public function logout(string $token): bool {
-        $_SESSION['user_credential'] = null;
+    public function logout(string $token = ''): bool {
         $_SESSION['user_token'] = null;
         return $this->tokens->delete($token);
     }

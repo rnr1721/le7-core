@@ -14,14 +14,15 @@ class VerificationCodeDb implements VerificationCodeInterface {
         return null;
     }
 
-    public function setCode(string|int $userId): bool {
+    public function setCode(string|int $userId): string|null {
         $user = R::findOne('user', ' id = ? ', [$userId]);
         if ($user) {
-            $user->vcode = strval(mt_rand(1111, 9999));
+            $code = strval(mt_rand(1111, 9999));
+            $user->vcode = $code;
             R::store($user);
-            return true;
+            return $code;
         }
-        return false;
+        return null;
     }
 
     public function deleteCode(string|int $userId): bool {

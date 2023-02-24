@@ -207,6 +207,14 @@ interface ConfigInterface {
      */
     public function getUserManagementOn(): bool;
 
+    public function getUserLoginVerification(): bool;
+    
+    public function getUserRegisterVerification(): bool;
+    
+    public function getUserIdentity(): string;
+    
+    public function getUserLoginFields(): string;
+    
     /**
      * Get email configuration as array
      * @return array

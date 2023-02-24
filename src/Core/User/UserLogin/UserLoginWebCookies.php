@@ -19,13 +19,15 @@ class UserLoginWebCookies implements UserLoginProvider {
     private TokensInterface $tokens;
 
     public function __construct(ConfigInterface $config, Request $request, TokensInterface $tokens, PasswordsInterface $passwords) {
-        $this->config = $config;
         $this->request = $request;
         $this->tokens = $tokens;
         $this->passwords = $passwords;
+        $this->config = $config;
     }
 
     public function login(array $user, string $password): string|null {
+        // Two factor authentification
+
         if (password_verify($password, $user['password'])) {
             if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
                 $newHash = password_hash($password, PASSWORD_DEFAULT);
@@ -37,7 +39,7 @@ class UserLoginWebCookies implements UserLoginProvider {
                 $sameSite = $this->config->getSessionCookieSamesite();
                 $userLogin = $user['username'];
                 $userAgent = $this->request->getServerParam('HTTP_USER_AGENT');
-                $hash = password_hash($userLogin.$userAgent,PASSWORD_DEFAULT);
+                $hash = password_hash($userLogin . $userAgent, PASSWORD_DEFAULT);
                 setcookie('user_login', $userLogin, [
                     'expires' => time() + $this->storeTime,
                     'path' => '/',

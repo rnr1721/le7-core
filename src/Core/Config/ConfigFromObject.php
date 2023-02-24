@@ -215,6 +215,30 @@ class ConfigFromObject implements ConfigInterface {
         }
         return true;
     }
+    
+    public function getUserLoginVerification(): bool {
+        $value = $this->configData['users']['userLoginVerificationOn'];
+        if (empty($value)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getUserRegisterVerification(): bool {
+        $value = $this->configData['users']['userRegisterVerificationOn'];
+        if (empty($value)) {
+            return false;
+        }
+        return true;
+    }
+    
+    public function getUserIdentity():string{
+        return $this->configData['users']['userIdentity'];
+    }
+    
+    public function getUserLoginFields(): string{
+        return $this->configData['users']['userLoginFields'];
+    }
 
     public function getEmailConfig(): array {
         return $this->configData['email']['config'];
@@ -227,5 +251,5 @@ class ConfigFromObject implements ConfigInterface {
     public function getNotificationCases():string {
         return $this->configData['notification']['cases'];
     }
-    
+
 }

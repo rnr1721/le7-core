@@ -5,15 +5,22 @@ namespace le7\Core\User\Notifications;
 use le7\Core\Config\ConfigInterface;
 use \Exception;
 
-class Notifications {
+class Notifications implements NotificationsInterface {
 
-    public ConfigInterface $config;
+    private ConfigInterface $config;
+    private array $errors = [];
 
     public function __construct(ConfigInterface $config) {
         $this->config = $config;
     }
 
-    public function getBroadcast(array|string $cases): array {
+    /**
+     * Get array with elements that implements NotificationInterface
+     * @param array|string $cases For example: email,sms,etc...
+     * @return array
+     * @throws Exception
+     */
+    public function getBroadcast(array|string $cases = []): array {
         $broadcast = array();
         if (empty($cases)) {
             $cases = explode(',', $this->config->getNotificationCases());
@@ -33,6 +40,32 @@ class Notifications {
             }
         }
         return $broadcast;
+    }
+
+    /**
+     * Send message using all available methods
+     * @param array $options array of options for delivery methods
+     * @param array|string $cases email,sms,telegram etc...
+     * @return bool
+     */
+    public function sendMessage(array $options, array|string $cases = []): bool {
+        $broadcast = $this->getBroadcast($cases);
+        foreach ($broadcast as $case) {
+            $case->setOptions($options)->send();
+            $this->errors = array_merge($this->errors, $case->getErrors());
+        }
+        if (count($this->errors) === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get errors array
+     * @return array
+     */
+    public function getErrors(): array {
+        return $this->errors;
     }
 
 }
