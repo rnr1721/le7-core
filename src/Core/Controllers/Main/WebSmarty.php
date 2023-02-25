@@ -4,53 +4,19 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
-use le7\Core\User\UserIdentityFactory;
-use le7\Core\View\Widget\WidgetFactory;
-use le7\Core\Messages\MessageFactory;
-use le7\Core\Config\CodePartsFactory;
-use le7\Core\DebugPanel\DebugPanel;
-use le7\Core\Config\PublicEnvFactory;
-use le7\Core\Helpers\UrlHelper;
-use le7\Core\GlobalEnvironment;
-use le7\Core\Request\Request;
-use le7\Core\Response\ResponseWeb;
-use le7\Core\Config\TopologyPublicInterface;
-use Exception;
 use le7\Core\View\Smarty\SmartyConnector;
-use Smarty;
-use SmartyException;
+use \Smarty;
+use \SmartyException;
+use \Exception;
 
 class WebSmarty extends Web {
 
     protected Smarty $smarty;
 
     public function __construct(
-            GlobalEnvironment $env,
-            Request $request,
-            ResponseWeb $response,
-            TopologyPublicInterface $topologyWeb,
-            UrlHelper $urlHelper,
-            PublicEnvFactory $publicEnvFactory,
-            CodePartsFactory $codePartsFactory,
-            DebugPanel $debugbar,
-            MessageFactory $messagesFactory,
-            WidgetFactory $widgetFactory,
-            UserIdentityFactory $userIdentityFactory,
             SmartyConnector $smartyConnector
     ) {
-        parent::__construct(
-                $env,
-                $request,
-                $response,
-                $topologyWeb,
-                $urlHelper,
-                $publicEnvFactory,
-                $codePartsFactory,
-                $debugbar,
-                $messagesFactory,
-                $widgetFactory,
-                $userIdentityFactory
-                );
+        parent::__construct();
         $this->smarty = $smartyConnector->getEngine();
     }
 

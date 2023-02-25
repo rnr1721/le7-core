@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
-use le7\Core\GlobalModule;
-use le7\Core\Cache\SCFactory;
-use le7\Core\GlobalEnvironment;
+use RedBeanPHP\OODBBean;
+use le7\Core\User\UserInterface;
+use le7\Core\Database\DatabaseFactory;
 use le7\Custom\UserGlobalLibrary;
 use le7\Custom\UserHelpersLibrary;
 use le7\Core\Config\UserConfigInterface;
@@ -21,25 +21,41 @@ use Psr\SimpleCache\CacheInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @property GlobalEnvironment $env
- * @property MessageCollectionInterface $messages
- * @property TranslateInterface $translate
- * @property LocalesInterface $locales
- * @property LoggerInterface $ulog
- * @property ErrorLogInterface $log
- * @property SCFactory $cacheFactory
- * @property CacheInterface $cache
- * @property ConfigInterface $config
- * @property TopologyFsInterface $topologyFs
- * @property UserGlobalLibrary $ulib
- * @property UserConfigInterface $uconfig
- * @property Database $db
- * @property UserHelpersLibrary $helpers
+ * @property Database $db 
  */
-class Main extends GlobalModule {
+class Main {
+
+    protected UserInterface|OODBBean|null $user = null;
+    public DatabaseFactory $dbFactory;
+    public ConfigInterface $config;
+    public UserConfigInterface $uconfig;
+    public TopologyFsInterface $topology;
+    public ErrorLogInterface $log;
+    public LoggerInterface $ulog;
+    public LocalesInterface $locales;
+    public TranslateInterface $translate;
+    public MessageCollectionInterface $messages;
+    public CacheInterface $cache;
+    public UserGlobalLibrary $ulib;
+    public UserHelpersLibrary $helpers;
 
     public function trigger() {
         return array();
+    }
+
+    public function __get(string $name) {
+        switch ($name) {
+            case 'db':
+                return $this->dbFactory->getDatabase();
+            case 'dbConnection':
+                return $this->dbFactory->getDatabaseConnection();
+            case 'dbConfig':
+                return $this->dbFactory->getDatabaseConfig();
+            case 'dpFactory':
+                return $this->dbFactory->getDataProviderFactory();
+            default:
+                return null;
+        }
     }
 
 }

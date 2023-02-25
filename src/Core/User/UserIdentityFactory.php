@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace le7\Core\User;
 
+use le7\Core\User\Notifications\NotificationsInterface;
+use le7\Core\User\UserFind;
+use le7\Core\View\HtmlTemplate;
+use le7\Core\Instances\RouteInterface;
 use le7\Core\User\Verification\VerificationCodeDb;
 use le7\Core\User\Verification\VerificationCodeInterface;
 use le7\Core\User\UserIdentity;
@@ -35,25 +39,25 @@ class UserIdentityFactory {
         $this->request = $request;
     }
 
-    public function getUserLoginWeb(): UserLoginInterface {
+    private function getUserLoginWeb(): UserLoginInterface {
         if ($this->config->getUserIdentity() === 'cookies') {
             $loginProvider = new UserLoginWebCookies($this->config, $this->request, $this->getTokens(), $this->getPasswords());
         }
         if ($this->config->getUserIdentity() === 'session') {
-            $loginProvider = new UserLoginWebSession($this->getTokens(), $this->getPasswords());
+            $loginProvider = new UserLoginWebSession($this->request, $this->getTokens(), $this->getPasswords());
         }
         return new UserLogin($loginProvider);
     }
 
-    public function getUserLoginApi(): UserLoginInterface {
-        $loginProvider = new UserLoginApi($this->getTokens());
+    private function getUserLoginApi(): UserLoginInterface {
+        $loginProvider = new UserLoginApi($this->request, $this->getTokens(), $this->getPasswords());
         return new UserLogin($loginProvider);
     }
 
     public function getUserCheckWeb(): UserCheckInterface {
         $this->getTokens();
         if ($this->config->getUserIdentity() === 'cookies') {
-            $check = new UserCheckWebCookies($this->request);
+            $check = new UserCheckWebCookies($this->request, $this->getPasswords());
         }
         if ($this->config->getUserIdentity() === 'session') {
             $check = new UserCheckWebSession();
@@ -91,6 +95,17 @@ class UserIdentityFactory {
 
     public function getUserApi(): UserIdentityInterface {
         return new UserIdentity($this->getUserCheckApi());
+    }
+
+    public function getLoginForm(RouteInterface $route, HtmlTemplate $htmlTemplate, NotificationsInterface $notifications) {
+        if ($route->getType() === 'web') {
+            $userLogin = $this->getUserLoginWeb();
+        }
+        if ($route->getType() === 'api') {
+            $userLogin = $this->getUserLoginApi();
+        }
+        $userFind = new UserFind();
+        return new LoginForm($this->config, $userLogin, $this->getVerificetionCode(), $htmlTemplate, $notifications, $userFind);
     }
 
 }

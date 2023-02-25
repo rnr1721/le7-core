@@ -28,18 +28,18 @@ class UserLoginWebCookies implements UserLoginProvider {
     public function login(array $user, string $password): string|null {
         // Two factor authentification
 
-        if (password_verify($password, $user['password'])) {
-            if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
-                $newHash = password_hash($password, PASSWORD_DEFAULT);
+        if ($this->passwords->verify($password, $user['password'])) {
+            if ($this->passwords->needRehash($user['password'])) {
+                $newHash = $this->passwords->create($password);
                 $this->passwords->update($user['id'], $newHash);
             }
-            $token = $this->tokens->create($user['id']);
+            $userAgent = $this->request->getServerParam('HTTP_USER_AGENT') ?? '';
+            $token = $this->tokens->create($user['id'], $userAgent);
             if ($token) {
                 $secureCookie = $this->config->getIsProduction();
                 $sameSite = $this->config->getSessionCookieSamesite();
                 $userLogin = $user['username'];
-                $userAgent = $this->request->getServerParam('HTTP_USER_AGENT');
-                $hash = password_hash($userLogin . $userAgent, PASSWORD_DEFAULT);
+                $hash = $this->passwords->create($userLogin . $userAgent);
                 setcookie('user_login', $userLogin, [
                     'expires' => time() + $this->storeTime,
                     'path' => '/',
@@ -64,7 +64,6 @@ class UserLoginWebCookies implements UserLoginProvider {
                 return $token;
             }
         }
-        $this->errors[] = _('Incorrect user or password');
         return null;
     }
 

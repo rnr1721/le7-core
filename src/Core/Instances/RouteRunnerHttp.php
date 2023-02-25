@@ -22,12 +22,11 @@ class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface {
 
         $controllerAction = $route->getActionMethod();
 
-        $params = [];
         if (method_exists($controller, 'trigger')) {
-            $params = $controller->trigger();
+            $controller->trigger();
         }
 
-        $responseCode = $controller->{$controllerAction}($params);
+        $responseCode = $this->runAction($controller, $route->getActionMethod());
 
         if ($responseCode === 404) {
             $this->response->setResponseCode($responseCode);
@@ -42,6 +41,30 @@ class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface {
             $this->response->setResponseCode($responseCode);
         }
         $this->response->emit();
+    }
+
+    public function getPublicProperties(string $routeType): array {
+        switch ($routeType) {
+            case 'web':
+                return [
+                    'request' => 'le7\Core\Request\Request',
+                    'response' => 'le7\Core\Response\ResponseWeb',
+                    'topologyWeb' => 'le7\Core\Config\TopologyPublicInterface',
+                    'urlHelper' => 'le7\Core\Helpers\UrlHelper',
+                    'publicEnvFactory' => 'le7\Core\Config\PublicEnvFactory',
+                    'codePartsFactory' => 'le7\Core\Config\CodePartsFactory',
+                    'debugbar' => 'le7\Core\DebugPanel\DebugPanel',
+                    'messageFactory' => 'le7\Core\Messages\MessageFactory',
+                    'userIdentityFactory' => 'le7\Core\User\UserIdentityFactory'
+                ];
+            case 'api':
+                return [
+                    'request' => 'le7\Core\Request\Request',
+                    'response' => 'le7\Core\Response\ResponseApi',
+                    'topologyPublic' => 'le7\Core\Config\TopologyPublicInterface',
+                    'userIdentityFactory' => 'le7\Core\User\UserIdentityFactory'
+                ];
+        }
     }
 
 }

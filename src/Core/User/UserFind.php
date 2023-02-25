@@ -2,18 +2,12 @@
 
 namespace le7\Core\User;
 
-use \RedBeanPHP\OODBBean;
 use le7\Core\Database\Database;
+use \RedBeanPHP\OODBBean;
 
 class UserFind {
 
-    private Database $db;
-
     private $userFields = ['username'];
-
-    public function __construct(Database $db) {
-        $this->db = $db;
-    }
 
     /**
      * Add fields as array or comma-separated string
@@ -39,7 +33,7 @@ class UserFind {
         return $this;
     }
     
-    public function getUserByFields(string $value): OODBBean|null {
+    public function getUserByFields(Database $db,string $value): OODBBean|null {
         $conds = [];
         $sql = '';
         foreach ($this->userFields as $field) {
@@ -47,8 +41,12 @@ class UserFind {
             $conds[] = $value;
         }
         $query = rtrim($sql, 'OR ');
-        $user = $this->db->findOne('user', $query, $conds);
+        $user = $db->findOne('user', $query, $conds);
         return $user;
+    }
+    
+    public function getUserById(Database $db,string|int $userId):OODBBean|null {
+        return $db->findOne('user', ' id = ? ', $userId);
     }
     
 }

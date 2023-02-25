@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace le7\Core\ErrorHandling;
 
-use Exception;
 use Psr\Log\LoggerInterface;
+use \Exception;
 
 class ErrorLog implements ErrorLogInterface
 {

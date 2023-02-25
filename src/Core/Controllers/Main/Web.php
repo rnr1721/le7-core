@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace le7\Core\Controllers\Main;
 
 use le7\Core\User\UserIdentityFactory;
-use le7\Core\View\Widget\WidgetFactory;
 use le7\Core\Config\CodePartsFactory;
 use le7\Core\Config\PublicEnvFactory;
 use le7\Core\Config\PublicEnvironment;
 use le7\Core\Config\TopologyPublicInterface;
 use le7\Core\DebugPanel\DebugPanel;
-use le7\Core\GlobalEnvironment;
 use le7\Core\Helpers\UrlHelper;
 use le7\Core\Instances\RouteHttpInterface;
 use le7\Core\Messages\MessageCollectionInterface;
@@ -26,57 +24,37 @@ class Web extends Main {
 
     use PageTrait;
 
-    protected UserIdentityFactory $userIdentityFactory;
-    protected WidgetFactory $widgets;
+    public MessageFactory $messageFactory;
+    public UserIdentityFactory $userIdentityFactory;
     private MessageGetInterface $messageGet;
     private MessagePutInterface $messagePut;
     protected MessageCollectionInterface $messagesFlash;
     protected int|null $cacheLifetime = null;
     private string|null $cacheIndex = null;
-    private DebugPanel $debugbar;
+    public DebugPanel $debugbar;
     protected array $vars = array();
-    protected Request $request;
-    protected ResponseWeb $response;
+    public Request $request;
+    public ResponseWeb $response;
     public RouteHttpInterface $route;
-    protected TopologyPublicInterface $topologyWeb;
-    private CodePartsFactory $codePartsFactory;
-    private UrlHelper $urlHelper;
-    private PublicEnvFactory $publicEnvFactory;
+    public TopologyPublicInterface $topologyWeb;
+    public CodePartsFactory $codePartsFactory;
+    public UrlHelper $urlHelper;
+    public PublicEnvFactory $publicEnvFactory;
     protected PublicEnvironment $publicEnvironment;
 
     /**
      * ControllerWeb constructor.
      */
-    public function __construct(
-            GlobalEnvironment $env,
-            Request $request,
-            ResponseWeb $response,
-            TopologyPublicInterface $topologyPublic,
-            UrlHelper $urlHelper,
-            PublicEnvFactory $publicEnvFactory,
-            CodePartsFactory $codePartsFactory,
-            DebugPanel $debugbar,
-            MessageFactory $messageFactory,
-            WidgetFactory $widgetFactory,
-            UserIdentityFactory $userIdentityFactory
-    ) {
+    public function __construct() {
 
-        parent::__construct($env);
-
-        $this->request = $request;
-        $this->response = $response;
-        $this->topologyWeb = $topologyPublic;
-        $this->debugbar = $debugbar;
-        $this->urlHelper = $urlHelper;
-        $this->codePartsFactory = $codePartsFactory;
-        $this->publicEnvFactory = $publicEnvFactory;
-        $this->publicEnvironment = $publicEnvFactory->getEnvHtml();
+        $this->publicEnvironment = $this->publicEnvFactory->getEnvHtml();
         $this->cacheLifetime = $this->config->getCacheLifetime();
-        $this->messageGet = $messageFactory->getGetStorage();
-        $this->messagePut = $messageFactory->getPutStorage();
-        $this->messagesFlash = $messageFactory->newInstance();
-        $this->widgets = $widgetFactory;
-        $this->userIdentityFactory = $userIdentityFactory;
+
+        if (!empty($this->messageFactory)) {
+            $this->messageGet = $this->messageFactory->getGetStorage();
+            $this->messagePut = $this->messageFactory->getPutStorage();
+            $this->messagesFlash = $this->messageFactory->newInstance();
+        }
 
         if ($this->config->getUserManagementOn()) {
             $userIdentity = $this->userIdentityFactory->getUserWeb();
@@ -105,7 +83,6 @@ class Web extends Main {
             'locales' => $this->locales,
             'route' => $this->route->exportArray(),
             'otherLanguages' => $otherLanguages,
-            'env' => $this->publicEnvironment->export(),
             'styles' => '',
             'title' => '',
             'header' => '',
@@ -116,16 +93,26 @@ class Web extends Main {
             'microformat' => '',
             'keywords' => '',
             'description' => '',
-            'messages' => $this->messages->getAll(),
             'projectName' => $this->config->getProjectName(),
             'content' => '',
             'config' => $this->config,
             'uconfig' => $this->uconfig,
-            'snippets_top' => $this->codePartsFactory->getStatTop() ?? '',
-            'snippets_middle' => $this->codePartsFactory->getStatMiddle() ?? '',
-            'snippets_bottom' => $this->codePartsFactory->getStatBottom() ?? '',
             'user' => $this->user
         );
+
+        if (!empty($this->messageFactory)) {
+            $vars['messages'] = $this->messages->getAll();
+        }
+
+        if (!empty($this->publicEnvironment)) {
+            $vars['env'] = $this->publicEnvironment->export();
+        }
+
+        if (!empty($this->codePartsFactory)) {
+            $vars['snippets_top'] = $this->codePartsFactory->getStatTop() ?? '';
+            $vars['snippets_middle'] = $this->codePartsFactory->getStatMiddle() ?? '';
+            $vars['snippets_bottom'] = $this->codePartsFactory->getStatBottom() ?? '';
+        }
 
         foreach ($vars as $cKey => $cValue) {
             if (!isset($this->vars[$cKey])) {
@@ -237,8 +224,10 @@ class Web extends Main {
 
     protected function handleFlashMessages() {
         // Flash messages in session or cookies (depend config params)
-        $this->messages->loadMessages($this->messageGet);
-        $this->messagesFlash->putMessages($this->messagePut);
+        if (!empty($this->messageFactory)) {
+            $this->messages->loadMessages($this->messageGet);
+            $this->messagesFlash->putMessages($this->messagePut);
+        }
     }
 
 }

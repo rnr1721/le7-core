@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace le7\Core\User\UserLogin;
 
+use le7\Core\Request\Request;
+use le7\Core\User\Passwords\PasswordsInterface;
 use le7\Core\User\Tokens\TokensInterface;
+use \Exception;
 
 class UserLoginApi implements UserLoginProvider {
 
     private array $errors = [];
+    private Request $request;
+    private PasswordsInterface $passwords;
     private TokensInterface $tokens;
 
-    public function __construct(TokensInterface $tokens) {
+    public function __construct(Request $request, TokensInterface $tokens, PasswordsInterface $passwords) {
         $this->tokens = $tokens;
+        $this->passwords = $passwords;
+        $this->request = $request;
     }
 
     public function login(array $user, string $password): string|null {
@@ -21,9 +28,9 @@ class UserLoginApi implements UserLoginProvider {
             $this->errors[] = $message;
             throw new Exception($message);
         }
-        if (password_verify($password, $user['password'])) {
-            if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
-                $newHash = password_hash($password, PASSWORD_DEFAULT);
+        if ($this->passwords->verify($password, $user['password'])) {
+            if ($this->passwords->needRehash($user['password'])) {
+                $newHash = $this->passwords->create($password);
                 $this->passwords->update($user['id'], $newHash);
             }
             $token = $this->tokens->create($user['id']);
@@ -32,7 +39,10 @@ class UserLoginApi implements UserLoginProvider {
         return null;
     }
 
-    public function logout(string $token): bool {
+    public function logout(string $token = ''): bool {
+        if (empty($token)) {
+            $token = $this->request->getHeaderLine('X-Auth-Token');
+        }
         return $this->tokens->delete($token);
     }
 

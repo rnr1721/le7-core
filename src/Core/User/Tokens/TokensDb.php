@@ -8,7 +8,7 @@ use RedBeanPHP\R;
 
 class TokensDb implements TokensInterface {
 
-    public function create(int|string $userId): string|null {
+    public function create(int|string $userId, string $info = ''): string|null {
         if (empty($userId)) {
             return null;
         }
@@ -16,6 +16,7 @@ class TokensDb implements TokensInterface {
         $tokenRecord = R::dispense('usertokens');
         $tokenRecord->token = $token;
         $tokenRecord->user_id = $userId;
+        $tokenRecord->info = $info;
         R::store($tokenRecord);
         return $token;
     }

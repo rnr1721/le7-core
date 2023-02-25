@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
-use le7\Core\User\UserIdentityFactory;
-use le7\Core\View\Widget\WidgetFactory;
-use le7\Core\Messages\MessageFactory;
-use le7\Core\Config\CodePartsFactory;
-use le7\Core\Helpers\UrlHelper;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Response\ResponseWeb;
-use le7\Core\Request\Request;
-use le7\Core\GlobalEnvironment;
-use le7\Core\Config\PublicEnvFactory;
-use le7\Core\DebugPanel\DebugPanel;
 use le7\Core\View\Php\PhpViewFactory;
 use le7\Core\View\Php\PhpEngine;
 
@@ -23,32 +12,9 @@ class WebPhp extends Web {
     protected PhpEngine $phpView;
 
     public function __construct(
-            GlobalEnvironment $env,
-            Request $request,
-            ResponseWeb $response,
-            TopologyPublicInterface $topologyWeb,
-            UrlHelper $urlHelper,
-            PublicEnvFactory $publicEnvFactory,
-            CodePartsFactory $codePartsFactory,
-            DebugPanel $debugbar,
-            MessageFactory $messagesFactory,
-            WidgetFactory $widgetFactory,
-            UserIdentityFactory $userIdentityFactory,
             PhpViewFactory $phpViewFactory
     ) {
-        parent::__construct(
-                $env,
-                $request,
-                $response,
-                $topologyWeb,
-                $urlHelper,
-                $publicEnvFactory,
-                $codePartsFactory,
-                $debugbar,
-                $messagesFactory,
-                $widgetFactory,
-                $userIdentityFactory
-        );
+        parent::__construct();
         $this->phpView = $phpViewFactory->getPhpView();
     }
 

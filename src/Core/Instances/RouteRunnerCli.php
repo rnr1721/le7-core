@@ -14,16 +14,23 @@ class RouteRunnerCli extends RouteRunner implements RouteRunnerInterface {
         
         $controller = $this->getController($route->getControllerClass(), $route);
         
-        $controllerAction = $route->getActionMethod();
+        //$controllerAction = $route->getActionMethod();
 
         $params = [];
         if (method_exists($controller, 'trigger')) {
             $params = $controller->trigger();
         }
 
-        $responseCode = $controller->{$controllerAction}($params);
+        $responseCode = $this->runAction($controller, $route->getActionMethod());
 
         $this->stdout($responseCode . PHP_EOL);
+    }
+
+    public function getPublicProperties(string $routeType): array {
+        switch ($routeType) {
+            case 'cli':
+                return [];
+        }
     }
 
 }

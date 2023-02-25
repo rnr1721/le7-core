@@ -8,7 +8,7 @@ interface TokensInterface {
 
     public function getUserId(string $token): int|null;
 
-    public function create(int $userId): string|null;
+    public function create(int $userId, string $info = ''): string|null;
 
     public function delete(string $token): bool;
 

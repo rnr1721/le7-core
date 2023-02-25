@@ -16,7 +16,7 @@ class UserLogin implements UserLoginInterface {
         $this->userLoginProvider = $userLoginProvider;
     }
 
-    public function login(array|null $user, string|null $password, string $vcode = '') {
+    public function login(array|null $user, string|null $password, string $vcode = ''): string|null {
         if (empty($user)) {
             $this->errors[] = _('User not specified');
         }
@@ -32,12 +32,15 @@ class UserLogin implements UserLoginInterface {
             throw new Exception(_('Login error'));
         }
         $result = $this->userLoginProvider->login($user, $password, $vcode);
+        if (!$result) {
+            $this->errors[] = _('Incorrect username or password');
+        }
         $this->errors = array_merge($this->errors, $this->userLoginProvider->getErrors());
         return $result;
     }
 
-    public function logout() {
-        $this->userLoginProvider->logout();
+    public function logout(): bool {
+        return $this->userLoginProvider->logout();
     }
 
     public function getErrors(): array {

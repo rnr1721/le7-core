@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace le7\Core\User\UserCheck;
 
+use le7\Core\User\Passwords\PasswordsInterface;
 use le7\Core\Request\Request;
 
 class UserCheckWebCookies implements UserCheckProvider {
 
+    private PasswordsInterface $passwords;
     private Request $request;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request, PasswordsInterface $passwords) {
         $this->request = $request;
+        $this->passwords = $passwords;
     }
 
     public function getToken(): string|null {
@@ -21,7 +24,7 @@ class UserCheckWebCookies implements UserCheckProvider {
         $userCredentialServer = $this->request->getServerParam('HTTP_USER_AGENT', null);
         if ($userToken && $userLogin && $userCredentialSession) {
             $credential = $userLogin . $userCredentialServer;
-            if (password_verify($credential, $userCredentialSession)) {
+            if ($this->passwords->verify($credential, $userCredentialSession)) {
                 return $userToken;
             }
         }
