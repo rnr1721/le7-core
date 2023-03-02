@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 use le7\Core\Instances\InstanceCliData;
 use le7\Core\Instances\InstanceCli;
-use le7\Core\Instances\InstanceApi;
-use le7\Core\Instances\InstanceWeb;
+use le7\Core\Instances\InstanceHttp;
 use le7\Core\Instances\InstanceHttpData;
 use le7\Core\Php;
 use le7\Core\Config\TopologyFs;
@@ -50,11 +49,7 @@ if (php_sapi_name() === 'cli') {
     /** @var InstanceHttpData $instanceHttpData */
     $instanceHttpData = $container->get(InstanceHttpData::class);
     $route = $instanceHttpData->getCurrentRoute();
-    if ($route->getType() === 'web') {
-        $instance = $container->get(InstanceWeb::class);
-    } elseif ($route->getType() === 'api') {
-        $instance = $container->get(InstanceApi::class);
-    }
+    $instance = $container->get(InstanceHttp::class);
 }
 
 // start the instance and get route runner

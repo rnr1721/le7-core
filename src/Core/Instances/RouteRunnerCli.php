@@ -26,11 +26,4 @@ class RouteRunnerCli extends RouteRunner implements RouteRunnerInterface {
         $this->stdout($responseCode . PHP_EOL);
     }
 
-    public function getPublicProperties(string $routeType): array {
-        switch ($routeType) {
-            case 'cli':
-                return [];
-        }
-    }
-
 }

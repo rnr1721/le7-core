@@ -4,44 +4,23 @@ declare(strict_types=1);
 
 namespace le7\Core\View\Php;
 
-use le7\Core\Config\TopologyPublicInterface;
+use le7\Core\View\ViewInterface;
 
-class PhpView {
+class PhpView implements ViewInterface
+{
 
-    use PageTrait;
+    private array $vars = array();
+    private PhpRenderEngine $view;
 
-    private TopologyPublicInterface $topologyWeb;
-    private Template $template;
-    public array $vars = array();
-
-    public function __construct(Template $template, TopologyPublicInterface $topologyWeb) {
-        $this->template = $template;
-        $this->topologyWeb = $topologyWeb;
+    public function __construct(PhpRenderEngine $view)
+    {
+        $this->view = $view;
     }
 
-    public function include(string $templateFile): string {
-        extract($this->vars, EXTR_REFS);
-        $template = $this->template->exists($templateFile);
-        ob_start();
-        include $template;
-        return ob_get_clean();
-    }
-
-    /**
-     * Escape string
-     * @param string $varName
-     * @param mixed $default
-     * @return void
-     */
-    public function e(string $var): string {
-        return htmlspecialchars($var);
-    }
-
-    public function ifnot(string $value, int|string|array|bool|null $default): mixed {
-        if ($value) {
-            return $value;
-        }
-        return $default;
+    public function render(string $template, array $vars = []): string
+    {
+        $this->view->vars = $vars;
+        return $this->view->include($template);
     }
 
 }

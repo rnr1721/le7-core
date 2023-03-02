@@ -2,7 +2,9 @@
 
 namespace le7\Core\Controllers\System\Web;
 
-class PhpinfoController extends \le7\Core\Controllers\Main\Web {
+use le7\Core\Controllers\Main\Web;
+
+class PhpinfoController extends Web {
     
     public function indexAction() {
         if ($this->config->getIsProduction()) {

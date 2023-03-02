@@ -12,7 +12,7 @@ class Response {
     private $responseChunkSize = 4096;
 
     public function __construct(ResponseFactoryInterface $responseFactory) {
-        $this->responsePsr7 = $responseFactory->createResponse();
+        //$this->responsePsr7 = $responseFactory->createResponse();
         $this->responseFactory = $responseFactory;
     }
 
@@ -62,6 +62,9 @@ class Response {
      * @return self
      */
     public function setResponseCode(int $code): self {
+        if (empty($this->responsePsr7)) {
+            $this->responsePsr7 = $this->responseFactory->createResponse();
+        }
         $this->responsePsr7 = $this->responsePsr7->withStatus($code);
         return $this;
     }
@@ -137,5 +140,5 @@ class Response {
 
         exit;
     }
-
+    
 }

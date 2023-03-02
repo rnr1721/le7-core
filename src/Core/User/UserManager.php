@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace le7\Core\User;
 
+use le7\Core\Database\DatabaseFactory;
+use le7\Core\Config\TopologyFsInterface;
 use le7\Core\User\Notifications\NotificationsInterface;
 use le7\Core\User\UserFind;
 use le7\Core\View\HtmlTemplate;
@@ -27,19 +29,28 @@ use le7\Core\User\Passwords\PasswordsInterface;
 use le7\Core\Request\Request;
 use le7\Core\Config\ConfigInterface;
 
-class UserIdentityFactory {
+class UserManager
+{
 
+    private DatabaseFactory $databaseFactory;
+    private NotificationsInterface $notifications;
+    private TopologyFsInterface $topologyFs;
     private ?PasswordsInterface $passwords = null;
     private ?TokensInterface $tokens = null;
     private ConfigInterface $config;
     private Request $request;
 
-    public function __construct(ConfigInterface $config, Request $request) {
+    public function __construct(DatabaseFactory $databaseFactory, ConfigInterface $config, Request $request, TopologyFsInterface $topologyFs, NotificationsInterface $notifications)
+    {
         $this->config = $config;
         $this->request = $request;
+        $this->topologyFs = $topologyFs;
+        $this->notifications = $notifications;
+        $this->databaseFactory = $databaseFactory;
     }
 
-    private function getUserLoginWeb(): UserLoginInterface {
+    private function getUserLoginWeb(): UserLoginInterface
+    {
         if ($this->config->getUserIdentity() === 'cookies') {
             $loginProvider = new UserLoginWebCookies($this->config, $this->request, $this->getTokens(), $this->getPasswords());
         }
@@ -49,12 +60,14 @@ class UserIdentityFactory {
         return new UserLogin($loginProvider);
     }
 
-    private function getUserLoginApi(): UserLoginInterface {
+    private function getUserLoginApi(): UserLoginInterface
+    {
         $loginProvider = new UserLoginApi($this->request, $this->getTokens(), $this->getPasswords());
         return new UserLogin($loginProvider);
     }
 
-    public function getUserCheckWeb(): UserCheckInterface {
+    public function getUserCheckWeb(): UserCheckInterface
+    {
         $this->getTokens();
         if ($this->config->getUserIdentity() === 'cookies') {
             $check = new UserCheckWebCookies($this->request, $this->getPasswords());
@@ -65,39 +78,46 @@ class UserIdentityFactory {
         return new UserCheck($this->tokens, $check);
     }
 
-    public function getUserCheckApi(): UserCheckInterface {
+    public function getUserCheckApi(): UserCheckInterface
+    {
         $this->getTokens();
         $check = new UserCheckApi($this->request);
         return new UserCheck($this->tokens, $check);
     }
 
-    public function getTokens(): TokensInterface {
+    public function getTokens(): TokensInterface
+    {
         if ($this->tokens === null) {
             $this->tokens = new TokensDb();
         }
         return $this->tokens;
     }
 
-    public function getVerificetionCode(): VerificationCodeInterface {
+    public function getVerificetionCode(): VerificationCodeInterface
+    {
         return new VerificationCodeDb();
     }
 
-    private function getPasswords(): PasswordsInterface {
+    private function getPasswords(): PasswordsInterface
+    {
         if ($this->passwords === null) {
             $this->passwords = new PasswordsDb();
         }
         return $this->passwords;
     }
 
-    public function getUserWeb(): UserIdentityInterface {
+    public function getUserWeb(): UserIdentityInterface
+    {
         return new UserIdentity($this->getUserCheckWeb());
     }
 
-    public function getUserApi(): UserIdentityInterface {
+    public function getUserApi(): UserIdentityInterface
+    {
         return new UserIdentity($this->getUserCheckApi());
     }
 
-    public function getLoginForm(RouteInterface $route, HtmlTemplate $htmlTemplate, NotificationsInterface $notifications) {
+    public function getLoginForm(RouteInterface $route)
+    {
         if ($route->getType() === 'web') {
             $userLogin = $this->getUserLoginWeb();
         }
@@ -105,7 +125,13 @@ class UserIdentityFactory {
             $userLogin = $this->getUserLoginApi();
         }
         $userFind = new UserFind();
-        return new LoginForm($this->config, $userLogin, $this->getVerificetionCode(), $htmlTemplate, $notifications, $userFind);
+        $db = $this->databaseFactory->getDatabase();
+        return new LoginForm($db,$this->config, $userLogin, $this->getVerificetionCode(), $this->getHtmlTemplate(), $this->notifications, $userFind);
+    }
+
+    private function getHtmlTemplate()
+    {
+        return new HtmlTemplate($this->topologyFs);
     }
 
 }

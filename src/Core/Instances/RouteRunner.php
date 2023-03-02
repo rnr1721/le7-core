@@ -2,6 +2,7 @@
 
 namespace le7\Core\Instances;
 
+use le7\Core\Config\TopologyFsInterface;
 use Psr\Container\ContainerInterface;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -10,10 +11,12 @@ use \ReflectionParameter;
 
 abstract class RouteRunner {
 
+    protected TopologyFsInterface $topologyFs;
     protected ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container, TopologyFsInterface $tolologyFs) {
         $this->container = $container;
+        $this->topologyFs = $tolologyFs;
     }
 
     public function getController(string $class, RouteInterface $route): object {
@@ -21,12 +24,12 @@ abstract class RouteRunner {
         $controllerMeat = new ReflectionClass($class);
         $controller = $controllerMeat->newInstanceWithoutConstructor();
         $controller->route = $route;
-
-        foreach ($this->getBaseProperties() as $propertyName => $propertyValue) {
+        
+        foreach ($this->getInjectionProperties('base') as $propertyName => $propertyValue) {
             $controller->{$propertyName} = $this->container->get($propertyValue);
         }
 
-        $routeDeps = $this->getPublicProperties($route->getType());
+        $routeDeps = $this->getInjectionProperties($route->getType());
         foreach ($routeDeps as $propertyName => $propertyValue) {
             $controller->{$propertyName} = $this->container->get($propertyValue);
         }
@@ -55,22 +58,16 @@ abstract class RouteRunner {
         return call_user_func_array([$class, $method], $params);
     }
 
-    public function getBaseProperties(): array {
-        return array(
-            'config' => 'le7\Core\Config\ConfigInterface',
-            'uconfig' => 'le7\Core\Config\UserConfigInterface',
-            'topologyFs' => 'le7\Core\Config\TopologyFsInterface',
-            'log' => 'le7\Core\ErrorHandling\ErrorLogInterface',
-            'ulog' => 'Psr\Log\LoggerInterface',
-            'locales' => 'le7\Core\Locales\LocalesInterface',
-            'translate' => 'le7\Core\Locales\TranslateInterface',
-            'messages' => 'le7\Core\Messages\MessageCollectionInterface',
-            'cache' => 'Psr\SimpleCache\CacheInterface',
-            'ulib' => 'le7\Custom\UserGlobalLibrary',
-            'helpers' => 'le7\Custom\UserHelpersLibrary',
-            'dbFactory' => 'le7\Core\Database\DatabaseFactory'
-        );
+    public function getInjectionProperties(string $routeType): array {
+        $depFolder = $this->topologyFs->getConfigUserPath().DIRECTORY_SEPARATOR.'prop_injection';
+        $file = $depFolder.DIRECTORY_SEPARATOR.$routeType.'.php';
+        if (file_exists($file)) {
+            $result = require($file);
+            if (is_array($result)) {
+                return $result;
+            }
+        }
+        return [];
     }
 
-    abstract public function getPublicProperties(string $routeType): array;
 }

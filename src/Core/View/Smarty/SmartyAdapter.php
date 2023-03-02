@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace le7\Core\View\Smarty;
 
+use le7\Core\View\ViewInterface;
+use le7\Core\View\ViewAdapterInterface;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Config\ConfigInterface;
 use Smarty;
 
-class SmartyConnector
+class SmartyAdapter implements ViewAdapterInterface
 {
 
     private Smarty $smarty;
@@ -34,8 +36,8 @@ class SmartyConnector
         $smarty->setPluginsDir($pluginsSystem)->addPluginsDir($pluginsUser);
     }
 
-    public function getEngine() : Smarty {
-        return $this->smarty;
+    public function getView() : ViewInterface {
+        return new SmartyView($this->smarty);
     }
 
 }

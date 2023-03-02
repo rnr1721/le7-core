@@ -2,10 +2,12 @@
 
 namespace le7\Core\View\Php;
 
+use le7\Core\View\ViewInterface;
+use le7\Core\View\ViewAdapterInterface;
 use le7\Core\Config\TopologyPublicInterface;
 use le7\Core\Config\TopologyFsInterface;
 
-class PhpViewFactory {
+class PhpViewAdapter implements ViewAdapterInterface {
 
     private TopologyPublicInterface $topologyWeb;
     private TopologyFsInterface $topologyFs;
@@ -15,12 +17,12 @@ class PhpViewFactory {
         $this->topologyWeb = $topologyWeb;
     }
 
-    public function getPhpView() {
+    public function getView() : ViewInterface {
         $template = new Template();
         $template->setPath($this->topologyFs->getHtmlThemeAppPath());
         $template->setPath($this->topologyFs->getTemplatesSystemHtmlPath());
-        $phpView = new PhpView($template, $this->topologyWeb);
-        return new PhpEngine($phpView);
+        $phpView = new PhpRenderEngine($template, $this->topologyWeb);
+        return new PhpView($phpView);
     }
 
 }

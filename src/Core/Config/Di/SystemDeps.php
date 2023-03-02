@@ -1,5 +1,7 @@
 <?php
 
+use le7\Core\User\Notifications\Notifications;
+use le7\Core\User\Notifications\NotificationsInterface;
 use le7\Core\Locales\TranslateInterface;
 use le7\Core\Locales\Translate;
 use le7\Core\Locales\Locales;
@@ -110,5 +112,6 @@ return [
     //DebugPanel::class => autowire()
     ValidationHelperFactory::class => autowire(ValidationHelperFactory::class),
     LocalesInterface::class => autowire(Locales::class),
-    TranslateInterface::class => autowire(Translate::class)
+    TranslateInterface::class => autowire(Translate::class),
+    NotificationsInterface::class => autowire(Notifications::class)
 ];

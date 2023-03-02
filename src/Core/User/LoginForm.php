@@ -15,6 +15,7 @@ class LoginForm {
 
     private $vcodeTemplate = 'email/verification_code';
     private array $errors = [];
+    private Database $db;
     private UserFind $userFind;
     private ConfigInterface $config;
     private NotificationsInterface $notifications;
@@ -23,6 +24,7 @@ class LoginForm {
     private VerificationCodeInterface $verificationCode;
 
     public function __construct(
+            Database $db,
             ConfigInterface $config,
             UserLoginInterface $userLogin,
             VerificationCodeInterface $verificationCode,
@@ -36,16 +38,17 @@ class LoginForm {
         $this->htmlTemplate = $htmlTemplate;
         $this->notifications = $notifications;
         $this->userFind = $userFind;
+        $this->db = $db;
     }
 
-    public function login(Database $db, string|null $login, string|null $password, string|null $vcode = null): string|null {
+    public function login(string|null $login, string|null $password, string|null $vcode = null): string|null {
         
         if (!$login || !$password) {
             $this->errors[] = _('Username or password empty');
             return null;
         }
         
-        $pUser = $this->userFind->getUserByFields($db, $login);
+        $pUser = $this->userFind->getUserByFields($this->db, $login);
 
         if (!$pUser) {
             $this->errors[] = _('Username or password not correct');
@@ -83,8 +86,8 @@ class LoginForm {
         return $this->userLogin->logout();
     }
 
-    public function setVcode(Database $db, string $username) {
-        $user = $this->userFind->getUserByFields($db, $username);
+    public function setVcode(string $username) {
+        $user = $this->userFind->getUserByFields($this->db, $username);
         if ($user) {
             $vcode = $this->verificationCode->setCode($user->id);
             if ($vcode) {

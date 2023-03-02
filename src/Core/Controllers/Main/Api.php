@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
-use le7\Core\User\UserIdentityFactory;
+use le7\Core\User\UserManager;
 use le7\Core\Request\Request;
 use le7\Core\Response\ResponseApi;
 use le7\Core\Instances\RouteHttpInterface;
@@ -12,7 +12,7 @@ use le7\Core\Config\TopologyPublicInterface;
 
 class Api extends Main {
 
-    public UserIdentityFactory $userIdentityFactory;
+    public UserManager $userIdentityFactory;
 
     /**
      * @var Request
@@ -58,4 +58,8 @@ class Api extends Main {
         return $this->response->json->emitError(404);
     }
 
+    public function indexOptionsAction() {
+        return $this->response->json->emitError(200);
+    }
+    
 }

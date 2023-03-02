@@ -5,45 +5,43 @@ declare(strict_types=1);
 namespace le7\Core\Instances;
 
 use le7\Core\EventDispatcher\EventInvoker;
-use le7\Core\Php;
-use le7\Core\ErrorHandling\ErrorLogInterface;
-use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\ErrorHandling\ErrorHandlerCliFactory;
 use le7\Core\Traits\ConsoleTrait;
 use le7\Core\Helpers\ConsoleHelper;
 use le7\Core\Locales\LocalesInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 
-class InstanceCli extends InstanceAbstract implements InstanceInterface {
+class InstanceCli implements InstanceInterface
+{
 
     use ConsoleTrait;
 
+    private LocalesInterface $locales;
+    private EventInvoker $eventInvoker;
+    private ConfigInterface $config;
     private ErrorHandlerCliFactory $errorHandlerCliFactory;
     private RouteRunnerCli $routeRunner;
     private ConsoleHelper $consoleHelper;
 
     public function __construct(
-            ContainerInterface $container,
             ConfigInterface $config,
-            TopologyFsInterface $topology,
-            LoggerInterface $systemLog,
-            ErrorLogInterface $log,
             EventInvoker $eventInvoker,
-            Php $php,
             LocalesInterface $locales,
             ErrorHandlerCliFactory $errorHandlerCliFactory,
             RouteRunnerCli $routeRunner,
             ConsoleHelper $consoleHelper
-    ) {
-        parent::__construct($container, $config, $topology, $systemLog, $log, $eventInvoker, $php, $locales);
+    )
+    {
+        $this->locales = $locales;
+        $this->eventInvoker = $eventInvoker;
+        $this->config = $config;
         $this->routeRunner = $routeRunner;
         $this->consoleHelper = $consoleHelper;
         $this->errorHandlerCliFactory = $errorHandlerCliFactory;
     }
 
-    public function startInstance(RouteInterface $route): RouteRunnerInterface {
+    public function startInstance(RouteInterface $route): RouteRunnerInterface
+    {
 
         $options = $route->getOptions();
 
@@ -65,7 +63,8 @@ class InstanceCli extends InstanceAbstract implements InstanceInterface {
         return $this->routeRunner;
     }
 
-    private function showHello(string $controller, string $action, string $isHelp, string $language) {
+    private function showHello(string $controller, string $action, string $isHelp, string $language)
+    {
         $this->stdout($this->consoleHelper->colorMessage("LameEngine 7 - (" . $this->config->getProjectName() . ") \r\n", "green"));
         if ($isHelp !== 'yes') {
             $this->stdout("Available options: -h or --help \r\n");
@@ -75,7 +74,8 @@ class InstanceCli extends InstanceAbstract implements InstanceInterface {
         }
     }
 
-    private function showHelp() {
+    private function showHelp()
+    {
         $this->stdout("-h or --help   : Show this help message\r\n");
         $this->stdout("-s or --silent : Hide program greeting\r\n");
         $this->stdout("--l            : Set language, e.g. \"ru\"\r\n");

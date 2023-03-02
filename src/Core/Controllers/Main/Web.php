@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace le7\Core\Controllers\Main;
 
-use le7\Core\User\UserIdentityFactory;
-use le7\Core\Config\CodePartsFactory;
-use le7\Core\Config\PublicEnvFactory;
-use le7\Core\Config\PublicEnvironment;
+use le7\Core\View\ViewInterface;
 use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\DebugPanel\DebugPanel;
-use le7\Core\Helpers\UrlHelper;
+use le7\Core\DebugPanel\DebugPanelRun;
 use le7\Core\Instances\RouteHttpInterface;
 use le7\Core\Messages\MessageCollectionInterface;
 use le7\Core\Messages\MessageFactory;
@@ -19,99 +15,72 @@ use le7\Core\Messages\MessagePutInterface;
 use le7\Core\Request\Request;
 use le7\Core\Response\ResponseWeb;
 use le7\Core\View\Php\PageTrait;
+use \Exception;
 
-class Web extends Main {
+class Web extends Main
+{
 
     use PageTrait;
 
+    protected int|null $cacheLifetime = null;
+    protected array $vars = array();
     public MessageFactory $messageFactory;
-    public UserIdentityFactory $userIdentityFactory;
     private MessageGetInterface $messageGet;
     private MessagePutInterface $messagePut;
     protected MessageCollectionInterface $messagesFlash;
-    protected int|null $cacheLifetime = null;
-    private string|null $cacheIndex = null;
-    public DebugPanel $debugbar;
-    protected array $vars = array();
+    public ?DebugPanelRun $debugPanelRun = null;
     public Request $request;
     public ResponseWeb $response;
     public RouteHttpInterface $route;
     public TopologyPublicInterface $topologyWeb;
-    public CodePartsFactory $codePartsFactory;
-    public UrlHelper $urlHelper;
-    public PublicEnvFactory $publicEnvFactory;
-    protected PublicEnvironment $publicEnvironment;
+    public ViewInterface $view;
 
     /**
      * ControllerWeb constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
 
-        $this->publicEnvironment = $this->publicEnvFactory->getEnvHtml();
-        $this->cacheLifetime = $this->config->getCacheLifetime();
+        $this->user = $this->request->getAttribute('user');
+        $this->route = $this->request->getAttribute('route');
+
+        $this->cacheLifetime = $this->request->getAttribute('cacheLifetime');
 
         if (!empty($this->messageFactory)) {
             $this->messageGet = $this->messageFactory->getGetStorage();
             $this->messagePut = $this->messageFactory->getPutStorage();
             $this->messagesFlash = $this->messageFactory->newInstance();
         }
-
-        if ($this->config->getUserManagementOn()) {
-            $userIdentity = $this->userIdentityFactory->getUserWeb();
-            $this->user = $userIdentity->getUser($this->dbConnection);
-        }
     }
 
-    public function preRender() {
-
-        $otherLanguages = $this->urlHelper->getLanguageUrlVariants($this->route);
+    public function preRender()
+    {
 
         $this->handleFlashMessages();
 
         $vars = array(
-            'url' => $this->urlHelper,
-            'lang' => $this->locales->getCurrentLocaleShortname(),
-            'urlLibs' => $this->topologyWeb->getLibsUrl(),
-            'urlThemes' => $this->topologyWeb->getThemesUrl(),
-            'urlCss' => $this->topologyWeb->getCssUrl(),
-            'urlJs' => $this->topologyWeb->getJsUrl(),
-            'urlTheme' => $this->topologyWeb->getThemeUrl(),
-            'urlImages' => $this->topologyWeb->getImagesUrl(),
-            'urlFonts' => $this->topologyWeb->getFontsUrl(),
-            'translate' => $this->translate,
-            'languages' => $this->locales->getLocalesByShortname(),
-            'locales' => $this->locales,
-            'route' => $this->route->exportArray(),
-            'otherLanguages' => $otherLanguages,
             'styles' => '',
             'title' => '',
             'header' => '',
             'importmap' => '',
             'scripts_header' => '',
             'scripts_footer' => '',
-            //'canonical' => $this->route->getCanonicalUri(),
             'microformat' => '',
             'keywords' => '',
             'description' => '',
-            'projectName' => $this->config->getProjectName(),
             'content' => '',
-            'config' => $this->config,
-            'uconfig' => $this->uconfig,
             'user' => $this->user
         );
 
+        $webpage = $this->request->getAttribute('webpage', null);
+        if ($webpage) {
+            foreach ($webpage as $key => $value) {
+                $vars[$key] = $value;
+            }
+        }
+
         if (!empty($this->messageFactory)) {
             $vars['messages'] = $this->messages->getAll();
-        }
-
-        if (!empty($this->publicEnvironment)) {
-            $vars['env'] = $this->publicEnvironment->export();
-        }
-
-        if (!empty($this->codePartsFactory)) {
-            $vars['snippets_top'] = $this->codePartsFactory->getStatTop() ?? '';
-            $vars['snippets_middle'] = $this->codePartsFactory->getStatMiddle() ?? '';
-            $vars['snippets_bottom'] = $this->codePartsFactory->getStatBottom() ?? '';
         }
 
         foreach ($vars as $cKey => $cValue) {
@@ -120,114 +89,95 @@ class Web extends Main {
             }
         }
 
-        if ($this->debugbar->canStart()) {
+        if ($this->debugPanelRun) {
             $this->setScriptLib('debugbar/assets.js');
             $this->setStyleLib('debugbar/assets.css');
-
-            if ($this->dbConnection->isConnected()) {
-                $this->debugbar->registerDatabase($this->db->getLogger()->getLogs());
-            }
-
-            $this->debugbar->registerResponse($this->response->getResponseCode());
-
-            $this->debugbar->registerArray($this->config->exportConfig(), "Config");
-
-            // Put messages in debugger
-            foreach ($this->messages->getAlerts(true) as $alert) {
-                $this->debugbar->setMessage('Alert:' . $alert, "alert");
-            }
-            foreach ($this->messages->getErrors(true) as $error) {
-                $this->debugbar->setMessage('Error:' . $error, "error");
-            }
-            foreach ($this->messages->getInfos(true) as $info) {
-                $this->debugbar->setMessage('info:' . $info, "info");
-            }
-            foreach ($this->messages->getQuestions(true) as $question) {
-                $this->debugbar->setMessage('question:' . $question, "info");
-            }
-            foreach ($this->messages->getWarnings(true) as $warning) {
-                $this->debugbar->setMessage('Warnings:' . $warning, "warning");
-            }
-
-            // Route
-            $route = array(
-                'Method' => $this->route->getMethod(),
-                'Uri' => $this->route->getUri(),
-                'URL params' => $this->route->getParams(),
-                'Language' => $this->route->getLanguage(),
-                'Controller' => $this->route->getController(),
-                'Action' => $this->route->getAction(),
-                'Class' => $this->route->getControllerClass(),
-                'Action method' => $this->route->getActionMethod(),
-                'Proposed response' => $this->route->getResponse(),
-                'Base uri' => $this->route->getBase(),
-                'Type' => $this->route->getType(),
-                'Case' => $this->route->getCase()
-            );
-            //$this->debugbar->registerRoute($route);
-
-            $this->debugbar->registerArray($route, "Route");
-
-            //$this->debugbar->setMessage(strval($this->response->getResponseCode()));
-            $this->vars['scripts_footer'] .= $this->debugbar->renderBody();
+            $this->vars['scripts_footer'] .= $this->debugPanelRun->render();
         }
     }
 
-    public function indexGetAjax() {
+    public function indexGetAjax()
+    {
         return $this->response->json->emitError(404);
     }
 
-    public function indexPostAjax() {
+    public function indexPostAjax()
+    {
         return $this->response->json->emitError(404);
     }
 
-    public function indexPutAjax() {
+    public function indexPutAjax()
+    {
         return $this->response->json->emitError(404);
     }
 
-    public function indexDeleteAjax() {
+    public function indexDeleteAjax()
+    {
         return $this->response->json->emitError(404);
     }
 
-    public function indexPatchAjax() {
+    public function indexPatchAjax()
+    {
         return $this->response->json->emitError(404);
     }
 
-    public function setCacheIndex(string $cacheIndex): self {
-        $name = str_replace(' ', '_', $cacheIndex);
-        $this->cacheIndex = 'pg_' . $name . '_' . $this->locales->getCurrentLocaleShortname();
-        return $this;
-    }
-
-    public function tryEmitFromCache() {
-        if ($this->cacheIndex !== null) {
-            $rendered = $this->cache->get($this->cacheIndex);
-            if ($rendered) {
-                $this->response->html->emit($rendered);
-            }
-        }
-    }
-
-    public function tryAddToCache(string $rendered, int|null $cacheTimeSec = null) {
-        if ($this->cacheIndex !== null && $cacheTimeSec !== null) {
+    public function tryAddToCache(string $rendered, int|null $cacheTimeSec = null)
+    {
+        if ($cacheTimeSec !== null && !empty($this->cache)) {
+            $routeType = $this->route->getType();
+            $currentUri = $this->request->getUri();
+            $cacheName = $routeType . '_' . md5((string) $currentUri);
             if ($cacheTimeSec === 0) {
-                $this->cache->set($this->cacheIndex, $rendered);
+                $this->cache->set($cacheName, $rendered);
             } else {
-                $this->cache->set($this->cacheIndex, $rendered, $cacheTimeSec);
+                $this->cache->set($cacheName, $rendered, $cacheTimeSec);
             }
         }
     }
 
-    public function setContent($contentTemplate) {
+    public function setContent($contentTemplate)
+    {
         $this->vars['content'] = $contentTemplate;
     }
 
-    protected function handleFlashMessages() {
+    protected function handleFlashMessages()
+    {
         // Flash messages in session or cookies (depend config params)
         if (!empty($this->messageFactory)) {
             $this->messages->loadMessages($this->messageGet);
             $this->messagesFlash->putMessages($this->messagePut);
         }
+    }
+
+    public function assign(array|string|object $key, string $value = null, bool $nocache = true, bool $check = true): self
+    {
+        if (is_array($key) || is_object($key)) {
+            foreach ($key as $k => $v) {
+                if ($check && array_key_exists($k, $this->vars)) {
+                    throw new Exception(_('This variable can not be used in this place:') . ' ' . $k);
+                }
+                $this->vars[$k] = $v;
+            }
+        } elseif (is_string($key)) {
+            if ($check && array_key_exists($key, $this->vars)) {
+                throw new Exception(_('This variable can not be used in this place:') . ' ' . $key);
+            }
+            $this->vars[$key] = $value;
+        }
+        return $this;
+    }
+
+    public function render(string $template, array $data = array(), int|null $cacheTimeSec = null)
+    {
+        $this->preRender();
+
+        $this->assign($data);
+        $rendered = $this->view->render($template, $this->vars);
+
+        // if cache
+        $this->tryAddToCache($rendered, $cacheTimeSec);
+
+        $this->response->html->emit($rendered);
     }
 
 }
