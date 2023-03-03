@@ -23,7 +23,6 @@ abstract class RouteRunner {
         // Prepare the controller with parametres
         $controllerMeat = new ReflectionClass($class);
         $controller = $controllerMeat->newInstanceWithoutConstructor();
-        $controller->route = $route;
         
         foreach ($this->getInjectionProperties('base') as $propertyName => $propertyValue) {
             $controller->{$propertyName} = $this->container->get($propertyValue);

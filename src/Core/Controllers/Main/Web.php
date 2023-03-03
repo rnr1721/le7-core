@@ -72,6 +72,7 @@ class Web extends Main
             'user' => $this->user
         );
 
+        // From middleware
         $webpage = $this->request->getAttribute('webpage', null);
         if ($webpage) {
             foreach ($webpage as $key => $value) {
@@ -149,7 +150,7 @@ class Web extends Main
         }
     }
 
-    public function assign(array|string|object $key, string $value = null, bool $nocache = true, bool $check = true): self
+    public function assign(array|string|object $key, string $value = null, bool $noCache = true, bool $check = true): self
     {
         if (is_array($key) || is_object($key)) {
             foreach ($key as $k => $v) {

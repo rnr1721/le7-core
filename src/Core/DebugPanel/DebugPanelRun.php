@@ -73,7 +73,8 @@ class DebugPanelRun
                 'Proposed response' => $route->getResponse(),
                 'Base uri' => $route->getBase(),
                 'Type' => $route->getType(),
-                'Case' => $route->getCase()
+                'Case' => $route->getCase(),
+                'Middleware' => $route->getMiddleware()
             );
             
             $this->debugPanel->registerArray($routeArray, "Route");

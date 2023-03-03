@@ -35,4 +35,10 @@ interface RouteHttpInterface extends RouteInterface {
      * @return int
      */
     public function getResponse(): int;
+    
+    /**
+     * Middleware that will applied for this route
+     * @return array
+     */
+    public function getMiddleware():array;
 }

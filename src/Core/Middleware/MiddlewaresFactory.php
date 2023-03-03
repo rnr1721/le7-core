@@ -2,6 +2,7 @@
 
 namespace le7\Core\Middleware;
 
+use le7\Core\Instances\RouteHttpInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Container\ContainerInterface;
 use le7\Core\Config\TopologyFsInterface;
@@ -20,7 +21,7 @@ class MiddlewaresFactory
         $this->responseFactory = $responseFactory;
     }
 
-    public function getMiddlewares(string $routeType): Middlewares
+    public function getMiddlewares(RouteHttpInterface $route): Middlewares
     {
         $defaultHandler = new DefaultHandler($this->responseFactory);
 
@@ -34,11 +35,16 @@ class MiddlewaresFactory
             $middlewareArray = [];
         }
 
-        foreach ($middlewareArray[$routeType] as $class) {
+        foreach ($route->getMiddleware() as $class) {
             $item = $this->container->get($class);
             $middlewares->add($item);
         }
-
+        
+        foreach ($middlewareArray[$route->getType()] as $class) {
+            $item = $this->container->get($class);
+            $middlewares->add($item);
+        }
+        
         return $middlewares;
     }
 

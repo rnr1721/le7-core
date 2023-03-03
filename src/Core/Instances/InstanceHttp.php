@@ -33,7 +33,7 @@ class InstanceHttp implements InstanceInterface
     public function startInstance(RouteInterface $route): RouteRunnerInterface
     {
 
-        $middlewares = $this->middlewaresFactory->getMiddlewares($route->getType());
+        $middlewares = $this->middlewaresFactory->getMiddlewares($route);
 
         $this->request->setAttribute('route', $route);
         $response = $middlewares->handle($this->request->getRequest());

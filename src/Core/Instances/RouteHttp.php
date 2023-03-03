@@ -26,4 +26,9 @@ class RouteHttp extends Route implements RouteHttpInterface {
         return $this->route['response'];
     }
 
+    public function getMiddleware(): array
+    {
+        return $this->route['middleware'];
+    }
+
 }

@@ -7,8 +7,10 @@ namespace le7\Core\Instances;
 use le7\Core\Request\Request;
 use le7\Core\Config\ConfigInterface;
 use \ReflectionMethod;
+use \ReflectionClass;
 
-abstract class Router {
+abstract class Router
+{
 
     use RouterTrait;
 
@@ -17,14 +19,16 @@ abstract class Router {
     protected string $root;
     protected bool $notFound = false;
 
-    public function __construct(ConfigInterface $config, Request $request, string $root, bool $notFound = false) {
+    public function __construct(ConfigInterface $config, Request $request, string $root, bool $notFound = false)
+    {
         $this->config = $config;
         $this->root = $root;
         $this->request = $request;
         $this->notFound = $notFound;
     }
 
-    protected function processRoute(string $uri, string $method, array $data, string $actionPrefix = '', string $actionSuffix = 'Action'): array|null {
+    protected function processRoute(string $uri, string $method, array $data, string $actionPrefix = '', string $actionSuffix = 'Action'): array|null
+    {
 
         $namespace = $data['namespace'];
         $namespaceSystem = $data['namespaceSys'];
@@ -90,22 +94,20 @@ abstract class Router {
             unset($data['params'][$item]);
         }
 
-        $allowedParams = 0;
+        $controllerParams = $this->getClassParams($controllerAbsolute);
+        $actionParams = $this->getMethodParams($controllerAbsolute, $actionAbsolute);
 
-        $reflection = new ReflectionMethod($controllerAbsolute, $actionAbsolute);
-        $attributes = $reflection->getAttributes();
-        foreach ($attributes as $attribute) {
-
-            $arguments = $attribute->getArguments();
-            if (array_key_exists('wlp', $arguments)) {
-                $allowedParams = intval($arguments['wlp']);
-            }
+        $allowedParams = $controllerParams['allowedParams'];
+        if (!empty($actionParams['allowedParams'])) {
+            $allowedParams = $actionParams['allowedParams'];
         }
+
+        $middleware = array_merge($controllerParams['middleware'], $actionParams['middleware']) ?? [];
 
         if (count($data['params']) > $allowedParams) {
             return $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language);
         }
-        
+
         return array(
             'type' => $data['type'],
             'case' => $data['case'],
@@ -120,6 +122,7 @@ abstract class Router {
             'actionMethod' => $actionAbsolute,
             'response' => 200,
             'params' => $data['params'],
+            'middleware' => array_unique($middleware),
             'notfound' => $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language)
         );
     }
@@ -133,7 +136,8 @@ abstract class Router {
             string $actionPrefix = '',
             string $actionSuffix = '',
             string $language = ''
-    ): array {
+    ): array
+    {
         if (!array_key_exists($language, $this->config->getLocales())) {
             $language = $this->config->getDefaultLanguage();
         }
@@ -153,9 +157,60 @@ abstract class Router {
             'controllerClass' => $controller['class'],
             'actionMethod' => $nfAction . $actionPrefix . $actionSuffix,
             'response' => 404,
-            'params' => $data['params']
+            'params' => $data['params'],
+            'middleware' => []
         );
         return $result;
+    }
+
+    private function getAttributes(array $attributes): array
+    {
+        $result = [
+            'allowedParams' => 0,
+            'middleware' => []
+        ];
+
+        if (empty($attributes)) {
+            return $result;
+        }
+
+        foreach ($attributes as $attribute) {
+
+            $param = basename(str_replace('\\', '/', $attribute->getName()));
+
+            if ($param === 'Params') {
+                $arguments = $attribute->getArguments();
+                if (array_key_exists('allow', $arguments)) {
+                    $result['allowedParams'] = intval($arguments['allow']);
+                }
+            }
+
+            if ($param === 'Middleware') {
+                $arguments = $attribute->getArguments();
+                if (isset($arguments[0]) && is_array($arguments[0])) {
+                    foreach ($arguments[0] as $item) {
+                        if (is_string($item)) {
+                            $result['middleware'][] = $item;
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    private function getClassParams(string $class): array
+    {
+        $rClass = new ReflectionClass($class);
+        $attributes = $rClass->getAttributes();
+        return $this->getAttributes($attributes);
+    }
+
+    private function getMethodParams(string $class, string $method)
+    {
+        $rMethod = new ReflectionMethod($class, $method);
+        $attributes = $rMethod->getAttributes();
+        return $this->getAttributes($attributes);
     }
 
     abstract public function getRoute(string $uri, array $parsedRoute): array;
