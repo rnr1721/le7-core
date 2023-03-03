@@ -81,6 +81,7 @@ class DebugPanelRun
 
             return $this->debugPanel->renderBody();
         }
+        return '';
     }
 
 }

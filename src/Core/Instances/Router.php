@@ -8,27 +8,37 @@ use le7\Core\Request\Request;
 use le7\Core\Config\ConfigInterface;
 use \ReflectionMethod;
 use \ReflectionClass;
+use Psr\SimpleCache\CacheInterface;
 
 abstract class Router
 {
 
     use RouterTrait;
 
+    protected CacheInterface $cache;
     protected Request $request;
     protected ConfigInterface $config;
     protected string $root;
     protected bool $notFound = false;
 
-    public function __construct(ConfigInterface $config, Request $request, string $root, bool $notFound = false)
+    public function __construct(CacheInterface $cache, ConfigInterface $config, Request $request, string $root, bool $notFound = false)
     {
         $this->config = $config;
         $this->root = $root;
         $this->request = $request;
         $this->notFound = $notFound;
+        $this->cache = $cache;
     }
 
     protected function processRoute(string $uri, string $method, array $data, string $actionPrefix = '', string $actionSuffix = 'Action'): array|null
     {
+
+        $name = 'route_' . md5((string) $this->request->getUri());
+        if ($this->config->getIsProduction()) {
+            if ($this->cache->has($name)) {
+                return $this->cache->get($name);
+            }
+        }
 
         $namespace = $data['namespace'];
         $namespaceSystem = $data['namespaceSys'];
@@ -108,7 +118,7 @@ abstract class Router
             return $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language);
         }
 
-        return array(
+        $result = array(
             'type' => $data['type'],
             'case' => $data['case'],
             'base' => $data['base'],
@@ -125,6 +135,12 @@ abstract class Router
             'middleware' => array_unique($middleware),
             'notfound' => $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language)
         );
+
+        if ($this->config->getIsProduction()) {
+            $this->cache->set($name, $result);
+        }
+
+        return $result;
     }
 
     protected function getNotFound(

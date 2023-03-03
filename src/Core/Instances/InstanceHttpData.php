@@ -7,45 +7,52 @@ namespace le7\Core\Instances;
 use le7\Core\Config\ConfigInterface;
 use le7\Core\Config\TopologyFsInterface;
 use le7\Core\Request\Request;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Данный класс возвращает массив, с обработанными данными роутера,
  * то есть параметры, заявленный язык, и текущий Uri
  */
-class InstanceHttpData {
+class InstanceHttpData
+{
 
+    private CacheInterface $cache;
     private RouteCollection $routeCollection;
     private ConfigInterface $config;
     private TopologyFsInterface $topology;
     private Request $request;
 
-    public function __construct(ConfigInterface $config, Request $request, TopologyFsInterface $topologyFs, RouteCollection $routeCollection) {
+    public function __construct(CacheInterface $cache, ConfigInterface $config, Request $request, TopologyFsInterface $topologyFs, RouteCollection $routeCollection)
+    {
         $this->config = $config;
         $this->topology = $topologyFs;
         $this->request = $request;
         $this->routeCollection = $routeCollection;
+        $this->cache = $cache;
     }
 
-    public function getCurrentRoute(): RouteHttpInterface {
-        
+    public function getCurrentRoute(): RouteHttpInterface
+    {
+
         $root = $this->request->getBase();
         $uri = str_replace('//', '/', $this->request->getUri()->getPath());
 
         $parsedRoute = $this->parseUri($uri);
 
         $cleanUri = (string) $this->request->getUri()->getPath();
-        
+
         $notfound = (str_contains($cleanUri, '//') ? true : false);
-        
+
         $router = match ($parsedRoute['type']) {
-            'api' => new RouterApi($this->config, $this->request, $root,$notfound),
-            'web' => new RouterWeb($this->config, $this->request, $root,$notfound)
+            'api' => new RouterApi($this->cache, $this->config, $this->request, $root, $notfound),
+            'web' => new RouterWeb($this->cache, $this->config, $this->request, $root, $notfound)
         };
 
         return new RouteHttp($router->getRoute($uri, $parsedRoute));
     }
-    
-    public function parseUri(string $uri): array {
+
+    public function parseUri(string $uri): array
+    {
         $result = array();
         $matchesFull = array();
         $root = $this->request->getBase();
@@ -56,8 +63,8 @@ class InstanceHttpData {
                 $result['case'] = $rKey;
                 $result['namespace'] = $route['namespace'];
                 $result['namespaceSys'] = $route['namespaceSys'];
-                $result['base'] = rtrim($root,'/') . '/' . ltrim($route['base'],'/');
-                $result['base_root'] = '/'.ltrim($route['base'],'/');
+                $result['base'] = rtrim($root, '/') . '/' . ltrim($route['base'], '/');
+                $result['base_root'] = '/' . ltrim($route['base'], '/');
                 $result['language'] = $route['language'];
                 break;
             } else {
@@ -79,5 +86,5 @@ class InstanceHttpData {
         }
         return $result;
     }
-    
+
 }
