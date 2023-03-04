@@ -21,7 +21,6 @@ use App\Core\ErrorHandling\ErrorHandlerHttpFactory;
 use App\Core\ErrorHandling\ErrorLog;
 //use App\Core\EventDispatcher\EventInvoker;
 use App\Core\EventDispatcher\Providers\ListenerProvider;
-use App\Core\GlobalEnvironment;
 //use App\Core\Helpers\UrlHelper;
 //use App\Core\Instances\InstanceApi;
 //use App\Core\Instances\InstanceCli;
@@ -101,7 +100,6 @@ return [
     MessageCollectionInterface::class => autowire(MessageCollection::class),
     //EventInvoker::class => autowire(EventInvoker::class),
     ListenerProviderInterface::class => autowire(ListenerProvider::class),
-    GlobalEnvironment::class => autowire(GlobalEnvironment::class),
     UserConfigInterface::class => autowire(UserConfig::class),
     //Response::class => autowire(Response::class),
     //ResponseWeb::class => autowire(ResponseWeb::class),
