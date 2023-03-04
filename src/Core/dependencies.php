@@ -33,5 +33,6 @@ $builder->addDefinitions(...$configFromFiles);
 try {
     return $builder->build();
 } catch (Exception $e) {
+    echo $e;
     return null;
 }
