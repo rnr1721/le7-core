@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\View\Php;
+namespace App\Core\View\Php;
 
-use le7\Core\Config\TopologyPublicInterface;
+use App\Core\Config\TopologyPublicInterface;
 
 class PhpRenderEngine {
 

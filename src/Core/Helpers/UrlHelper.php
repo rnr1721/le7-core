@@ -1,12 +1,12 @@
 <?php
 
-namespace le7\Core\Helpers;
+namespace App\Core\Helpers;
 
-use le7\Core\Instances\RouteHttpInterface;
-use le7\Core\Request\Request;
-use le7\Core\Locales\LocalesInterface;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Instances\RouteHttpInterface;
+use App\Core\Request\Request;
+use App\Core\Locales\LocalesInterface;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Config\ConfigInterface;
 
 class UrlHelper {
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Config;
+namespace App\Core\Config;
 
-use le7\Core\Config\UserConfigInterface;
-use le7\Core\Locales\LocalesInterface;
-use le7\Core\Config\TopologyPublicInterface;
+use App\Core\Config\UserConfigInterface;
+use App\Core\Locales\LocalesInterface;
+use App\Core\Config\TopologyPublicInterface;
 
 class PublicEnvironment {
 

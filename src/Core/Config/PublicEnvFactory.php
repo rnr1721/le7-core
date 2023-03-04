@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Config;
+namespace App\Core\Config;
 
-use le7\Core\Locales\LocalesInterface;
+use App\Core\Locales\LocalesInterface;
 
 class PublicEnvFactory {
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace le7\Core\Log;
+namespace App\Core\Log;
 
-use le7\Core\ErrorHandling\ErrorLogInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\ErrorHandling\ErrorLogInterface;
+use App\Core\Config\TopologyFsInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggerFactory {

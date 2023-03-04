@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Database;
+namespace App\Core\Database;
 
 use RedBeanPHP\R;
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\RedException;
 use RedBeanPHP\SimpleModel;
 
-class Database {
+class Db {
 
     public function load(string $type, int $id, string $snippet = NULL): OODBBean {
         return R::load($type, $id, $snippet);

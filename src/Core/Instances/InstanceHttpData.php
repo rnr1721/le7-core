@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Request\Request;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Request\Request;
 use Psr\SimpleCache\CacheInterface;
 
 /**
@@ -70,19 +70,17 @@ class InstanceHttpData
             } else {
                 $result['type'] = 'web';
                 $result['case'] = '404';
-                $result['namespace'] = 'le7\Controller\Web';
-                $result['namespaceSys'] = 'le7\Core\Controllers\System\Web';
+                $result['namespace'] = 'App\Controller\Web';
+                $result['namespaceSys'] = 'App\Core\Controllers\System\Web';
                 $result['base'] = $root;
                 $result['base_root'] = '/';
                 $result['language'] = $this->config->getDefaultLanguage();
             }
         }
         $matches = array_slice($matchesFull, 1);
-        $i = 1;
         $result['params'] = array();
         foreach ($matches as $match) {
-            $result['params']['p' . $i] = trim($match[0], '/');
-            $i++;
+            $result['params'][] = trim($match[0], '/');
         }
         return $result;
     }

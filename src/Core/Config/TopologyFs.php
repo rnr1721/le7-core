@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Config;
+namespace App\Core\Config;
 
 class TopologyFs implements TopologyFsInterface {
 

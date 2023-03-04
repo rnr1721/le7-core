@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Response;
+namespace App\Core\Response;
 
-use le7\Core\Response\Response;
-use le7\Core\Response\Output\ResponseHtml;
-use le7\Core\Response\Output\ResponseJson;
-use le7\Core\Response\Output\ResponseText;
+use App\Core\Response\Response;
+use App\Core\Response\Output\ResponseHtml;
+use App\Core\Response\Output\ResponseJson;
+use App\Core\Response\Output\ResponseText;
 
 class ResponseMain {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Entity\Single;
+namespace App\Core\Entity\Single;
 
 interface EntitySingleInterface {
 

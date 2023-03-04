@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
 class RouteCli extends Route implements RouteCliInterface {
     

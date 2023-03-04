@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\User\UserCheck\UserCheckProvider;
-use le7\Core\User\Tokens\TokensInterface;
+use App\Core\User\UserCheck\UserCheckProvider;
+use App\Core\User\Tokens\TokensInterface;
 
 class UserCheck implements UserCheckInterface {
 

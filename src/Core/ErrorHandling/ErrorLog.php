@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
 use Psr\Log\LoggerInterface;
 use \Exception;

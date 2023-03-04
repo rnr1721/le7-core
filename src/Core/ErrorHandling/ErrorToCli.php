@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
-use le7\Core\Traits\ConsoleTrait;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Helpers\ConsoleHelper;
+use App\Core\Traits\ConsoleTrait;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Helpers\ConsoleHelper;
 use Throwable;
 
 class ErrorToCli extends ErrorToMain implements ErrorInterface

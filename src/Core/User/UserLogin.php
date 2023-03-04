@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\User\UserLogin\UserLoginProvider;
+use App\Core\User\UserLogin\UserLoginProvider;
 use \Exception;
 
 class UserLogin implements UserLoginInterface {

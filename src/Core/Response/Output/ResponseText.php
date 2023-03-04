@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Response\Output;
+namespace App\Core\Response\Output;
 
 class ResponseText extends ResponseOutput {
 

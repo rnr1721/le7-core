@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\Acl;
+namespace App\Core\User\Acl;
 
 interface AclProviderInterface {
 

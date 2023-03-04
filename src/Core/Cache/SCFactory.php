@@ -1,13 +1,13 @@
 <?php
 
-namespace le7\Core\Cache;
+namespace App\Core\Cache;
 
 use Psr\SimpleCache\CacheInterface;
-use le7\Core\Cache\Adapters\CacheMemoryAdapter;
-use le7\Core\Cache\Adapters\CacheSessionAdapter;
-use le7\Core\Cache\Adapters\CacheFileAdapter;
-use le7\Core\Cache\Adapters\CacheMemcacheAdapter;
-use le7\Core\Cache\Adapters\CacheMemcachedAdapter;
+use App\Core\Cache\Adapters\CacheMemoryAdapter;
+use App\Core\Cache\Adapters\CacheSessionAdapter;
+use App\Core\Cache\Adapters\CacheFileAdapter;
+use App\Core\Cache\Adapters\CacheMemcacheAdapter;
+use App\Core\Cache\Adapters\CacheMemcachedAdapter;
 
 class SCFactory {
 

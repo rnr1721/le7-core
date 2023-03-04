@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Middleware\MiddlewaresFactory;
-use le7\Core\Instances\RouteRunnerHttp;
-use le7\Core\Request\Request;
-use le7\Core\Response\Response;
+use App\Core\Middleware\MiddlewaresFactory;
+use App\Core\Instances\RouteRunnerHttp;
+use App\Core\Request\Request;
+use App\Core\Response\Response;
 
 class InstanceHttp implements InstanceInterface
 {

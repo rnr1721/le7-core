@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\Config\CodePartsFactory;
-use le7\Core\Config\PublicEnvFactory;
-use le7\Core\Config\UserConfigInterface;
-use le7\Core\Locales\LocalesInterface;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Request\Request;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Helpers\UrlHelper;
+use App\Core\Config\CodePartsFactory;
+use App\Core\Config\PublicEnvFactory;
+use App\Core\Config\UserConfigInterface;
+use App\Core\Locales\LocalesInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Request\Request;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Helpers\UrlHelper;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -53,7 +53,7 @@ class WebpageContentMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        /** @var \le7\Core\Instances\RouteHttpInterface $route */
+        /** @var \App\Core\Instances\RouteHttpInterface $route */
         $route = $request->getAttribute('route');
 
         $otherLanguages = $this->urlHelper->getLanguageUrlVariants($route);
@@ -61,6 +61,7 @@ class WebpageContentMiddleware implements MiddlewareInterface
         $publicEnv = $this->publicEnvFactory->getEnvHtml();
 
         $webpage = array(
+            'route' => $route->exportArray(),
             'config' => $this->config,
             'uconfig' => $this->uconfig,
             'url' => $this->urlHelper,

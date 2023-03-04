@@ -2,9 +2,9 @@
 
 use DI\ContainerBuilder;
 
-/** @var le7\Core\Config\TopologyFsInterface $topology */
+/** @var App\Core\Config\TopologyFsInterface $topology */
 global $topology;
-/** @var le7\Core\Config\ConfigInterface $config */
+/** @var App\Core\Config\ConfigInterface $config */
 global $config;
 
 $builder = new ContainerBuilder();

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\View;
+namespace App\Core\View;
 
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyFsInterface;
 
 abstract class HtmlTemplateAbstract
 {

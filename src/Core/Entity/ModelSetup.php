@@ -1,11 +1,11 @@
 <?php
 
-namespace le7\Core\Entity;
+namespace App\Core\Entity;
 
-use le7\Core\Model;
-use le7\Core\Helpers\ValidationHelperFactory;
-use le7\Core\Entity\Rules\RulesClass;
-use le7\Core\Entity\Single\EntitySingleFactory;
+use App\Core\Model;
+use App\Core\Helpers\ValidationHelperFactory;
+use App\Core\Entity\Rules\RulesClass;
+use App\Core\Entity\Single\EntitySingleFactory;
 use RedBeanPHP\BeanHelper\SimpleFacadeBeanHelper;
 
 class ModelSetup {

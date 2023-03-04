@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Entity\Single;
+namespace App\Core\Entity\Single;
 
-use le7\Core\Helpers\ValidationHelperFactory;
-use le7\Core\Entity\Rules\RulesInterface;
-use le7\Core\Helpers\ValidationHelperInterface;
+use App\Core\Helpers\ValidationHelperFactory;
+use App\Core\Entity\Rules\RulesInterface;
+use App\Core\Helpers\ValidationHelperInterface;
 use \Exception;
 
 class EntitySingle implements EntitySingleInterface {

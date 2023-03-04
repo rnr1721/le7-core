@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Middleware;
+namespace App\Core\Middleware;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;

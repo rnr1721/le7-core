@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\User\Verification;
+namespace App\Core\User\Verification;
 
 use RedBeanPHP\R;
 

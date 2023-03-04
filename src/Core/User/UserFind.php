@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\Database\Database;
+use App\Core\Database\Db;
 use \RedBeanPHP\OODBBean;
 
 class UserFind {
@@ -33,7 +33,7 @@ class UserFind {
         return $this;
     }
     
-    public function getUserByFields(Database $db,string $value): OODBBean|null {
+    public function getUserByFields(Db $db,string $value): OODBBean|null {
         $conds = [];
         $sql = '';
         foreach ($this->userFields as $field) {
@@ -45,7 +45,7 @@ class UserFind {
         return $user;
     }
     
-    public function getUserById(Database $db,string|int $userId):OODBBean|null {
+    public function getUserById(Db $db,string|int $userId):OODBBean|null {
         return $db->findOne('user', ' id = ? ', $userId);
     }
     

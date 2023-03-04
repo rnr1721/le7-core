@@ -1,9 +1,9 @@
 <?php
 
-namespace le7\Core\Controllers\System\Web;
+namespace App\Core\Controllers\System\Web;
 
-use le7\Core\View\Php\PhpViewAdapter;
-use le7\Core\Controllers\Main\Web;
+use App\Core\View\Php\PhpViewAdapter;
+use App\Core\Controllers\Main\Web;
 
 class IndexController extends Web
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
 use \Exception;
 

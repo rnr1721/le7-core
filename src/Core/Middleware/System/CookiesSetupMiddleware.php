@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Php;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Php;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;

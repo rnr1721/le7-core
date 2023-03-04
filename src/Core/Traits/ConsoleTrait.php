@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Traits;
+namespace App\Core\Traits;
 
 trait ConsoleTrait {
 

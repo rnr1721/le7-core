@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
 class RouteHttp extends Route implements RouteHttpInterface {
 
@@ -29,6 +29,11 @@ class RouteHttp extends Route implements RouteHttpInterface {
     public function getMiddleware(): array
     {
         return $this->route['middleware'];
+    }
+
+    public function getInject(): array
+    {
+        return $this->route['inject'];
     }
 
 }

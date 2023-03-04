@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Database;
+namespace App\Core\Database;
 
 class QueryBuilder {
     

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Request;
+namespace App\Core\Request;
 
-use le7\Core\Config\ConfigInterface;
+use App\Core\Config\ConfigInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Message\ServerRequestInterface;

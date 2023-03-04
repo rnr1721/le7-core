@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\UserCheck;
+namespace App\Core\User\UserCheck;
 
 interface UserCheckProvider {
 

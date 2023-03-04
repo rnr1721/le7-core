@@ -1,21 +1,21 @@
 <?php
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\Database\Database;
-use le7\Core\User\UserFind;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\User\Notifications\NotificationsInterface;
-use le7\Core\View\HtmlTemplate;
-use le7\Core\User\Verification\VerificationCodeInterface;
-use le7\Core\User\UserLoginInterface;
+use App\Core\Database\Db;
+use App\Core\User\UserFind;
+use App\Core\Config\ConfigInterface;
+use App\Core\User\Notifications\NotificationsInterface;
+use App\Core\View\HtmlTemplate;
+use App\Core\User\Verification\VerificationCodeInterface;
+use App\Core\User\UserLoginInterface;
 use \Exception;
 
 class LoginForm {
 
     private $vcodeTemplate = 'email/verification_code';
     private array $errors = [];
-    private Database $db;
+    private Db $db;
     private UserFind $userFind;
     private ConfigInterface $config;
     private NotificationsInterface $notifications;
@@ -24,7 +24,7 @@ class LoginForm {
     private VerificationCodeInterface $verificationCode;
 
     public function __construct(
-            Database $db,
+            Db $db,
             ConfigInterface $config,
             UserLoginInterface $userLogin,
             VerificationCodeInterface $verificationCode,

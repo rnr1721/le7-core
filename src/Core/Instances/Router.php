@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Request\Request;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Request\Request;
+use App\Core\Config\ConfigInterface;
 use \ReflectionMethod;
 use \ReflectionClass;
+use \ReflectionAttribute;
 use Psr\SimpleCache\CacheInterface;
 
 abstract class Router
@@ -56,8 +57,8 @@ abstract class Router
             return $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix);
         }
 
-        if (isset($params['p1'])) {
-            $controller = $params['p1'];
+        if (isset($params[0])) {
+            $controller = $params[0];
             if ($controller === $defController) {
                 $set404 = true;
             }
@@ -65,8 +66,8 @@ abstract class Router
             $controller = $defController;
         }
 
-        if (isset($params['p2'])) {
-            $action = $params['p2'];
+        if (isset($params[1])) {
+            $action = $params[1];
             if ($action === $defAction) {
                 $set404 = true;
             }
@@ -84,7 +85,7 @@ abstract class Router
         if (empty($pController)) {
             $pController = $this->getController($defController, $namespace, $namespaceSystem);
         } else {
-            $markToDelete[] = 'p1';
+            $markToDelete[] = 0;
         }
 
         $controller = $pController['controller'];
@@ -94,7 +95,7 @@ abstract class Router
 
         if (method_exists($controllerAbsolute, $pAction)) {
             $actionAbsolute = $pAction;
-            $markToDelete[] = 'p2';
+            $markToDelete[] = 1;
         } else {
             $actionAbsolute = $defAction . $actionPrefix . $actionSuffix;
         }
@@ -113,6 +114,7 @@ abstract class Router
         }
 
         $middleware = array_merge($controllerParams['middleware'], $actionParams['middleware']) ?? [];
+        $inject = array_merge($controllerParams['inject'], $actionParams['inject']) ?? [];
 
         if (count($data['params']) > $allowedParams) {
             return $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language);
@@ -133,6 +135,7 @@ abstract class Router
             'response' => 200,
             'params' => $data['params'],
             'middleware' => array_unique($middleware),
+            'inject' => array_unique($inject),
             'notfound' => $this->getNotFound($uri, $method, $data, $namespace, $namespaceSystem, $actionPrefix, $actionSuffix, $language)
         );
 
@@ -174,7 +177,8 @@ abstract class Router
             'actionMethod' => $nfAction . $actionPrefix . $actionSuffix,
             'response' => 404,
             'params' => $data['params'],
-            'middleware' => []
+            'middleware' => [],
+            'inject' => []
         );
         return $result;
     }
@@ -183,7 +187,8 @@ abstract class Router
     {
         $result = [
             'allowedParams' => 0,
-            'middleware' => []
+            'middleware' => [],
+            'inject' => []
         ];
 
         if (empty($attributes)) {
@@ -202,16 +207,40 @@ abstract class Router
             }
 
             if ($param === 'Middleware') {
-                $arguments = $attribute->getArguments();
-                if (isset($arguments[0]) && is_array($arguments[0])) {
-                    foreach ($arguments[0] as $item) {
-                        if (is_string($item)) {
-                            $result['middleware'][] = $item;
-                        }
-                    }
+                $result['middleware'] = $this->getAttributeParamClasses($attribute);
+            }
+
+            if ($param === 'Inject') {
+                $result['inject'] = $this->getAttributeParamClassesKV($attribute);
+            }
+        }
+        return $result;
+    }
+
+    private function getAttributeParamClasses(ReflectionAttribute $attribute): array
+    {
+        $result = [];
+        $arguments = $attribute->getArguments();
+        if (isset($arguments[0]) && is_array($arguments[0])) {
+            foreach ($arguments[0] as $item) {
+                if (is_string($item)) {
+                    $result[] = $item;
                 }
             }
         }
+        return $result;
+    }
+
+    private function getAttributeParamClassesKV(ReflectionAttribute $attribute): array
+    {
+        $result = [];
+        $arguments = $attribute->getArguments();
+        foreach ($arguments as $key => $value) {
+            if (is_string($value)) {
+                $result[$key] = $value;
+            }
+        }
+
         return $result;
     }
 

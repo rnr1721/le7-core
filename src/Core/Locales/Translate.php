@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Locales;
+namespace App\Core\Locales;
 
-use le7\Core\Helpers\StringHelper;
+use App\Core\Helpers\StringHelper;
 
 class Translate implements TranslateInterface
 {

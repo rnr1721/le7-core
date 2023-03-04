@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Config;
+namespace App\Core\Config;
 
-use le7\Core\Request\Request;
+use App\Core\Request\Request;
 
 class TopologyPublic implements TopologyPublicInterface {
 

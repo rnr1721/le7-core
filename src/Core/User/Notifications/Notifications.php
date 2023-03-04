@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\User\Notifications;
+namespace App\Core\User\Notifications;
 
-use le7\Core\Config\ConfigInterface;
+use App\Core\Config\ConfigInterface;
 use \Exception;
 
 class Notifications implements NotificationsInterface {

@@ -1,10 +1,10 @@
 <?php
 
-namespace le7\Core\View\Widget;
+namespace App\Core\View\Widget;
 
-use le7\Core\View\HtmlTemplateFactory;
-use le7\Core\View\HtmlTemplateWidget;
-use le7\Core\Entity\Group\EntityGroupInterface;
+use App\Core\View\HtmlTemplateFactory;
+use App\Core\View\HtmlTemplateWidget;
+use App\Core\Entity\Group\EntityGroupInterface;
 
 abstract class AbstractWidget {
     

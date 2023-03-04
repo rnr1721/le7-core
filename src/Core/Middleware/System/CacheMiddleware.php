@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\Response\Response;
+use App\Core\Response\Response;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -27,7 +27,7 @@ class CacheMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        /** @var \le7\Core\Instances\RouteHttpInterface $route */
+        /** @var \App\Core\Instances\RouteHttpInterface $route */
         $route = $request->getAttribute('route');
 
         $cacheName = $route->getType() . '_' . md5((string) $request->getUri());

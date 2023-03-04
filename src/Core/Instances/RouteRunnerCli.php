@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Traits\ConsoleTrait;
+use App\Core\Traits\ConsoleTrait;
 
 class RouteRunnerCli extends RouteRunner implements RouteRunnerInterface {
 
@@ -15,11 +15,6 @@ class RouteRunnerCli extends RouteRunner implements RouteRunnerInterface {
         $controller = $this->getController($route->getControllerClass(), $route);
         
         //$controllerAction = $route->getActionMethod();
-
-        $params = [];
-        if (method_exists($controller, 'trigger')) {
-            $params = $controller->trigger();
-        }
 
         $responseCode = $this->runAction($controller, $route->getActionMethod());
 

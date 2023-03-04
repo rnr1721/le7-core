@@ -1,36 +1,46 @@
 <?php
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyFsInterface;
 use Psr\Container\ContainerInterface;
 use \ReflectionClass;
 use \ReflectionMethod;
 use \ReflectionNamedType;
 use \ReflectionParameter;
 
-abstract class RouteRunner {
+abstract class RouteRunner
+{
 
     protected TopologyFsInterface $topologyFs;
     protected ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container, TopologyFsInterface $tolologyFs) {
+    public function __construct(ContainerInterface $container, TopologyFsInterface $tolologyFs)
+    {
         $this->container = $container;
         $this->topologyFs = $tolologyFs;
     }
 
-    public function getController(string $class, RouteInterface $route): object {
+    public function getController(string $class, RouteInterface $route): object
+    {
         // Prepare the controller with parametres
         $controllerMeat = new ReflectionClass($class);
         $controller = $controllerMeat->newInstanceWithoutConstructor();
-        
-        foreach ($this->getInjectionProperties('base') as $propertyName => $propertyValue) {
+
+        $routeDepsBase = $this->getInjectionProperties('base');
+        foreach ($routeDepsBase as $propertyName => $propertyValue) {
             $controller->{$propertyName} = $this->container->get($propertyValue);
         }
 
         $routeDeps = $this->getInjectionProperties($route->getType());
         foreach ($routeDeps as $propertyName => $propertyValue) {
             $controller->{$propertyName} = $this->container->get($propertyValue);
+        }
+
+        foreach ($route->getInject() as $propertyName => $propertyValue) {
+            if (!array_key_exists($propertyName, $routeDeps)) {
+                $controller->{$propertyName} = $this->container->get($propertyValue);
+            }
         }
 
         if (method_exists($controller, '__construct')) {
@@ -40,7 +50,8 @@ abstract class RouteRunner {
         return $controller;
     }
 
-    public function runAction(object $class, string $method) {
+    public function runAction(object $class, string $method): mixed
+    {
         $r = new ReflectionMethod($class, $method);
         $methodParametres = $r->getParameters();
 
@@ -57,9 +68,10 @@ abstract class RouteRunner {
         return call_user_func_array([$class, $method], $params);
     }
 
-    public function getInjectionProperties(string $routeType): array {
-        $depFolder = $this->topologyFs->getConfigUserPath().DIRECTORY_SEPARATOR.'prop_injection';
-        $file = $depFolder.DIRECTORY_SEPARATOR.$routeType.'.php';
+    public function getInjectionProperties(string $routeType): array
+    {
+        $depFolder = $this->topologyFs->getConfigUserPath() . DIRECTORY_SEPARATOR . 'prop_injection';
+        $file = $depFolder . DIRECTORY_SEPARATOR . $routeType . '.php';
         if (file_exists($file)) {
             $result = require($file);
             if (is_array($result)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\User\Notifications;
+namespace App\Core\User\Notifications;
 
 interface NotificationCustomFactory {
 

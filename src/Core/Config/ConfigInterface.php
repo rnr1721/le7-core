@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Config;
+namespace App\Core\Config;
 
 interface ConfigInterface {
 

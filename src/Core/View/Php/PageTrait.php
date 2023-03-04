@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\View\Php;
+namespace App\Core\View\Php;
 
 trait PageTrait {
 

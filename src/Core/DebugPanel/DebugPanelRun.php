@@ -1,12 +1,12 @@
 <?php
 
-namespace le7\Core\DebugPanel;
+namespace App\Core\DebugPanel;
 
-use le7\Core\Request\Request;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Response\Response;
-use le7\Core\Database\DatabaseFactory;
-use le7\Core\Messages\MessageCollectionInterface;
+use App\Core\Request\Request;
+use App\Core\Config\ConfigInterface;
+use App\Core\Response\Response;
+use App\Core\Database\DbManager;
+use App\Core\Messages\MessageCollectionInterface;
 
 class DebugPanelRun
 {
@@ -15,13 +15,13 @@ class DebugPanelRun
     private Request $request;
     private Response $response;
     private DebugPanel $debugPanel;
-    private DatabaseFactory $dbFactory;
+    private DbManager $dbFactory;
     private MessageCollectionInterface $messages;
 
     public function __construct(
             DebugPanel $debugPanel,
             ConfigInterface $config,
-            DatabaseFactory $dbFactory,
+            DbManager $dbFactory,
             MessageCollectionInterface $messages,
             Request $request,
             Response $response)
@@ -37,8 +37,8 @@ class DebugPanelRun
     public function render(): string
     {
         if ($this->debugPanel->canStart()) {
-            if ($this->dbFactory->getDatabaseConnection()->isConnected()) {
-                $this->debugPanel->registerDatabase($this->dbFactory->getDatabase()->getLogger()->getLogs());
+            if ($this->dbFactory->getDbConn()->isConnected()) {
+                $this->debugPanel->registerDatabase($this->dbFactory->getDb()->getLogger()->getLogs());
             }
             $this->debugPanel->registerResponse($this->response->getResponseCode());
             $this->debugPanel->registerArray($this->config->exportConfig(), "Config");
@@ -74,7 +74,8 @@ class DebugPanelRun
                 'Base uri' => $route->getBase(),
                 'Type' => $route->getType(),
                 'Case' => $route->getCase(),
-                'Middleware' => $route->getMiddleware()
+                'Middleware' => $route->getMiddleware(),
+                'Injection' => $route->getInject()
             );
             
             $this->debugPanel->registerArray($routeArray, "Route");

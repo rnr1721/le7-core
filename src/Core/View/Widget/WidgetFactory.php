@@ -1,9 +1,9 @@
 <?php
 
-namespace le7\Core\View\Widget;
+namespace App\Core\View\Widget;
 
-use le7\Core\Entity\Group\EntityGroupInterface;
-use le7\Core\View\HtmlTemplateFactory;
+use App\Core\Entity\Group\EntityGroupInterface;
+use App\Core\View\HtmlTemplateFactory;
 
 class WidgetFactory {
     

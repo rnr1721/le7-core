@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\View;
+namespace App\Core\View;
 
 interface ViewAdapterInterface
 {

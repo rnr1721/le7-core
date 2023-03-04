@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use le7\Core\Instances\InstanceCliData;
-use le7\Core\Instances\InstanceCli;
-use le7\Core\Instances\InstanceHttp;
-use le7\Core\Instances\InstanceHttpData;
-use le7\Core\Php;
-use le7\Core\Config\TopologyFs;
-use le7\Core\Config\ConfigFromObject;
-use le7\Core\ErrorHandling\ErrorLogInterface;
+use App\Core\Instances\InstanceCliData;
+use App\Core\Instances\InstanceCli;
+use App\Core\Instances\InstanceHttp;
+use App\Core\Instances\InstanceHttpData;
+use App\Core\Php;
+use App\Core\Config\TopologyFs;
+use App\Core\Config\ConfigFromObject;
+use App\Core\ErrorHandling\ErrorLogInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -22,7 +22,7 @@ error_reporting(E_ALL);
 
 define('CORE_PATH', realpath(dirname(__FILE__)));
 
-const REDBEAN_MODEL_PREFIX = 'le7\\Model\\';
+const REDBEAN_MODEL_PREFIX = 'App\\Model\\';
 
 $config = new ConfigFromObject(BASE_PATH);
 $topology = new TopologyFs(BASE_PATH, CORE_PATH, PUBLIC_PATH, $config);

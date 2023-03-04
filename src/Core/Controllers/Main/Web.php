@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Controllers\Main;
+namespace App\Core\Controllers\Main;
 
-use le7\Core\View\ViewInterface;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\DebugPanel\DebugPanelRun;
-use le7\Core\Instances\RouteHttpInterface;
-use le7\Core\Messages\MessageCollectionInterface;
-use le7\Core\Messages\MessageFactory;
-use le7\Core\Messages\MessageGetInterface;
-use le7\Core\Messages\MessagePutInterface;
-use le7\Core\Request\Request;
-use le7\Core\Response\ResponseWeb;
-use le7\Core\View\Php\PageTrait;
+use App\Core\View\ViewInterface;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\DebugPanel\DebugPanelRun;
+use App\Core\Instances\RouteHttpInterface;
+use App\Core\Messages\MessageCollectionInterface;
+use App\Core\Messages\MessageFactory;
+use App\Core\Messages\MessageGetInterface;
+use App\Core\Messages\MessagePutInterface;
+use App\Core\Request\Request;
+use App\Core\Response\ResponseWeb;
+use App\Core\View\Php\PageTrait;
 use \Exception;
 
 class Web extends Main
@@ -150,7 +150,7 @@ class Web extends Main
         }
     }
 
-    public function assign(array|string|object $key, string $value = null, bool $noCache = true, bool $check = true): self
+    public function assign(array|string|object $key, mixed $value = null, bool $noCache = true, bool $check = true): self
     {
         if (is_array($key) || is_object($key)) {
             foreach ($key as $k => $v) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Log;
+namespace App\Core\Log;
 
 use Stringable;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Response\Response;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Response\Response;
 use Psr\Container\ContainerInterface;
 
 class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface
@@ -26,10 +26,6 @@ class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface
 
         $controllerAction = $route->getActionMethod();
 
-        if (method_exists($controller, 'trigger')) {
-            $controller->trigger();
-        }
-
         $responseCode = $this->runAction($controller, $route->getActionMethod());
 
         if ($responseCode === 404) {
@@ -38,7 +34,7 @@ class RouteRunnerHttp extends RouteRunner implements RouteRunnerInterface
             if (!empty($notfound)) {
                 $controller = $this->getController($notfound['controllerClass'], $route);
                 $controllerAction = $notfound['actionMethod'];
-                $controller->{$controllerAction}();
+                $this->runAction($controller, $controllerAction);
             }
         }
         if ($responseCode === 301) {

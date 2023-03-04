@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\UserCheck;
+namespace App\Core\User\UserCheck;
 
-use le7\Core\User\Passwords\PasswordsInterface;
-use le7\Core\Request\Request;
+use App\Core\User\Passwords\PasswordsInterface;
+use App\Core\Request\Request;
 
 class UserCheckWebCookies implements UserCheckProvider {
 

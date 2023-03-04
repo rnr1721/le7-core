@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Database;
+namespace App\Core\Database;
 
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\DbConfigInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\DbConfigInterface;
 use RedBeanPHP\R;
 use RedBeanPHP\BeanHelper;
 use RedBeanPHP\RedException;
 use \PDO;
 
-class DatabaseConnection implements DatabaseConnectionInterface {
+class DbConn implements DbConnInterface {
 
     private bool $connected = false;
     private DbConfigInterface $c;

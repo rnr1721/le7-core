@@ -1,9 +1,9 @@
 <?php
 
-namespace le7\Core\Cache;
+namespace App\Core\Cache;
 
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class SCFactoryLe {

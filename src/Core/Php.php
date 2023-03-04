@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace le7\Core;
+namespace App\Core;
 
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
 
 class Php {
 

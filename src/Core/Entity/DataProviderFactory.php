@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Entity;
+namespace App\Core\Entity;
 
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
-use le7\Core\Entity\Rules\RulesInterface;
-use le7\Core\Helpers\ValidationHelperFactory;
-use le7\Core\Entity\Single\EntitySingleFactory;
-use le7\Core\Entity\Single\DataProvider\GenericModel;
-use le7\Core\Entity\Group\EntityGroupFactory;
-use le7\Core\Entity\Rules\RulesClass;
-use le7\Core\Database\DatabaseConnectionInterface;
-use le7\Core\Entity\Group\DataProvider\BeansProvider;
-use le7\Core\Entity\Group\DataProvider\BeansPaginatedProvider;
+use App\Core\Entity\Rules\RulesInterface;
+use App\Core\Helpers\ValidationHelperFactory;
+use App\Core\Entity\Single\EntitySingleFactory;
+use App\Core\Entity\Single\DataProvider\GenericModel;
+use App\Core\Entity\Group\EntityGroupFactory;
+use App\Core\Entity\Rules\RulesClass;
+use App\Core\Database\DbConnInterface;
+use App\Core\Entity\Group\DataProvider\BeansProvider;
+use App\Core\Entity\Group\DataProvider\BeansPaginatedProvider;
 
 class DataProviderFactory {
 
-    private DatabaseConnectionInterface $dbConnection;
+    private DbConnInterface $dbConnection;
 
-    public function __construct(DatabaseConnectionInterface $dbConnection) {
+    public function __construct(DbConnInterface $dbConnection) {
         $this->dbConnection = $dbConnection;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\DebugPanel;
+namespace App\Core\DebugPanel;
 
 use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;

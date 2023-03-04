@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
-use le7\Core\Response\Response;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Response\Response;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
 use Throwable;
 
 class ErrorToJson extends ErrorToMain implements ErrorInterface

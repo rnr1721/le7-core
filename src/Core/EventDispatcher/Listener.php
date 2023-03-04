@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\EventDispatcher;
+namespace App\Core\EventDispatcher;
 
 use Psr\Container\ContainerInterface;
 

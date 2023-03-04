@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\Notifications;
+namespace App\Core\User\Notifications;
 
 interface NotificationInterface {
 

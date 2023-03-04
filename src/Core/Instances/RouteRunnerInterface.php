@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
 interface RouteRunnerInterface {
 

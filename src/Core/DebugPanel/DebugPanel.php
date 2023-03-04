@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\DebugPanel;
+namespace App\Core\DebugPanel;
 
-use le7\Core\Request\Request;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\DebugPanel\PhpInfoCollector;
+use App\Core\Request\Request;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\DebugPanel\PhpInfoCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
-use le7\Core\DebugPanel\MemoryCollector;
+use App\Core\DebugPanel\MemoryCollector;
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DebugBar;
 use DebugBar\JavascriptRenderer;

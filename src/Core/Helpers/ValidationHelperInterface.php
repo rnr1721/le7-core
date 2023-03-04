@@ -1,7 +1,7 @@
 <?php
 
 
-namespace le7\Core\Helpers;
+namespace App\Core\Helpers;
 
 
 interface ValidationHelperInterface

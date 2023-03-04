@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\EventDispatcher;
+namespace App\Core\EventDispatcher;
 
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyFsInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 class EventInvoker {

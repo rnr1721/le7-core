@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Locales;
+namespace App\Core\Locales;
 
 interface TranslateInterface {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\User\Passwords;
+namespace App\Core\User\Passwords;
 
 use RedBeanPHP\R;
 

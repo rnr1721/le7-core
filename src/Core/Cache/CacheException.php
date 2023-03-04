@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Cache;
+namespace App\Core\Cache;
 
 use Psr\SimpleCache\CacheException;
 use \Exception;

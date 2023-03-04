@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\View;
+namespace App\Core\View;
 
 class HtmlTemplate extends HtmlTemplateAbstract
 {

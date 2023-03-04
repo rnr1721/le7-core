@@ -1,6 +1,6 @@
 <?php
 
-use le7\Core\Security\Csrf;
+use App\Core\Security\Csrf;
 
 /**
  * @throws Exception

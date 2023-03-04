@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\Request\Request;
-use le7\Core\User\UserManager;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Database\DatabaseFactory;
+use App\Core\Request\Request;
+use App\Core\User\UserManager;
+use App\Core\Config\ConfigInterface;
+use App\Core\Database\DbManager;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,9 +19,9 @@ class UserAuthMiddleware implements MiddlewareInterface
     private Request $requestSystem;
     private ConfigInterface $config;
     private UserManager $userManager;
-    private DatabaseFactory $dbFactory;
+    private DbManager $dbFactory;
 
-    public function __construct(Request $request, ConfigInterface $config, DatabaseFactory $dbFactory, UserManager $userManager)
+    public function __construct(Request $request, ConfigInterface $config, DbManager $dbFactory, UserManager $userManager)
     {
         $this->config = $config;
         $this->dbFactory = $dbFactory;
@@ -33,7 +33,7 @@ class UserAuthMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        /** @var \le7\Core\Instances\RouteHttpInterface $route */
+        /** @var \App\Core\Instances\RouteHttpInterface $route */
         $route = $request->getAttribute('route');
 
         if ($this->config->getUserManagementOn()) {
@@ -41,7 +41,7 @@ class UserAuthMiddleware implements MiddlewareInterface
                 'web' => $this->userManager->getUserWeb(),
                 'api' => $this->userManager->getUserApi()
             };
-            $user = $userIdentity->getUser($this->dbFactory->getDatabaseConnection());
+            $user = $userIdentity->getUser($this->dbFactory->getDbConn());
         }
         
         $this->requestSystem->setAttribute('user', $user);

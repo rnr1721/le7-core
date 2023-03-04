@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Controllers\System\Cli;
+namespace App\Core\Controllers\System\Cli;
 
-use le7\Core\Controllers\Main\Cli;
+use App\Core\Controllers\Main\Cli;
 
 class IndexController extends Cli {
 

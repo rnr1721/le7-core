@@ -1,11 +1,11 @@
 <?php
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\Database\DatabaseConnectionInterface;
+use App\Core\Database\DbConnInterface;
 use \RedBeanPHP\OODBBean;
 
 interface UserIdentityInterface {
 
-    public function getUser(DatabaseConnectionInterface $dbConnection): OODBBean|null;
+    public function getUser(DbConnInterface $dbConnection): OODBBean|null;
 }

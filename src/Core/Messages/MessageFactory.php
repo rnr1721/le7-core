@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Messages;
+namespace App\Core\Messages;
 
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Request\Request;
+use App\Core\Config\ConfigInterface;
+use App\Core\Request\Request;
 
 class MessageFactory {
 

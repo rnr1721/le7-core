@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Entity\Single\DataProvider;
+namespace App\Core\Entity\Single\DataProvider;
 
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
-use le7\Core\Entity\Single\EntitySingleFactory;
-use le7\Core\Entity\Rules\RulesInterface;
-use le7\Core\Entity\Single\EntitySingleInterface;
-use le7\Core\Helpers\ValidationHelperInterface;
-use le7\Core\Entity\Single\SingleDataProviderInterface;
+use App\Core\Entity\Single\EntitySingleFactory;
+use App\Core\Entity\Rules\RulesInterface;
+use App\Core\Entity\Single\EntitySingleInterface;
+use App\Core\Helpers\ValidationHelperInterface;
+use App\Core\Entity\Single\SingleDataProviderInterface;
 use \RedBeanPHP\TypedModel;
 use \ReflectionClass;
 use Exception;

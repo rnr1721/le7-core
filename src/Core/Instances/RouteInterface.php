@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
 interface RouteInterface {
 
@@ -33,7 +33,7 @@ interface RouteInterface {
 
     /**
      * Full name of controller class,
-     * for example le7\Controller\Web\MycontrollerController 
+     * for example App\Controller\Web\MycontrollerController 
      * @return string
      */
     public function getControllerClass(): string;
@@ -57,7 +57,7 @@ interface RouteInterface {
      * @param string|int|bool|null $default Default value if parameter not exist
      * @return string|int|bool|null
      */
-    public function getParam(string $param, string|int|bool|null $default): string|int|bool|null;
+    public function getParam(int $param, string|int|bool|null $default): string|int|bool|null;
 
     /**
      * Get language of route by URL in web or Content-Language in

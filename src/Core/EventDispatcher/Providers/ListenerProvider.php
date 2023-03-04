@@ -2,7 +2,7 @@
 
 /* Source: https://github.com/phly/phly-event-dispatcher */
 
-namespace le7\Core\EventDispatcher\Providers;
+namespace App\Core\EventDispatcher\Providers;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
 use function array_keys;

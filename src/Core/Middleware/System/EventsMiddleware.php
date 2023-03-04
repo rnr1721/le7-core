@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\EventDispatcher\EventInvoker;
+use App\Core\EventDispatcher\EventInvoker;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;

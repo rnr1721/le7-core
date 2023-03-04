@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Response;
+namespace App\Core\Response;
 
 class ResponseApi extends ResponseMain {
     

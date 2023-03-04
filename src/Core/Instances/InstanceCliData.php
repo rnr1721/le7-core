@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Config\ConfigInterface;
+use App\Core\Config\ConfigInterface;
 
 class InstanceCliData {
 
@@ -59,7 +59,7 @@ class InstanceCliData {
             }
         }
         
-        $pController = $this->getController($controller, 'le7\Controller\Cli','le7\Core\Controllers\System\Cli');
+        $pController = $this->getController($controller, 'App\Controller\Cli','App\Core\Controllers\System\Cli');
         
         $pAction = $this->getAction($action);
         
@@ -106,7 +106,7 @@ class InstanceCliData {
     
     private function getNotFound(string $language,array $options) : array {
         $nfController = $this->config->getNotfoundController();
-        $pController = $this->getController($nfController, 'le7\Controller\Cli', 'le7\Core\Controllers\System\Cli');
+        $pController = $this->getController($nfController, 'App\Controller\Cli', 'App\Core\Controllers\System\Cli');
         $nfAction = $this->config->getDefaultAction();
         return array(
             'type' => 'cli',

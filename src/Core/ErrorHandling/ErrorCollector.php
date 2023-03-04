@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
-use le7\Core\Messages\MessageCollectionInterface;
+use App\Core\Messages\MessageCollectionInterface;
 use Throwable;
 
 class ErrorCollector {

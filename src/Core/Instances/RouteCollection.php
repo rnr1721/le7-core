@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Request\Request;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Request\Request;
+use App\Core\Config\TopologyFsInterface;
 
 class RouteCollection {
 
@@ -68,10 +68,10 @@ class RouteCollection {
 
         foreach ($locales as $lang) {
             if ($lang !== $defLang) {
-                $this->addRoute('web_' . $lang, 'web', $lang, 'le7\Controller\Web', 7, '', $lang);
+                $this->addRoute('web_' . $lang, 'web', $lang, 'App\Controller\Web', 7, '', $lang);
             }
         }
-        $this->addRoute('web_' . $defLang, 'web', '', 'le7\Controller\Web', 7, '', $defLang);
+        $this->addRoute('web_' . $defLang, 'web', '', 'App\Controller\Web', 7, '', $defLang);
 
     }
 
@@ -89,9 +89,9 @@ class RouteCollection {
     private function addRoute(string $key, string $type, string $address, string $controllerNamespace, int $paramsCount = 7, $systemNamespace = '', string|null $language = null): self {
         if (empty($systemNamespace)) {
             if ($type === 'api') {
-                $systemNamespace = 'le7\Core\Controllers\System\Api';
+                $systemNamespace = 'App\Core\Controllers\System\Api';
             } else {
-                $systemNamespace = 'le7\Core\Controllers\System\Web';
+                $systemNamespace = 'App\Core\Controllers\System\Web';
             }
         }
         $this->routes[$key] = array(

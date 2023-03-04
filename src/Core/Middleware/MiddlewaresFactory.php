@@ -1,11 +1,11 @@
 <?php
 
-namespace le7\Core\Middleware;
+namespace App\Core\Middleware;
 
-use le7\Core\Instances\RouteHttpInterface;
+use App\Core\Instances\RouteHttpInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Container\ContainerInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyFsInterface;
 
 class MiddlewaresFactory
 {

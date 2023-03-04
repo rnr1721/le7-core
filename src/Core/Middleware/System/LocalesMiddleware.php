@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
-use le7\Core\Locales\LocalesInterface;
+use App\Core\Locales\LocalesInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,7 +24,7 @@ class LocalesMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        /** @var \le7\Core\Instances\RouteHttpInterface $route */
+        /** @var \App\Core\Instances\RouteHttpInterface $route */
         $route = $request->getAttribute('route');
 
         $this->locales->setLocale($route->getLanguage());

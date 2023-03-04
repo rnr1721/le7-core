@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Database;
+namespace App\Core\Database;
 
 interface DbInterface {
 

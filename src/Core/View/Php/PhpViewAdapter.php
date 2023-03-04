@@ -1,11 +1,11 @@
 <?php
 
-namespace le7\Core\View\Php;
+namespace App\Core\View\Php;
 
-use le7\Core\View\ViewInterface;
-use le7\Core\View\ViewAdapterInterface;
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\View\ViewInterface;
+use App\Core\View\ViewAdapterInterface;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Config\TopologyFsInterface;
 
 class PhpViewAdapter implements ViewAdapterInterface {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\View\Smarty;
+namespace App\Core\View\Smarty;
 
-use le7\Core\View\ViewInterface;
+use App\Core\View\ViewInterface;
 use \Smarty;
 use \SmartyException;
 use \Exception;

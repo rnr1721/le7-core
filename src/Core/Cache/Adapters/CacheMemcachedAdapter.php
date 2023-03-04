@@ -1,10 +1,10 @@
 <?php
 
-namespace le7\Core\Cache\Adapters;
+namespace App\Core\Cache\Adapters;
 
-use le7\Core\Cache\InvalidArgumentException;
-use le7\Core\Cache\SCAdapterInterface;
-use le7\Core\Cache\SCAdapterTrait;
+use App\Core\Cache\InvalidArgumentException;
+use App\Core\Cache\SCAdapterInterface;
+use App\Core\Cache\SCAdapterTrait;
 use \Memcached;
 use \DateInterval;
 

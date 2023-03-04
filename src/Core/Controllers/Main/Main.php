@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Controllers\Main;
+namespace App\Core\Controllers\Main;
 
 use RedBeanPHP\OODBBean;
-use le7\Core\User\UserInterface;
-use le7\Core\Database\Database;
-use le7\Core\Messages\MessageCollectionInterface;
+use App\Core\User\UserInterface;
+use App\Core\Database\Db;
+use App\Core\Messages\MessageCollectionInterface;
 use Psr\SimpleCache\CacheInterface;
 
 use \ReflectionClass;
 
 /**
- * @property Database $db 
+ * @property Db $db 
  */
 class Main
 {
@@ -22,11 +22,6 @@ class Main
     protected UserInterface|OODBBean|null $user = null;
     public MessageCollectionInterface $messages;
     public CacheInterface $cache;
-
-    public function trigger()
-    {
-        return array();
-    }
 
     public function getControllerId(): string
     {

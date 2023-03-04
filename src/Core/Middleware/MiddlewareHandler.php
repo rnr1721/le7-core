@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware;
+namespace App\Core\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

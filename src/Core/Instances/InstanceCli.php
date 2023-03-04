@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Instances;
+namespace App\Core\Instances;
 
-use le7\Core\EventDispatcher\EventInvoker;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\ErrorHandling\ErrorHandlerCliFactory;
-use le7\Core\Traits\ConsoleTrait;
-use le7\Core\Helpers\ConsoleHelper;
-use le7\Core\Locales\LocalesInterface;
+use App\Core\EventDispatcher\EventInvoker;
+use App\Core\Config\ConfigInterface;
+use App\Core\ErrorHandling\ErrorHandlerCliFactory;
+use App\Core\Traits\ConsoleTrait;
+use App\Core\Helpers\ConsoleHelper;
+use App\Core\Locales\LocalesInterface;
 
 class InstanceCli implements InstanceInterface
 {

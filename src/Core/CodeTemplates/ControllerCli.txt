@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Controller\Cli;
+namespace App\Controller\Cli;
 
-use le7\Core\Controller\ControllerCli;
+use App\Core\Controller\ControllerCli;
 
 class {controllerName} extends ControllerCli {
 

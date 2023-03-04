@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Messages;
+namespace App\Core\Messages;
 
 class MessageGetSession implements MessageGetInterface {
 

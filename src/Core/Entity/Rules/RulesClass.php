@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Entity\Rules;
+namespace App\Core\Entity\Rules;
 
 use \Exception;
 
@@ -48,7 +48,7 @@ class RulesClass implements RulesInterface {
     }
 
     private function findModel($model): string|null {
-        $className = 'le7\Model\\' . ucfirst($model);
+        $className = 'App\Model\\' . ucfirst($model);
         if (class_exists($className)) {
             return $className;
         }

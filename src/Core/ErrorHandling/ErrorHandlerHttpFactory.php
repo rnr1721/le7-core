@@ -1,12 +1,12 @@
 <?php
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
-use le7\Core\Config\TopologyPublicInterface;
-use le7\Core\Response\Response;
-use le7\Core\Messages\MessageCollectionInterface;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Config\TopologyPublicInterface;
+use App\Core\Response\Response;
+use App\Core\Messages\MessageCollectionInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerHttpFactory {

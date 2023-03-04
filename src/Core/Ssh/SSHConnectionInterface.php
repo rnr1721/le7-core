@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Ssh;
+namespace App\Core\Ssh;
 
 interface SSHConnectionInterface {
     public function getConnection();

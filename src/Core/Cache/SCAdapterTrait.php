@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Cache;
+namespace App\Core\Cache;
 
 use \DateInterval;
 use \DateTime;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\UserLogin;
+namespace App\Core\User\UserLogin;
 
-use le7\Core\Request\Request;
-use le7\Core\User\Passwords\PasswordsInterface;
-use le7\Core\User\Tokens\TokensInterface;
+use App\Core\Request\Request;
+use App\Core\User\Passwords\PasswordsInterface;
+use App\Core\User\Tokens\TokensInterface;
 use \Exception;
 
 class UserLoginApi implements UserLoginProvider {

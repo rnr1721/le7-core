@@ -1,6 +1,6 @@
 <?php
 
-use le7\Core\Helpers\UrlHelper;
+use App\Core\Helpers\UrlHelper;
 
 /**
  * @param array $params

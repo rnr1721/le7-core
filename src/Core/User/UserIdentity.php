@@ -1,9 +1,9 @@
 <?php
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\User\UserIdentityInterface;
-use le7\Core\Database\DatabaseConnectionInterface;
+use App\Core\User\UserIdentityInterface;
+use App\Core\Database\DbConnInterface;
 use \RedBeanPHP\OODBBean;
 use \RedBeanPHP\R;
 
@@ -15,7 +15,7 @@ class UserIdentity implements UserIdentityInterface {
         $this->userCheck = $userCheck;
     }
 
-    public function getUser(DatabaseConnectionInterface $dbConnection): OODBBean|null {
+    public function getUser(DbConnInterface $dbConnection): OODBBean|null {
         $userToken = $this->userCheck->getToken();
         if ($userToken !== null) {
             $dbConnection->connect();

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\View\Smarty;
+namespace App\Core\View\Smarty;
 
-use le7\Core\View\ViewInterface;
-use le7\Core\View\ViewAdapterInterface;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\View\ViewInterface;
+use App\Core\View\ViewAdapterInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
 use Smarty;
 
 class SmartyAdapter implements ViewAdapterInterface

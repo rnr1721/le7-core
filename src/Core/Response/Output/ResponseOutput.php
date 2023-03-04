@@ -1,10 +1,10 @@
 <?php
 
-namespace le7\Core\Response\Output;
+namespace App\Core\Response\Output;
 
-use le7\Core\Response\Response;
-use le7\Core\Messages\MessageCollectionInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Response\Response;
+use App\Core\Messages\MessageCollectionInterface;
+use App\Core\Config\ConfigInterface;
 
 class ResponseOutput {
     

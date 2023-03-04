@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Entity\Group;
+namespace App\Core\Entity\Group;
 
 interface EntityGroupInterface {
 

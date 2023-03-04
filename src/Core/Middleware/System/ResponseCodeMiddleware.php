@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Middleware\System;
+namespace App\Core\Middleware\System;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,7 +15,7 @@ class ResponseCodeMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        /** @var \le7\Core\Instances\RouteHttpInterface $route */
+        /** @var \App\Core\Instances\RouteHttpInterface $route */
         $route = $request->getAttribute('route');
         return $response->withStatus($route->getResponse());
     }

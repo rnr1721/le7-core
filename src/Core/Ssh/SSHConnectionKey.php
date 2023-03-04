@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Ssh;
+namespace App\Core\Ssh;
 
 class SSHConnectionKey implements SSHConnectionInterface {
 

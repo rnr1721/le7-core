@@ -1,11 +1,11 @@
 <?php
 
-namespace le7\Core\ErrorHandling;
+namespace App\Core\ErrorHandling;
 
-use le7\Core\Helpers\ConsoleHelper;
-use le7\Core\Messages\MessageCollectionInterface;
-use le7\Core\Config\ConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
+use App\Core\Helpers\ConsoleHelper;
+use App\Core\Messages\MessageCollectionInterface;
+use App\Core\Config\ConfigInterface;
+use App\Core\Config\TopologyFsInterface;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerCliFactory {

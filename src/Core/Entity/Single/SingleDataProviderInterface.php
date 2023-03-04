@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Entity\Single;
+namespace App\Core\Entity\Single;
 
-use le7\Core\Entity\Single\EntitySingleInterface;
+use App\Core\Entity\Single\EntitySingleInterface;
 
 interface SingleDataProviderInterface {
 

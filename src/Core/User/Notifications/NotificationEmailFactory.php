@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\Notifications;
+namespace App\Core\User\Notifications;
 
-use le7\Core\Config\ConfigInterface;
+use App\Core\Config\ConfigInterface;
 use \PHPMailer\PHPMailer\PHPMailer;
 
 class NotificationEmailFactory implements NotificationCustomFactory, NotificationEmailFactoryInterface {

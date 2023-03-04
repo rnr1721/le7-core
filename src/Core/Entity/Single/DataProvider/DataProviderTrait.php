@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Entity\Single\DataProvider;
+namespace App\Core\Entity\Single\DataProvider;
 
 use \Exception;
 

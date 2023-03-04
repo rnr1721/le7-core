@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\Helpers;
+namespace App\Core\Helpers;
 
 use DateTime;
 use const FILTER_VALIDATE_EMAIL;

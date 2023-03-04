@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Controllers\Main;
+namespace App\Core\Controllers\Main;
 
-use le7\Core\User\UserManager;
-use le7\Core\Request\Request;
-use le7\Core\Response\ResponseApi;
-use le7\Core\Instances\RouteHttpInterface;
-use le7\Core\Config\TopologyPublicInterface;
+use App\Core\User\UserManager;
+use App\Core\Request\Request;
+use App\Core\Response\ResponseApi;
+use App\Core\Instances\RouteHttpInterface;
+use App\Core\Config\TopologyPublicInterface;
 
 class Api extends Main {
 

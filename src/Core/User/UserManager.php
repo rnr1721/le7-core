@@ -2,37 +2,37 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
-use le7\Core\Database\DatabaseFactory;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\User\Notifications\NotificationsInterface;
-use le7\Core\User\UserFind;
-use le7\Core\View\HtmlTemplate;
-use le7\Core\Instances\RouteInterface;
-use le7\Core\User\Verification\VerificationCodeDb;
-use le7\Core\User\Verification\VerificationCodeInterface;
-use le7\Core\User\UserIdentity;
-use le7\Core\User\UserLogin;
-use le7\Core\User\UserCheck;
-use le7\Core\User\UserCheck\UserCheckApi;
-use le7\Core\User\UserCheck\UserCheckWebSession;
-use le7\Core\User\UserCheck\UserCheckWebCookies;
-use le7\Core\User\UserLogin\UserLoginApi;
-use le7\Core\User\UserLogin\UserLoginWebSession;
-use le7\Core\User\UserLogin\UserLoginWebCookies;
-use le7\Core\User\UserLoginInterface;
-use le7\Core\User\Tokens\TokensDb;
-use le7\Core\User\Tokens\TokensInterface;
-use le7\Core\User\Passwords\PasswordsDb;
-use le7\Core\User\Passwords\PasswordsInterface;
-use le7\Core\Request\Request;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Database\DbManager;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\User\Notifications\NotificationsInterface;
+use App\Core\User\UserFind;
+use App\Core\View\HtmlTemplate;
+use App\Core\Instances\RouteInterface;
+use App\Core\User\Verification\VerificationCodeDb;
+use App\Core\User\Verification\VerificationCodeInterface;
+use App\Core\User\UserIdentity;
+use App\Core\User\UserLogin;
+use App\Core\User\UserCheck;
+use App\Core\User\UserCheck\UserCheckApi;
+use App\Core\User\UserCheck\UserCheckWebSession;
+use App\Core\User\UserCheck\UserCheckWebCookies;
+use App\Core\User\UserLogin\UserLoginApi;
+use App\Core\User\UserLogin\UserLoginWebSession;
+use App\Core\User\UserLogin\UserLoginWebCookies;
+use App\Core\User\UserLoginInterface;
+use App\Core\User\Tokens\TokensDb;
+use App\Core\User\Tokens\TokensInterface;
+use App\Core\User\Passwords\PasswordsDb;
+use App\Core\User\Passwords\PasswordsInterface;
+use App\Core\Request\Request;
+use App\Core\Config\ConfigInterface;
 
 class UserManager
 {
 
-    private DatabaseFactory $databaseFactory;
+    private DbManager $databaseFactory;
     private NotificationsInterface $notifications;
     private TopologyFsInterface $topologyFs;
     private ?PasswordsInterface $passwords = null;
@@ -40,7 +40,7 @@ class UserManager
     private ConfigInterface $config;
     private Request $request;
 
-    public function __construct(DatabaseFactory $databaseFactory, ConfigInterface $config, Request $request, TopologyFsInterface $topologyFs, NotificationsInterface $notifications)
+    public function __construct(DbManager $databaseFactory, ConfigInterface $config, Request $request, TopologyFsInterface $topologyFs, NotificationsInterface $notifications)
     {
         $this->config = $config;
         $this->request = $request;
@@ -125,7 +125,7 @@ class UserManager
             $userLogin = $this->getUserLoginApi();
         }
         $userFind = new UserFind();
-        $db = $this->databaseFactory->getDatabase();
+        $db = $this->databaseFactory->getDb();
         return new LoginForm($db,$this->config, $userLogin, $this->getVerificetionCode(), $this->getHtmlTemplate(), $this->notifications, $userFind);
     }
 

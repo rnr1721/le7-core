@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Controller\Web;
+namespace App\Controller\Web;
 
-use le7\Controller\ControllerWeb{viewEngine};
+use App\Controller\ControllerWeb{viewEngine};
 
 class {controllerName} extends ControllerWeb{viewEngine} {
 

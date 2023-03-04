@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\Database;
+namespace App\Core\Database;
 
-use le7\Core\Entity\DataProviderFactory;
-use le7\Core\Entity\ModelSetup;
-use le7\Core\Config\DbConfig;
-use le7\Core\Config\DbConfigInterface;
-use le7\Core\Config\TopologyFsInterface;
-use le7\Core\Config\ConfigInterface;
+use App\Core\Entity\DataProviderFactory;
+use App\Core\Entity\ModelSetup;
+use App\Core\Config\DbConfig;
+use App\Core\Config\DbConfigInterface;
+use App\Core\Config\TopologyFsInterface;
+use App\Core\Config\ConfigInterface;
 
-class DatabaseFactory {
+class DbManager
+{
 
     private DataProviderFactory $dataProviderFactory;
     private ModelSetup $modelSetup;
@@ -19,57 +20,62 @@ class DatabaseFactory {
         'mysql',
         'pgsql'
     );
-    private DatabaseConnectionInterface $dbConnection;
+    private DbConnInterface $dbConnection;
     private DbConfigInterface $dbConfig;
-    private Database $db;
+    private Db $db;
     private TopologyFsInterface $topologyFs;
     private ConfigInterface $config;
 
-    public function __construct(ConfigInterface $config, TopologyFsInterface $topologyFs, ModelSetup $modelSetup) {
+    public function __construct(ConfigInterface $config, TopologyFsInterface $topologyFs, ModelSetup $modelSetup)
+    {
         $this->config = $config;
         $this->topologyFs = $topologyFs;
         $this->modelSetup = $modelSetup;
     }
 
-    public function getDatabase(): Database {
+    public function getDb(): Db
+    {
         if (empty($this->db)) {
             $this->modelSetup->prepareModels();
-            $this->getDatabaseConnection();
-            $this->db = new Database();
+            $this->getDbConn();
+            $this->db = new Db();
             $this->dbConnection->connect();
         }
         return $this->db;
     }
 
-    public function getDatabaseConnection(): DatabaseConnectionInterface {
+    public function getDbConn(): DbConnInterface
+    {
         if (empty($this->dbConnection)) {
-            $this->getDatabaseConfig();
+            $this->getDbConfig();
             $driver = $this->dbConfig->getDbDriver();
             if (!in_array($driver, $this->allowedDrivers)) {
-                throw new \Exception("DatabaseFactory::getDatabaseConnection() Please select right database driver in config");
+                throw new \Exception("DatabaseFactory::getDbConn() Please select right database driver in config");
             }
             $dbc = match ($driver) {
                 'pgsql' => new DbPgSql(),
                 'mysql' => new DbMySql(),
             };
-            $this->dbConnection = new DatabaseConnection($dbc, $this->dbConfig, $this->config);
+            $this->dbConnection = new DbConn($dbc, $this->dbConfig, $this->config);
         }
         return $this->dbConnection;
     }
 
-    public function getDatabaseConfig(): DbConfigInterface {
+    public function getDbConfig(): DbConfigInterface
+    {
         if (empty($this->dbConfig)) {
             $this->dbConfig = new DbConfig($this->topologyFs);
         }
         return $this->dbConfig;
     }
 
-    public function getDataProviderFactory() : DataProviderFactory {
+    public function getDataProviderFactory(): DataProviderFactory
+    {
         if (empty($this->dataProviderFactory)) {
-            $this->getDatabaseConnection();
+            $this->getDbConn();
             $this->dataProviderFactory = new DataProviderFactory($this->dbConnection);
         }
         return $this->dataProviderFactory;
     }
-    
+
 }

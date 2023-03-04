@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Controllers\System\Web;
+namespace App\Core\Controllers\System\Web;
 
-use le7\Core\Controllers\Main\Web;
+use App\Core\Controllers\Main\Web;
 
 class PhpinfoController extends Web {
     

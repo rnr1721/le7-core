@@ -1,6 +1,6 @@
 <?php
 
-namespace le7\Core\User;
+namespace App\Core\User;
 
 interface UserLoginInterface {
 

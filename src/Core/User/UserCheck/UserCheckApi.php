@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace le7\Core\User\UserCheck;
+namespace App\Core\User\UserCheck;
 
-use le7\Core\Request\Request;
+use App\Core\Request\Request;
 
 class UserCheckApi implements UserCheckProvider {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace le7\Core\Controllers\System\Api;
+namespace App\Core\Controllers\System\Api;
 
-use le7\Core\Controllers\Main\Api;
+use App\Core\Controllers\Main\Api;
 
 class IndexController extends Api {
 
