@@ -6,6 +6,7 @@ use App\Controller\ControllerWeb{viewEngine};
 
 class {controllerName} extends ControllerWeb{viewEngine} {
 
+    #[Param(allow:0)]
     public function indexAction() {
         echo "new controller";
     }

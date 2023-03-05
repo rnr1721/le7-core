@@ -28,7 +28,7 @@ $config = new ConfigFromObject(BASE_PATH);
 $topology = new TopologyFs(BASE_PATH, CORE_PATH, PUBLIC_PATH, $config);
 
 /** @var ContainerInterface $container */
-$container = require $topology->getCorePath() . '/dependencies.php';
+$container = require $topology->getCorePath() . DIRECTORY_SEPARATOR . 'dependencies.php';
 
 try {
     $errorLog = $container->get(ErrorLogInterface::class);

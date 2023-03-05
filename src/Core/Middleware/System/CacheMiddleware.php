@@ -33,7 +33,7 @@ class CacheMiddleware implements MiddlewareInterface
         $cacheName = $route->getType() . '_' . md5((string) $request->getUri());
 
         $cacheItem = $this->cache->get($cacheName);
-        if ($cacheItem) {
+        if ($cacheItem && $route->getResponse() === 200 && $route->getMethod() === 'GET') {
             $this->response->responsePsr7 = $response;
             $this->response->setResponseCode(200);
             $this->response->setBody($cacheItem);

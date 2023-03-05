@@ -33,6 +33,12 @@ class DbManager
         $this->modelSetup = $modelSetup;
     }
 
+    /**
+     * Return database object
+     * On first call it will try to connect DB
+     * It simple decorator for Redbean with static methods
+     * @return Db
+     */
     public function getDb(): Db
     {
         if (empty($this->db)) {
@@ -44,6 +50,11 @@ class DbManager
         return $this->db;
     }
 
+    /**
+     * Get database connection
+     * @return DbConnInterface
+     * @throws \Exception
+     */
     public function getDbConn(): DbConnInterface
     {
         if (empty($this->dbConnection)) {
@@ -61,6 +72,10 @@ class DbManager
         return $this->dbConnection;
     }
 
+    /**
+     * Get database configuration
+     * @return DbConfigInterface
+     */
     public function getDbConfig(): DbConfigInterface
     {
         if (empty($this->dbConfig)) {

@@ -15,11 +15,13 @@ class Api extends Main {
     public UserManager $userIdentityFactory;
 
     /**
+     * System request object
      * @var Request
      */
     public Request $request;
 
     /**
+     * Ststem response object
      * @var ResponseApi
      */
     public ResponseApi $response;
@@ -28,8 +30,16 @@ class Api extends Main {
      * @var RouteFinalHttpInterface
      */
     public RouteHttpInterface $route;
+    
+    /**
+     * Get links for base URL, JS URL, CSS Url etc
+     * @var TopologyPublicInterface
+     */
     public TopologyPublicInterface $topologyPublic;
 
+    /**
+     * Api constructor
+     */
     public function __construct() {
 
         if ($this->config->getUserManagementOn()) {

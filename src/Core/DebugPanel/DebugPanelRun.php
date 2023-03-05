@@ -58,7 +58,7 @@ class DebugPanelRun
             foreach ($this->messages->getWarnings(true) as $warning) {
                 $this->debugPanel->setMessage('Warnings:' . $warning, "warning");
             }
-            
+
             // Route
             $route = $this->request->getAttribute('route');
             $routeArray = array(
@@ -77,12 +77,17 @@ class DebugPanelRun
                 'Middleware' => $route->getMiddleware(),
                 'Injection' => $route->getInject()
             );
-            
+
             $this->debugPanel->registerArray($routeArray, "Route");
 
             return $this->debugPanel->renderBody();
         }
         return '';
+    }
+
+    public function canStart(): bool
+    {
+        return $this->debugPanel->canStart();
     }
 
 }

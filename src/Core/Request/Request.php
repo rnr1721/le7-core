@@ -13,6 +13,11 @@ class Request
 {
 
     private ConfigInterface $config;
+    
+    /**
+     * Current PSR7 ServerRequest
+     * @var ServerRequestInterface
+     */
     private ServerRequestInterface $request;
     private UriInterface $uri;
     private array $serverParams;
@@ -90,6 +95,10 @@ class Request
         return true;
     }
 
+    /**
+     * Get content length
+     * @return int|null
+     */
     public function getContentLength(): int|null
     {
         $result = $this->serverRequest->getHeaderLine('Content-Length');
@@ -138,12 +147,22 @@ class Request
         return $result;
     }
 
+    /**
+     * Get all params from $_SERVER
+     * @return array
+     */
     public function getServerParams(): array
     {
         return $this->serverParams;
     }
 
-    public function getServerParam(string $name, mixed $default = null): string
+    /**
+     * Get one param from $_SERVER
+     * @param string $name Param name
+     * @param string $default Default if not exists
+     * @return string
+     */
+    public function getServerParam(string $name, string|null $default = null): string|null
     {
         if (array_key_exists($name, $this->serverParams)) {
             return $this->serverParams[$name];
@@ -151,6 +170,10 @@ class Request
         return $default;
     }
 
+    /**
+     * Get all GET params from URL
+     * @return array
+     */
     public function getQueryParams(): array
     {
         if ($this->queryParams !== null) {
@@ -201,7 +224,13 @@ class Request
         return $this->params;
     }
 
-    public function getCookieParam(string $key, $default = null)
+    /**
+     * Get cookie param or or something default if null
+     * @param string $key
+     * @param string|null $default
+     * @return string|null
+     */
+    public function getCookieParam(string $key, string|null $default = null): string|null
     {
         $cookies = $this->request->getCookieParams();
 
@@ -212,16 +241,28 @@ class Request
         return $default;
     }
 
+    /**
+     * Get Current PSR7 ServerRequest
+     * @return ServerRequestInterface
+     */
     public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }
 
+    /**
+     * Get request body
+     * @return StreamInterface
+     */
     public function getBody(): StreamInterface
     {
         return $this->request->getBody();
     }
 
+    /**
+     * Get all cookie params as array
+     * @return array
+     */
     public function getCookieParams(): array
     {
         return $this->request->getCookieParams();
@@ -237,11 +278,19 @@ class Request
         return $this->request->getHeaderLine($name);
     }
 
+    /**
+     * Get all request headers as array
+     * @return array
+     */
     public function getHeaders(): array
     {
         return $this->request->getHeaders();
     }
 
+    /**
+     * Get current method - GET, POST, PUT etc
+     * @return string
+     */
     public function getMethod(): string
     {
         return $this->method;
@@ -399,6 +448,10 @@ class Request
         return $default;
     }
 
+    /**
+     * Try to get current visitor IP
+     * @return string
+     */
     public function getVisitorIp(): string
     {
 
@@ -427,21 +480,40 @@ class Request
         return $ip;
     }
 
+    /**
+     * Get all server request attributes
+     * @return array
+     */
     public function getAttributes(): array
     {
         return $this->request->getAttributes();
     }
 
+    /**
+     * Get server request attribute
+     * @param string $param
+     * @param mixed $default
+     * @return mixed
+     */
     public function getAttribute(string $param, mixed $default = null): mixed
     {
         return $this->request->getAttribute($param, $default);
     }
 
+    /**
+     * Set server request attribure
+     * @param string $name
+     * @param mixed $value
+     */
     public function setAttribute(string $name, mixed $value)
     {
         $this->request = $this->request->withAttribute($name, $value);
     }
 
+    /**
+     * Set current PST7 ServerRequest
+     * @param ServerRequestInterface $request
+     */
     public function setRequest(ServerRequestInterface $request)
     {
         $this->request = $request;
