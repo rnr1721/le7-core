@@ -1,0 +1,56 @@
+{
+    "name": "rnr1721/le7-core",
+    "description": "Core files for le7 PHP MVC framework with API,CLI,WEB controllers",
+    "keywords": ["le7", "le7-framework", "framework", "basic", "core"],
+    "authors": [
+        {
+            "name": "Eugeny G",
+            "email": "rnr1721@gmail.com",
+            "homepage": "https://xhamster.biz.ua",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-posix": "*",
+        "ext-gettext": "*",
+        "psr/log": "^3.0",
+        "psr/http-message": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/event-dispatcher": "^1.0",
+        "psr/simple-cache": "^3.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "fig/http-message-util": "^1.1",
+        "rnr1721/le7-config": "^1.0",
+        "rnr1721/le7-middleware": "^1.0",
+        "rnr1721/le7-messages": "^1.0",
+        "rnr1721/le7-cookie-wrapper": "^1.0",
+        "rnr1721/le7-view": "^1.0.0",
+        "rnr1721/le7-view-php": "^1.0",
+        "rnr1721/le7-event-manager": "^1.0",
+        "maximebf/debugbar": "1.*"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^5.7",
+        "phpunit/phpunit": "^10.0",
+        "rnr1721/le7-testing": "^1.0"
+    },
+    "scripts": {
+        "test": [
+            "@phpunit",
+            "@psalm"
+        ],
+        "phpunit": "phpunit",
+        "psalm": "psalm"
+    }
+}

@@ -1,0 +1,5 @@
+/vendor/
+/nbproject/private/
+/nbproject
+/composer.lock
+/production

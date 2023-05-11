@@ -1,0 +1,53 @@
+<?php
+/* @var $language string */
+/* @var $exception Throwable */
+/* @var $errors array */
+?>
+<div class="le7_error_box">
+    <h1><?php echo _('Response'); ?> 503</h1>
+    <?php if (!empty($errors)): ?>
+        <div>
+            <h2><?php echo _('Errors'); ?></h2>
+            <?php foreach ($errors as $error): ?>
+                <div class="le7_error">
+                    <h3 class="alert-heading"><?php echo $error['errorString']; ?></h3>
+                    <div style="overflow: scroll">
+                        <span style="font-weight: bold;color: black;"><?php echo $error['errorType']; ?></span>:
+                        <?php echo $error['errorFile'] ?> (<?php echo $error['errorLine']; ?>)
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <?php if (!empty($exception)): ?>
+        <div class="col-12">
+            <h2><?php echo _('Fatal Error'); ?></h2>
+            <div class="le7_error">
+                <h4><?php echo $exception->getMessage(); ?></h4>
+                <?php echo $exception->getFile(); ?> (<?php echo $exception->getLine(); ?>)
+            </div>
+            <?php foreach ($exception->getTrace() as $traceItem): ?>
+                <div class="le7_error">
+                    <h4><?php echo $traceItem['function']; ?></h4>
+                    <?php echo (isset($traceItem['file']) ? $traceItem['file'] : ''); ?> <?php echo (isset($traceItem['line']) ? '(' . $traceItem['line'] . ')' : ''); ?>
+                    <?php if (!empty($traceItem['class'])): ?> => <?php echo $traceItem['class']; ?><?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>
+<style>
+    .le7_error_box {
+        width:80%;
+        margin:20px auto;
+    }
+    .le7_error {
+        padding:30px;
+        position:relative;
+        border-radius:15px;
+        box-shadow:0 0 15px 5px #ccc;
+        background-color:#f7a7a3;
+        border-left:5px solid red;
+        margin-bottom: 15px;
+    }
+</style>
