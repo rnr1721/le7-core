@@ -147,7 +147,7 @@ class UrlBuilder implements Url
 
     public function __toString(): string
     {
-        return $this->base;
+        return $this->get();
     }
 
 }

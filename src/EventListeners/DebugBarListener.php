@@ -54,8 +54,8 @@ class DebugBarListener extends Listener
             $responseCollector = new ResponseCollector($responseCode);
             $this->debugPanel->addCollector($responseCollector);
 
-            $this->webPage->setScriptLib('debugbar/assets.js');
-            $this->webPage->setStyleLib('debugbar/assets.css');
+            $this->webPage->setScriptFromGlobal('debugbar/assets.js');
+            $this->webPage->setStyleFromGlobal('debugbar/assets.css');
             $this->webPage->appendScripts($this->debugPanel->render(), false);
         }
     }
