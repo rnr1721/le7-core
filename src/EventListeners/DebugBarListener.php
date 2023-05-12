@@ -31,9 +31,9 @@ class DebugBarListener extends Listener
     public function trigger(): void
     {
 
-        $responseCode = $this->event->getResponseCode();
-
         if ($this->debugPanel->canStart()) {
+
+            $responseCode = $this->event->getResponseCode();
 
             foreach ($this->messages->getAlerts(true) as $alert) {
                 $this->debugPanel->setMessage('Alert:' . $alert, "alert");
@@ -53,7 +53,7 @@ class DebugBarListener extends Listener
 
             $responseCollector = new ResponseCollector($responseCode);
             $this->debugPanel->addCollector($responseCollector);
-            
+
             $this->webPage->setScriptLib('debugbar/assets.js');
             $this->webPage->setStyleLib('debugbar/assets.css');
             $this->webPage->appendScripts($this->debugPanel->render(), false);

@@ -102,7 +102,7 @@ class RouteRepository
                 $this->addRoute(
                         $key . '_' . $lang,
                         $type,
-                        rtrim($address, '/') . '/' . $lang,
+                        $lang . rtrim($address,'/'),
                         $namespace,
                         $params,
                         $lang

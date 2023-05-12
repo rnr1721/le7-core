@@ -11,13 +11,16 @@ interface Url extends Stringable
 
     /**
      * Get link to some internal page. If all parameters empty - get base link
-     * @param string $location Example: page/contacts
-     * @param string $params Example: ?param1=one&param2=two
-     * @param string $route Example: admin
-     * @param string $language current language. If empty - will be default
+     * @param string|null $location Example: page/contacts
+     * @param string|array|null $params Example: ?param1=one&param2=two
+     * @param string|null $language current language. If empty - will be default
      * @return string
      */
-    public function get(string $location = '', string $params = '', string $route = '', string $language = ''): string;
+    public function get(
+            string|null $location = null,
+            string|array|null $params = null,
+            string|null $language = null
+    ): string;
 
     /**
      * Get theme URL

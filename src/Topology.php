@@ -36,7 +36,7 @@ class Topology
         'libs' => '{public}{ds}libs',
         'themes' => '{public}{ds}themes',
         'theme' => '{public}{ds}themes{ds}{current_theme}',
-        'templates' => '{public}{ds}themes{ds}{current_theme}{ds}templates',
+        'templates' => '{base}{ds}App{ds}View{ds}{current_theme}',
         'templates_base' => '{base}{ds}App{ds}View',
         'templates_errors' => '{core}{ds}ErrorHandler{ds}Templates'
     ];

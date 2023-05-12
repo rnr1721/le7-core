@@ -13,8 +13,6 @@ use Core\Interfaces\Config;
 class UrlBuilder implements Url
 {
 
-    private ?string $defController = null;
-    private ?string $defAction = null;
     private Request $request;
     private Locales $locales;
     private Config $config;
@@ -28,40 +26,43 @@ class UrlBuilder implements Url
         $this->request = $request;
         $this->route = $route;
 
-        $this->defAction = $this->config->string('defaultAction', 'index') ?? 'index';
-        $this->defController = $this->config->string('defaultController', 'index') ?? 'index';
-
         $this->base = $request->getBaseUrl();
     }
 
     /**
      * Get link to some internal page
-     * @param string $location Example: page/contacts
-     * @param string $params Example: ?param1=one&param2=two
-     * @param string $route Example: admin
-     * @param string $language current language. If empty - will be default
+     * @param string|null $location Example: page/contacts
+     * @param string|array|null $params Example: ?param1=one&param2=two
+     * @param string|null $language current language. If null - will be default
      * @return string
      */
-    public function get(string $location = '', string $params = '', string $route = '', string $language = ''): string
+    public function get(
+            string|null $location = null,
+            string|array|null $params = null,
+            string|null $language = null
+    ): string
     {
-        $data = array_filter(explode('/', $location));
-        $controllerRaw = $data[0] ?? $this->defController;
-        $actionRaw = $data[1] ?? $this->defAction;
 
-        /** @var string $controller */
-        $controller = $controllerRaw !== $this->defController ? $controllerRaw : '';
-        /** @var string $action */
-        $action = $actionRaw !== $this->defAction ? $actionRaw : '';
+        if ($location === null) {
+            $location = '';
+        }
+        $paramsString = is_string($params) ? $params : '';
 
-        $languageCurrent = $language ?: $this->locales->getCurrentLocaleShortname();
-        $defLanguage = $this->config->string('defaultLanguage', 'en') ?? 'en';
-        $lang = $languageCurrent === $defLanguage ? '' : $languageCurrent;
+        if (is_array($params)) {
+            $parameters = '';
+            foreach ($params as $paramKey => $paramValue) {
+                $parameters .= '&' . $paramKey . '=' . $paramValue;
+            }
+            $paramsString = ltrim($parameters, '&');
+        }
 
-        $route = '/' . trim($route, '/');
-        $result = '/' . ($lang === '' ? '' : $lang . '/') . $controller . '/' . $action;
-        $all = trim($route . $result, '/');
-        $url = rtrim($this->base . '/' . $all, '/');
-        return $url . ($params ? $params : '');
+        $languageCurrent = $language ?? $this->locales->getCurrentLocaleShortname();
+        $defLanguage = $this->locales->getDefaultLocaleShortname();
+        $lang = $languageCurrent === $defLanguage ? '' : '/' . $languageCurrent;
+
+        $clocation = $location === '' ? '' : '/' . trim($location, '/');
+
+        return $this->base . $lang . rtrim($clocation, '/') . $paramsString;
     }
 
     public function theme(): string

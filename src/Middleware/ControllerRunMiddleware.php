@@ -44,10 +44,10 @@ class ControllerRunMiddleware implements MiddlewareInterface
                 throw new RuntimeException("You must return ResponseInterface from controller");
             }
 
-            $code = $response->getStatusCode();
-            if ($code === 301 || $code === 302) {
-                return $response;
-            }
+            //$code = $response->getStatusCode();
+            //if ($code === 301 || $code === 302) {
+            //    return $response;
+            //}
 
             /** @var MiddlewareHandler $handler */
             if (method_exists($handler, 'withResponse')) {
