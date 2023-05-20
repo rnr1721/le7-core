@@ -6,7 +6,7 @@ namespace Core\Interfaces;
 
 use Psr\Http\Message\ResponseInterface;
 
-interface ResponseEmitter
+interface ResponseEmitterInterface
 {
 
     /**

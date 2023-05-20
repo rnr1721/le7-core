@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\Url;
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\Request;
-use Core\Interfaces\Locales;
-use Core\Interfaces\Config;
+use Core\Interfaces\UrlInterface;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\LocalesInterface;
+use Core\Interfaces\ConfigInterface;
 
-class UrlBuilder implements Url
+class UrlBuilder implements UrlInterface
 {
 
-    private Request $request;
-    private Locales $locales;
-    private Config $config;
-    private RouteHttp $route;
+    private RequestInterface $request;
+    private LocalesInterface $locales;
+    private ConfigInterface $config;
+    private RouteHttpInterface $route;
     private string $base;
 
-    public function __construct(Config $config, Locales $locales, Request $request, RouteHttp $route)
+    public function __construct(
+            ConfigInterface $config,
+            LocalesInterface $locales,
+            RequestInterface $request,
+            RouteHttpInterface $route
+    )
     {
         $this->config = $config;
         $this->locales = $locales;
@@ -99,10 +104,12 @@ class UrlBuilder implements Url
     /**
      * Return array of links for current page in other languages
      * except default language
-     * @param RouteHttp|null $currentRoute
+     * @param RouteHttpInterface|null $currentRoute
      * @return array
      */
-    public function getLanguageUrlVariants(?RouteHttp $currentRoute = null): array
+    public function getLanguageUrlVariants(
+            ?RouteHttpInterface $currentRoute = null
+    ): array
     {
 
         if ($currentRoute === null) {

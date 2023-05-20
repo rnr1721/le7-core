@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\View;
+use Core\Interfaces\ViewInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebEmitCacheMiddleware implements MiddlewareInterface
 {
 
-    private View $view;
+    private ViewInterface $view;
 
-    public function __construct(View $view)
+    public function __construct(ViewInterface $view)
     {
         $this->view = $view;
     }

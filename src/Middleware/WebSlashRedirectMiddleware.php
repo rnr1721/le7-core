@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\Request;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\RequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -17,10 +17,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebSlashRedirectMiddleware implements MiddlewareInterface
 {
 
-    private RouteHttp $route;
-    private Request $request;
+    private RouteHttpInterface $route;
+    private RequestInterface $request;
 
-    public function __construct(Request $request, RouteHttp $route)
+    public function __construct(RequestInterface $request, RouteHttpInterface $route)
     {
         $this->request = $request;
         $this->route = $route;

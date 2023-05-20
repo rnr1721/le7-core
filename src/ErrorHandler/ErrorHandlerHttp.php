@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler;
 
-use Core\Interfaces\MessageCollection;
-use Core\Interfaces\Config;
-use Core\Interfaces\ErrorOutputResponse;
+use Core\Interfaces\MessageCollectionInterface;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ErrorOutputResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ErrorHandlerHttp extends ErrorHandlerAbstract
 {
 
-    protected ErrorOutputResponse $output;
+    protected ErrorOutputResponseInterface $output;
 
     public function __construct(
-            Config $config,
+            ConfigInterface $config,
             LoggerInterface $logger,
-            MessageCollection $messages,
-            ErrorOutputResponse $ouptut
+            MessageCollectionInterface $messages,
+            ErrorOutputResponseInterface $ouptut
     )
     {
         parent::__construct($config, $logger, $messages);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebHandleMessagesMiddleware implements MiddlewareInterface
 {
 
-    private MessageCollection $messages;
+    private MessageCollectionInterface $messages;
 
-    public function __construct(MessageCollection $messages)
+    public function __construct(MessageCollectionInterface $messages)
     {
         $this->messages = $messages;
     }

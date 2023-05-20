@@ -2,12 +2,12 @@
 
 namespace Core\Controller\Console;
 
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigInterface;
 
 class IndexController extends BaseController
 {
 
-    public function indexAction(Config $config): void
+    public function indexAction(ConfigInterface $config): void
     {
         $this->stdout('Please choose controller, action or parametres to run');
         $this->stdout('Example: ./cli mycontroller:myaction --option1:777');

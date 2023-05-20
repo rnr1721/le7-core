@@ -7,14 +7,14 @@ namespace Core\DebugPanel\Collectors;
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\Renderable;
 use DebugBar\DataCollector\DataCollector;
-use Core\Interfaces\RouteHttp;
+use Core\Interfaces\RouteHttpInterface;
 
 class RouteCollector extends DataCollector implements Renderable, AssetProvider
 {
 
     protected array $data = [];
     protected string $name;
-    protected RouteHttp $route;
+    protected RouteHttpInterface $route;
     protected bool $useHtmlVarDumper = false;
 
     public function useHtmlVarDumper(bool $value = true): self
@@ -28,7 +28,7 @@ class RouteCollector extends DataCollector implements Renderable, AssetProvider
         return $this->useHtmlVarDumper;
     }
 
-    public function __construct(RouteHttp $route, string $name = 'route')
+    public function __construct(RouteHttpInterface $route, string $name = 'route')
     {
         $this->name = $name;
         $this->route = $route;

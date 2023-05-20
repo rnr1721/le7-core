@@ -6,9 +6,9 @@ namespace Core\Interfaces;
 
 use Core\ErrorHandler\ErrorHandlerCli;
 use Core\ErrorHandler\ErrorHandlerHttp;
-use Core\Interfaces\RouteHttp;
+use Core\Interfaces\RouteHttpInterface;
 
-interface ErrorHandlerFactory
+interface ErrorHandlerFactoryInterface
 {
 
     /**
@@ -19,9 +19,9 @@ interface ErrorHandlerFactory
 
     /**
      * Get configured Error Handler for http
-     * @param RouteHttp $route Route object
+     * @param RouteHttpInterface $route Route object
      * @param EventDispatcherInterface $eventDispatcher Events...
      * @return ErrorHandlerHttp
      */
-    public function getErrorHandlerHttp(RouteHttp $route): ErrorHandlerHttp;
+    public function getErrorHandlerHttp(RouteHttpInterface $route): ErrorHandlerHttp;
 }

@@ -6,7 +6,7 @@ namespace Core\Interfaces;
 
 use Psr\Container\ContainerInterface;
 
-interface ContainerFactory
+interface ContainerFactoryInterface
 {
 
     /**

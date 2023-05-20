@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core;
 
-use Core\Interfaces\ResponseEmitter;
-use Core\Interfaces\MiddlewareFactory;
-use Core\Interfaces\Locales;
+use Core\Interfaces\ResponseEmitterInterface;
+use Core\Interfaces\MiddlewareFactoryInterface;
+use Core\Interfaces\LocalesInterface;
 use Core\Bag\RouteBag;
 use Core\Bag\RequestBag;
 use Core\ErrorHandler\ErrorHandlerHttp;
@@ -34,8 +34,8 @@ class InitHttp implements RequestHandlerInterface
     {
         $container = $this->getContainer();
         $response = $this->handle($request);
-        /** @var ResponseEmitter $responseEmitter */
-        $responseEmitter = $container->get(ResponseEmitter::class);
+        /** @var ResponseEmitterInterface $responseEmitter */
+        $responseEmitter = $container->get(ResponseEmitterInterface::class);
         $responseEmitter->emit($response);
     }
 
@@ -61,10 +61,10 @@ class InitHttp implements RequestHandlerInterface
         /** @var ErrorHandlerHttp $errorHandler */
         $errorHandler = $container->get(ErrorHandlerHttp::class);
         try {
-            $locales = $container->get(Locales::class);
+            $locales = $container->get(LocalesInterface::class);
             $locales->setLocale($route->getLanguage());
-            /** @var MiddlewareFactory $middlewareFactory */
-            $middlewareFactory = $container->get(MiddlewareFactory::class);
+            /** @var MiddlewareFactoryInterface $middlewareFactory */
+            $middlewareFactory = $container->get(MiddlewareFactoryInterface::class);
             $middlewares = $middlewareFactory->getMiddleware($route);
 
             /** @var ResponseInterface $response */

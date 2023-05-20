@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
+use Core\Interfaces\MiddlewareHandlerInterface;
+use Core\Interfaces\RouteHttpInterface;
 use Core\Routing\RunnerTrait;
-use Core\Interfaces\MiddlewareHandler;
-use Core\Interfaces\RouteHttp;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,10 +19,10 @@ class ControllerRunMiddleware implements MiddlewareInterface
 
     use RunnerTrait;
 
-    private RouteHttp $route;
+    private RouteHttpInterface $route;
     protected ContainerInterface $container;
 
-    public function __construct(ContainerInterface $container, RouteHttp $route)
+    public function __construct(ContainerInterface $container, RouteHttpInterface $route)
     {
         $this->container = $container;
         $this->route = $route;
@@ -49,7 +49,7 @@ class ControllerRunMiddleware implements MiddlewareInterface
             //    return $response;
             //}
 
-            /** @var MiddlewareHandler $handler */
+            /** @var MiddlewareHandlerInterface $handler */
             if (method_exists($handler, 'withResponse')) {
                 $handler = $handler->withResponse($response);
             }

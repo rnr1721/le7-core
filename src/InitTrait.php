@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core;
 
-use Core\Interfaces\Config;
-use Core\Interfaces\ContainerFactory;
-use Core\Interfaces\ListenerProvider;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ContainerFactoryInterface;
+use Core\Interfaces\ListenerProviderInterface;
 use Psr\Container\ContainerInterface;
 use \Exception;
 
@@ -21,9 +21,9 @@ trait InitTrait
 
     /**
      * Configuration manager
-     * @var Config|null
+     * @var ConfigInterface|null
      */
-    protected ?Config $config = null;
+    protected ?ConfigInterface $config = null;
 
     /**
      * PSR Container
@@ -33,9 +33,9 @@ trait InitTrait
 
     /**
      * Container factory that can create container outside the core
-     * @var ContainerFactory
+     * @var ContainerFactoryInterface
      */
-    protected ContainerFactory $containerFactory;
+    protected ContainerFactoryInterface $containerFactory;
 
     /**
      * Production status
@@ -44,7 +44,7 @@ trait InitTrait
     protected bool $isProduction = false;
 
     public function __construct(
-            ContainerFactory $containerFactory,
+            ContainerFactoryInterface $containerFactory,
             Topology $topology
     )
     {
@@ -59,7 +59,7 @@ trait InitTrait
         $this->config = $this->getConfig($this->container);
         $this->setTimezone();
 
-        $this->container->get(ListenerProvider::class);
+        $this->container->get(ListenerProviderInterface::class);
     }
 
     /**
@@ -67,12 +67,12 @@ trait InitTrait
      * with dynamically created options current theme, production status and
      * locations of project directories
      * @param ContainerInterface $container PSR container
-     * @return Config
+     * @return ConfigInterface
      */
-    private function getConfig(ContainerInterface $container): Config
+    private function getConfig(ContainerInterface $container): ConfigInterface
     {
-        /** @var Config $config */
-        $config = $container->get(Config::class);
+        /** @var ConfigInterface $config */
+        $config = $container->get(ConfigInterface::class);
 
         $config->registerParam('loc', $this->topology);
         $config->registerParam('isProduction', $config->bool('isProduction'));

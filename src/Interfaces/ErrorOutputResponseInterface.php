@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Core\Interfaces;
 
 use Psr\Http\Message\ResponseInterface;
-use Throwable;
+use \Throwable;
 
-interface ErrorOutputResponse
+interface ErrorOutputResponseInterface
 {
 
     /**

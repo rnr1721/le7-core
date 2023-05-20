@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\Session;
+use Core\Interfaces\SessionInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebSessionStartMiddleware implements MiddlewareInterface
 {
     
-    private Session $session;
+    private SessionInterface $session;
 
-    public function __construct(Session $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

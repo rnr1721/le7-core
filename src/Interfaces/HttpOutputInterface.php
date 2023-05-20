@@ -3,6 +3,7 @@
 namespace Core\Interfaces;
 
 use Core\Response\JsonResponse;
+use Core\Response\JsonpResponse;
 use Core\Response\TextResponse;
 use Core\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
  * @property-read HtmlResponse $html
  * @property-read TextResponse $text
  */
-interface Response
+interface HttpOutputInterface
 {
 
     /**
@@ -26,12 +27,11 @@ interface Response
      * Redirect to another internal page
      * @param string $location for example 'page/contacts'
      * @param string $params Params, for example "?name=john&age=33"
-     * @param string $route Route, for example "admin" (see ./config/routes.php)
      * @param string $language Language for form link. Empty = default
      * @param int $code Response code
      * @return ResponseInterface
      */
-    public function redirect(string $location = '', string $params = '', string $route = '', string $language = '', int $code = 301): ResponseInterface;
+    public function redirect(string $location = '', string $params = '', string $language = '', int $code = 301): ResponseInterface;
 
     /**
      * Redirect to any external page
@@ -59,6 +59,12 @@ interface Response
      * @return JsonResponse
      */
     public function toJson(): JsonResponse;
+
+    /**
+     * Get JsonpResponse for emit in JSONP
+     * @return JsonpResponse
+     */
+    public function toJsonp(): JsonpResponse;
 
     /**
      * Get HtmlReponse for emit in Html

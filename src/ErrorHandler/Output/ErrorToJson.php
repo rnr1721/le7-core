@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler\Output;
 
-use Core\Interfaces\ErrorOutputResponse;
+use Core\Interfaces\ErrorOutputResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use \Throwable;
 
-class ErrorToJson implements ErrorOutputResponse
+class ErrorToJson implements ErrorOutputResponseInterface
 {
 
     protected ResponseFactoryInterface $factory;

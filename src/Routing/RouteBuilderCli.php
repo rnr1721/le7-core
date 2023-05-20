@@ -6,15 +6,15 @@ namespace Core\Routing;
 
 use Core\Bag\RouteBag;
 use Core\Console\CliOptions;
-use Core\Interfaces\Config;
-use Core\Interfaces\RouteCli;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\RouteCliInterface;
 
 class RouteBuilderCli
 {
 
     private RouteBag $routeBag;
     private CliOptions $cliOptions;
-    private Config $config;
+    private ConfigInterface $config;
     public string $defController;
     public string $defAction;
     public string $defLanguage;
@@ -23,7 +23,11 @@ class RouteBuilderCli
     private string $notfoundController = '\Core\Controller\Console\Notfound';
     private string $systemNamespace = '\Core\Controller\Console\System\\';
 
-    public function __construct(Config $config, CliOptions $cliOptions, RouteBag $routeBag)
+    public function __construct(
+            ConfigInterface $config,
+            CliOptions $cliOptions,
+            RouteBag $routeBag
+    )
     {
         $this->routeBag = $routeBag;
         $this->cliOptions = $cliOptions;
@@ -36,9 +40,9 @@ class RouteBuilderCli
 
     /**
      * Get current CLI route as object
-     * @return RouteCli
+     * @return RouteCliInterface
      */
-    public function getCurrentRoute(): RouteCli
+    public function getCurrentRoute(): RouteCliInterface
     {
 
         $params = $this->cliOptions->getOptions();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebHeadersMiddleware implements MiddlewareInterface
 {
 
-    private Config $config;
+    private ConfigInterface $config;
     private array $defaultHeaders = [
         //no-referrer, no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         'Referrer-Policy' => 'no-referrer-when-downgrade',
@@ -28,7 +28,7 @@ class WebHeadersMiddleware implements MiddlewareInterface
         'X-XSS-Protection' => '1; mode=block'
     ];
 
-    public function __construct(Config $config)
+    public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
     }

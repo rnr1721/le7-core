@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Core\Routing;
 
 use Core\Routing\DispatcherReflection;
-use Core\Interfaces\Request;
-use Core\Interfaces\Config;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\ConfigInterface;
 use Psr\SimpleCache\CacheInterface;
 use \Exception;
 
@@ -23,14 +23,14 @@ abstract class Dispatcher
     protected array $locales = [];
     protected DispatcherReflection $reflection;
     protected CacheInterface $cache;
-    protected Request $request;
-    protected Config $config;
+    protected RequestInterface $request;
+    protected ConfigInterface $config;
     protected string $root;
 
     public function __construct(
             CacheInterface $cache,
-            Config $config,
-            Request $request,
+            ConfigInterface $config,
+            RequestInterface $request,
             DispatcherReflection $reflection
     )
     {
@@ -149,7 +149,7 @@ abstract class Dispatcher
         if (!empty($actionParams['allowedParams'])) {
             $allowedParams = $actionParams['allowedParams'];
         }
-        
+
         /** @var string[] $middleware */
         $middleware = array_merge($controllerParams['middleware'], $actionParams['middleware']);
 
@@ -280,7 +280,10 @@ abstract class Dispatcher
      * @param string|null $controller
      * @return class-string|null
      */
-    protected function getControllerClass(string $namespace, ?string $controller = null): string|null
+    protected function getControllerClass(
+            string $namespace,
+            ?string $controller = null
+    ): string|null
     {
         if ($controller === null) {
             $controller = $this->defaultController;
@@ -292,7 +295,11 @@ abstract class Dispatcher
         return null;
     }
 
-    private function getActionMethod(string $prefix, string $suffix, ?string $action = null): string
+    private function getActionMethod(
+            string $prefix,
+            string $suffix,
+            ?string $action = null
+    ): string
     {
         if ($action) {
             return $action . $prefix . $suffix;
@@ -300,5 +307,9 @@ abstract class Dispatcher
         return $this->defaultAction . $prefix . $suffix;
     }
 
-    abstract public function getRoute(string $uri, array $parsedRoute, bool $notFound = true): array;
+    abstract public function getRoute(
+            string $uri,
+            array $parsedRoute,
+            bool $notFound = true
+    ): array;
 }

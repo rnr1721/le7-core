@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Console;
 
-use Core\Interfaces\Config;
-use Core\Interfaces\RouteCli;
-use Core\Interfaces\Locales;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\RouteCliInterface;
+use Core\Interfaces\LocalesInterface;
 use Core\ErrorHandler\ErrorHandlerCli;
 use Core\Console\ColorMessage;
 use Core\Routing\DispatcherReflection;
@@ -21,16 +21,16 @@ class CliHandler
     use ConsoleTrait;
 
     protected ColorMessage $color;
-    protected Config $config;
-    protected Locales $locales;
+    protected ConfigInterface $config;
+    protected LocalesInterface $locales;
     protected ErrorHandlerCli $errorHandler;
     protected ContainerInterface $container;
     protected DispatcherReflection $reflection;
 
     public function __construct(
             ContainerInterface $container,
-            Config $config,
-            Locales $locales,
+            ConfigInterface $config,
+            LocalesInterface $locales,
             ErrorHandlerCli $errorHandler,
             ColorMessage $color,
             DispatcherReflection $refletction
@@ -46,10 +46,10 @@ class CliHandler
 
     /**
      * Handle the current CLI route
-     * @param RouteCli $route
+     * @param RouteCliInterface $route
      * @return void
      */
-    public function handle(RouteCli $route): void
+    public function handle(RouteCliInterface $route): void
     {
 
         $options = $route->getOptions();
@@ -119,7 +119,12 @@ class CliHandler
      * @param string $language Language that need
      * @return void
      */
-    private function showHello(string $controller, string $action, bool $isHelp, string $language): void
+    private function showHello(
+            string $controller,
+            string $action,
+            bool $isHelp,
+            string $language
+    ): void
     {
         $this->stdout($this->color->green("lame Buddy 7 - (" . $this->config->string('projectName', "My project") . ")"));
         if (!$isHelp) {

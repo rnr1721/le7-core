@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace Core\Response;
 
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class JsonResponse
 {
 
     private ResponseInterface $response;
-    private MessageCollection $messages;
+    private MessageCollectionInterface $messages;
 
-    public function __construct(ResponseInterface $response, MessageCollection $messageCollection)
+    /**
+     * JsonResponse constructor.
+     * @param ResponseInterface $response The PSR-7 HTTP response object
+     * @param MessageCollectionInterface $messageCollection The message collection object
+     */
+    public function __construct(
+            ResponseInterface $response,
+            MessageCollectionInterface $messageCollection
+    )
     {
         $this->response = $response;
         $this->messages = $messageCollection;

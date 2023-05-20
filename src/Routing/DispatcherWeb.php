@@ -17,7 +17,11 @@ class DispatcherWeb extends Dispatcher
      * @return array
      * @throws Exception
      */
-    public function getRoute(string $uri, array $parsedRoute, bool $notFound = true): array
+    public function getRoute(
+            string $uri,
+            array $parsedRoute,
+            bool $notFound = true
+    ): array
     {
 
         $method = $this->request->getMethod();

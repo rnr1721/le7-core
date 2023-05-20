@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Core\EventListeners;
 
+use Core\Interfaces\WebPageInterface;
+use Core\Interfaces\MessageCollectionInterface;
 use Core\DebugPanel\Collectors\ResponseCollector;
-use Core\Interfaces\WebPage;
 use Core\DebugPanel\DebugPanel;
-use Core\Interfaces\MessageCollection;
 use Core\EventDispatcher\Listener;
 
 class DebugBarListener extends Listener
 {
 
     private DebugPanel $debugPanel;
-    private MessageCollection $messages;
-    private WebPage $webPage;
+    private MessageCollectionInterface $messages;
+    private WebPageInterface $webPage;
 
     public function __construct(
             DebugPanel $debugPanel,
-            MessageCollection $messages,
-            WebPage $webPage
+            MessageCollectionInterface $messages,
+            WebPageInterface $webPage
     )
     {
         $this->debugPanel = $debugPanel;

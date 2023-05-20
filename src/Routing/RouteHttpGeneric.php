@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\RouteHttp;
+use Core\Interfaces\RouteHttpInterface;
 
-class RouteHttpGeneric extends RouteGeneric implements RouteHttp
+class RouteHttpGeneric extends RouteGeneric implements RouteHttpInterface
 {
 
     public function getBase(): string

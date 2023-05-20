@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\RouteHttp;
+use Core\Interfaces\RouteHttpInterface;
 use Core\Security\Csrf;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebCsrfMiddleware implements MiddlewareInterface
 {
 
-    private RouteHttp $route;
+    private RouteHttpInterface $route;
     private ResponseFactoryInterface $responseFactory;
     private Csrf $csrf;
     private array $protectedMethods = [
@@ -28,7 +28,11 @@ class WebCsrfMiddleware implements MiddlewareInterface
         'DELETE'
     ];
 
-    public function __construct(Csrf $csrf, RouteHttp $route, ResponseFactoryInterface $responseFactory)
+    public function __construct(
+            Csrf $csrf,
+            RouteHttpInterface $route,
+            ResponseFactoryInterface $responseFactory
+    )
     {
         $this->csrf = $csrf;
         $this->responseFactory = $responseFactory;

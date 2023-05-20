@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Response;
 
-use Core\Interfaces\ResponseEmitter;
+use Core\Interfaces\ResponseEmitterInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class ResponseEmitterGeneric implements ResponseEmitter
+class ResponseEmitterGeneric implements ResponseEmitterInterface
 {
 
     private int $responseChunkSize = 4096;

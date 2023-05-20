@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Interfaces;
 
-interface Translate
+interface TranslateInterface
 {
 
     public function get(string|array $var, string $lang = '', string $returnIfEmpty = 'en', bool $reportEmpty = false): string;

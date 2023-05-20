@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler\Output;
 
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ErrorOutputCliInterface;
 use Core\Console\ConsoleTrait;
 use Core\Console\ColorMessage;
-use Core\Interfaces\ErrorOutputCli;
 use \Throwable;
 
-class ErrorToCli implements ErrorOutputCli
+class ErrorToCli implements ErrorOutputCliInterface
 {
 
     use ConsoleTrait;
 
-    private Config $config;
+    private ConfigInterface $config;
     private ColorMessage $color;
 
-    public function __construct(Config $config, ColorMessage $color)
+    public function __construct(ConfigInterface $config, ColorMessage $color)
     {
         $this->config = $config;
         $this->color = $color;

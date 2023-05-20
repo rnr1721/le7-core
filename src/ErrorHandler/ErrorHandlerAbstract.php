@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler;
 
-use Core\Interfaces\MessageCollection;
-use Core\Interfaces\Config;
+use Core\Interfaces\MessageCollectionInterface;
+use Core\Interfaces\ConfigInterface;
 use Psr\Log\LoggerInterface;
 use \Throwable;
 
 abstract class ErrorHandlerAbstract
 {
 
-    protected MessageCollection $messages;
+    protected MessageCollectionInterface $messages;
     protected ?Throwable $exception = null;
     protected array $errors = [];
     protected LoggerInterface $logger;
 
-    public function __construct(Config $config, LoggerInterface $logger, MessageCollection $messages)
+    public function __construct(
+            ConfigInterface $config,
+            LoggerInterface $logger,
+            MessageCollectionInterface $messages
+    )
     {
         $this->messages = $messages;
         $this->logger = $logger;

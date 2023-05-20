@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler\Output;
 
-use Core\Interfaces\Config;
-use Core\Interfaces\ErrorOutputResponse;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ErrorOutputResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use \Throwable;
 
-class ErrorToHtml implements ErrorOutputResponse
+class ErrorToHtml implements ErrorOutputResponseInterface
 {
 
-    protected Config $config;
+    protected ConfigInterface $config;
     protected ResponseFactoryInterface $responseFactory;
 
-    public function __construct(Config $config, ResponseFactoryInterface $responseFactory)
+    public function __construct(
+            ConfigInterface $config,
+            ResponseFactoryInterface $responseFactory
+    )
     {
         $this->config = $config;
         $this->responseFactory = $responseFactory;
@@ -28,7 +31,7 @@ class ErrorToHtml implements ErrorOutputResponse
      */
     public function get(Throwable|null $exception, array $errors): ResponseInterface
     {
-        
+
         if (ob_get_contents()) {
             ob_clean();
         }
@@ -46,8 +49,8 @@ class ErrorToHtml implements ErrorOutputResponse
         $size = $response->getBody()->getSize();
 
         return $response
-                ->withHeader('Content-Type', 'text/html')
-                ->withHeader('Content-Length', (string) $size);
+                        ->withHeader('Content-Type', 'text/html')
+                        ->withHeader('Content-Length', (string) $size);
     }
 
 }

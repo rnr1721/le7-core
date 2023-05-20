@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Factories;
 
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\MiddlewareFactoryInterface;
 use Core\Middleware\ControllerRunMiddleware;
-use Core\Interfaces\Config;
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\MiddlewareFactory;
 use Core\RequestHandler\DefaultHandler;
 use Core\RequestHandler\MiddlewareDispatcherDefault;
 use Psr\Container\ContainerInterface;
@@ -20,14 +20,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  * functions that handle the incoming request and prepare it for the final
  * request handler.
  */
-class MiddlewareFactoryDefault implements MiddlewareFactory
+class MiddlewareFactoryDefault implements MiddlewareFactoryInterface
 {
 
-    private Config $config;
+    private ConfigInterface $config;
     private ContainerInterface $container;
 
     public function __construct(
-            Config $config,
+            ConfigInterface $config,
             ContainerInterface $container
     )
     {
@@ -43,10 +43,10 @@ class MiddlewareFactoryDefault implements MiddlewareFactory
      * from the Config instance to it. Finally, it returns the
      * MiddlewareDispatcherDefault instance as the request handler for the
      * given HTTP route.
-     * @param RouteHttp $route
+     * @param RouteHttpInterface $route
      * @return RequestHandlerInterface
      */
-    public function getMiddleware(RouteHttp $route): RequestHandlerInterface
+    public function getMiddleware(RouteHttpInterface $route): RequestHandlerInterface
     {
 
         $defaultHandler = $this->container->get(DefaultHandler::class);

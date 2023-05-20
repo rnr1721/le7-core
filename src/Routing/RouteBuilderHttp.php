@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\Request;
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\Config;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\ConfigInterface;
 use Core\Routing\DispatcherReflection;
 use Psr\SimpleCache\CacheInterface;
 use \Exception;
@@ -20,15 +20,15 @@ class RouteBuilderHttp
 
     private CacheInterface $cache;
     private RouteRepository $routeCollection;
-    private Config $config;
-    private Request $request;
+    private ConfigInterface $config;
+    private RequestInterface $request;
     private DispatcherReflection $reflection;
     private string $systemNamespace = 'Core\Controller\Web';
 
     public function __construct(
             CacheInterface $cache,
-            Config $config,
-            Request $request,
+            ConfigInterface $config,
+            RequestInterface $request,
             RouteRepository $routeCollection,
             DispatcherReflection $reflection,
     )
@@ -42,10 +42,10 @@ class RouteBuilderHttp
 
     /**
      * Get current HTTP route as object
-     * @return RouteHttp
+     * @return RouteHttpInterface
      * @throws Exception
      */
-    public function getCurrentRoute(): RouteHttp
+    public function getCurrentRoute(): RouteHttpInterface
     {
 
         $uriRaw = str_replace('//', '/', $this->request->getUri()->getPath());

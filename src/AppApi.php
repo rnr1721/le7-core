@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Core;
 
-use Core\Interfaces\Request;
-use Core\Interfaces\Response;
-use Core\Interfaces\RouteHttp;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\HttpOutputInterface;
+use Core\Interfaces\RouteHttpInterface;
 
 class AppApi
 {
 
-    public Request $request;
-    public Response $response;
-    public RouteHttp $route;
+    public RequestInterface $request;
+    public HttpOutputInterface $response;
+    public RouteHttpInterface $route;
 
     public function __construct(
-            Request $request,
-            Response $response,
-            RouteHttp $route,
+            RequestInterface $request,
+            HttpOutputInterface $response,
+            RouteHttpInterface $route,
     )
     {
         $this->request = $request;

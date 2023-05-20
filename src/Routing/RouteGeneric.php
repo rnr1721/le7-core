@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\Route;
+use Core\Interfaces\RouteInterface;
 use \Exception;
 
-class RouteGeneric implements Route
+class RouteGeneric implements RouteInterface
 {
 
     protected array $route = array();

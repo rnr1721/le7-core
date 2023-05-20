@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Core\DebugPanel;
 
-use Psr\Log\AbstractLogger;
-use Core\Interfaces\Config;
-use Core\Interfaces\Request;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\RequestInterface;
 use DebugBar\DebugBar;
 use DebugBar\DataCollector\DataCollectorInterface;
 use DebugBar\JavascriptRenderer;
+use Psr\Log\AbstractLogger;
 use Psr\Container\ContainerInterface;
 use \RuntimeException;
 
@@ -18,12 +18,15 @@ class DebugPanel
 
     protected bool $canStart = false;
     protected ContainerInterface $container;
-    protected Config $config;
-    protected Request $request;
+    protected ConfigInterface $config;
+    protected RequestInterface $request;
     protected ?DebugBar $debugBar = null;
     protected ?JavascriptRenderer $renderer = null;
 
-    public function __construct(ContainerInterface $container, Config $config, Request $request)
+    public function __construct(
+            ContainerInterface $container,
+            ConfigInterface $config,
+            RequestInterface $request)
     {
         $this->container = $container;
         $this->config = $config;

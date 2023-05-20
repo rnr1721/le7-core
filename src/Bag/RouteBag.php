@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Bag;
 
-use Core\Interfaces\Route;
+use Core\Interfaces\RouteInterface;
 use \Exception;
 
 class RouteBag
@@ -12,18 +12,18 @@ class RouteBag
 
     /**
      * Current route
-     * @var Route|null
+     * @var RouteInterface|null
      */
-    private ?Route $route = null;
+    private ?RouteInterface $route = null;
 
     /**
      * Get current route from bag
-     * @return Route
+     * @return RouteInterface
      * @throws Exception
      */
-    public function getRoute(): Route
+    public function getRoute(): RouteInterface
     {
-        if (!$this->route instanceof Route) {
+        if (!$this->route instanceof RouteInterface) {
             throw new Exception('No route in bag!');
         }
         return $this->route;
@@ -31,10 +31,10 @@ class RouteBag
 
     /**
      * Set current route to bag
-     * @param Route $route RouteHttp or RouteCli
+     * @param RouteInterface $route RouteHttp or RouteCli
      * @return void
      */
-    public function setRoute(Route $route): void
+    public function setRoute(RouteInterface $route): void
     {
         $this->route = $route;
     }

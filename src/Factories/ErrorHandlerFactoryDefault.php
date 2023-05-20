@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Core\Factories;
 
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\Config;
-use Core\Interfaces\MessageCollection;
-use Core\Interfaces\ErrorHandlerFactory;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\MessageCollectionInterface;
+use Core\Interfaces\ErrorHandlerFactoryInterface;
 use Core\ErrorHandler\ErrorHandlerCli;
 use Core\ErrorHandler\ErrorHandlerHttp;
 use Core\ErrorHandler\Output\ErrorToHtml;
@@ -18,25 +18,25 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
 use \Exception;
 
-class ErrorHandlerFactoryDefault implements ErrorHandlerFactory
+class ErrorHandlerFactoryDefault implements ErrorHandlerFactoryInterface
 {
 
-    protected Config $config;
+    protected ConfigInterface $config;
     protected LoggerInterface $logger;
-    protected MessageCollection $messageCollection;
+    protected MessageCollectionInterface $messageCollection;
     protected ResponseFactoryInterface $responseFactory;
 
     /**
      * Initializes the class dependencies and sets them as class properties
-     * @param Config $config Config manager
+     * @param ConfigInterface $config Config manager
      * @param LoggerInterface $logger PSR Logger
-     * @param MessageCollection $messageCollection Messages manager
+     * @param MessageCollectionInterface $messageCollection Messages manager
      * @param ResponseFactoryInterface $responseFactory PSR Response factory
      */
     public function __construct(
-            Config $config,
+            ConfigInterface $config,
             LoggerInterface $logger,
-            MessageCollection $messageCollection,
+            MessageCollectionInterface $messageCollection,
             ResponseFactoryInterface $responseFactory
     )
     {
@@ -67,11 +67,11 @@ class ErrorHandlerFactoryDefault implements ErrorHandlerFactory
      * Creates and returns an instance of ErrorHandlerHttp class
      * The type of the output is determined by the $route parameter which is an
      * instance of RouteHttp interface
-     * @param RouteHttp $route
+     * @param RouteHttpInterface $route
      * @return ErrorHandlerHttp
      * @throws Exception
      */
-    public function getErrorHandlerHttp(RouteHttp $route): ErrorHandlerHttp
+    public function getErrorHandlerHttp(RouteHttpInterface $route): ErrorHandlerHttp
     {
         if ($route->getType() === 'web') {
             $output = new ErrorToHtml($this->config, $this->responseFactory);

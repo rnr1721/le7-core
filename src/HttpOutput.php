@@ -2,12 +2,13 @@
 
 namespace Core;
 
-use Core\Interfaces\Response;
+use Core\Interfaces\HttpOutputInterface;
 use Core\Bag\ResponseBag;
-use Core\Interfaces\Url;
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\UrlInterface;
+use Core\Interfaces\MessageCollectionInterface;
 use Core\Response\HtmlResponse;
 use Core\Response\JsonResponse;
+use Core\Response\JsonpResponse;
 use Core\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 
@@ -16,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
  * @param HtmlResponse $html
  * @param TextResponse $text
  */
-class ResponseDefault implements Response
+class HttpOutput implements HttpOutputInterface
 {
 
     /**
@@ -25,17 +26,21 @@ class ResponseDefault implements Response
     private ResponseInterface $response;
 
     /**
-     * @var Url
+     * @var UrlInterface
      */
-    private Url $url;
+    private UrlInterface $url;
 
     /**
      * Message collection
-     * @var MessageCollection
+     * @var MessageCollectionInterface
      */
-    private MessageCollection $messageCollection;
+    private MessageCollectionInterface $messageCollection;
 
-    public function __construct(ResponseBag $responseBag, Url $url, MessageCollection $messageCollection)
+    public function __construct(
+            ResponseBag $responseBag,
+            UrlInterface $url,
+            MessageCollectionInterface $messageCollection
+    )
     {
         $this->response = $responseBag->getResponse();
         $this->url = $url;
@@ -59,14 +64,18 @@ class ResponseDefault implements Response
      * Redirect to another internal page
      * @param string $location for example 'page/contacts'
      * @param string $params Params, for example "?name=john&age=33"
-     * @param string $route Route, for example "admin" (see ./config/routes.php)
      * @param string $language Language for form link. Empty = default
      * @param int $code Response code
      * @return ResponseInterface
      */
-    public function redirect(string $location = '', string $params = '', string $route = '', string $language = '', int $code = 301): ResponseInterface
+    public function redirect(
+            string $location = '',
+            string $params = '',
+            string $language = '',
+            int $code = 301
+    ): ResponseInterface
     {
-        $url = $this->url->get($location, $params, $route, $language);
+        $url = $this->url->get($location, $params, $language);
         return $this->response->withHeader('Location', $url)->withStatus($code);
     }
 
@@ -76,7 +85,10 @@ class ResponseDefault implements Response
      * @param int $code Response code
      * @return ResponseInterface
      */
-    public function redirectExternal(string $url, int $code = 301): ResponseInterface
+    public function redirectExternal(
+            string $url,
+            int $code = 301
+    ): ResponseInterface
     {
         return $this->response->withHeader('Location', $url)->withStatus($code);
     }
@@ -117,6 +129,17 @@ class ResponseDefault implements Response
     public function toJson(): JsonResponse
     {
         return new JsonResponse($this->response, $this->messageCollection);
+    }
+
+    /**
+     * Get JSONP response generator
+     * It can generate ResponseInterface for JSONP
+     * from string
+     * @return JsonpResponse
+     */
+    public function toJsonp(): JsonpResponse
+    {
+        return new JsonpResponse($this->response, $this->messageCollection);
     }
 
     /**

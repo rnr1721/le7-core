@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\MessageCollectionFlash;
+use Core\Interfaces\MessageCollectionFlashInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class WebPutMessagesMiddleware implements MiddlewareInterface
 {
 
-    private MessageCollectionFlash $messagesFlash;
+    private MessageCollectionFlashInterface $messagesFlash;
 
-    public function __construct(MessageCollectionFlash $messagesFlash)
+    public function __construct(MessageCollectionFlashInterface $messagesFlash)
     {
         $this->messagesFlash = $messagesFlash;
     }

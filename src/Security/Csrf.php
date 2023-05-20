@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Security;
 
-use Core\Interfaces\Request;
-use Core\Interfaces\Session;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\SessionInterface;
 use function bin2hex,
              random_bytes;
 use \Throwable;
@@ -14,14 +14,17 @@ use \RuntimeException;
 class Csrf implements \Stringable
 {
 
-    private Request $request;
-    private Session $session;
+    private RequestInterface $request;
+    private SessionInterface $session;
     private string $tokenKey;
     private string $tokenKeyOld;
     private string $tokenPrefix = 'csrf_';
     private string $tokenPrefixOld = 'csrf_old_';
 
-    public function __construct(Session $session, Request $request)
+    public function __construct(
+            SessionInterface $session,
+            RequestInterface $request
+    )
     {
         $this->session = $session;
         $this->request = $request;

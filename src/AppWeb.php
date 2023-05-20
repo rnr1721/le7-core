@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace Core;
 
-use Core\Interfaces\Request;
-use Core\Interfaces\Response;
-use Core\Interfaces\RouteHttp;
-use Core\Interfaces\WebPage;
-use Core\Interfaces\View;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\HttpOutputInterface;
+use Core\Interfaces\RouteHttpInterface;
+use Core\Interfaces\WebPageInterface;
+use Core\Interfaces\ViewInterface;
 
 class AppWeb
 {
 
-    public Request $request;
-    public Response $response;
-    public RouteHttp $route;
-    public WebPage $webPage;
-    public View $view;
+    public RequestInterface $request;
+    public HttpOutputInterface $response;
+    public RouteHttpInterface $route;
+    public WebPageInterface $webPage;
+    public ViewInterface $view;
 
     public function __construct(
-            Request $request,
-            Response $response,
-            RouteHttp $route,
-            WebPage $webPage,
-            View $view
+            RequestInterface $request,
+            HttpOutputInterface $response,
+            RouteHttpInterface $route,
+            WebPageInterface $webPage,
+            ViewInterface $view
     )
     {
         $this->request = $request;

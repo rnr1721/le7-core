@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Middleware;
 
-use Core\Interfaces\Config;
+use Core\Interfaces\ConfigInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ApiHeadersMiddleware implements MiddlewareInterface
 {
 
-    private Config $config;
+    private ConfigInterface $config;
     private array $defaultHeaders = [
         'Access-Control-Allow-Origin' => '*',
         'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, PUT, DELETE, HEAD',
@@ -24,7 +24,7 @@ class ApiHeadersMiddleware implements MiddlewareInterface
         'Access-Control-Allow-Headers' => 'Content-Type, Origin, Authorizations, User-Agent, Host, Authorization, Content-Length, Accept, X-Requested-With, X-Auth-Token, Content-Language, Source'
     ];
 
-    public function __construct(Config $config)
+    public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
     }

@@ -2,15 +2,15 @@
 
 namespace Core\Controller\Console\System;
 
+use Core\Interfaces\ConfigInterface;
 use Core\Controller\Console\BaseController;
-use Core\Interfaces\Config;
 
 class CacheController extends BaseController
 {
 
-    private Config $config;
+    private ConfigInterface $config;
 
-    public function __construct(Config $config)
+    public function __construct(ConfigInterface $config)
     {
         $this->config = $config;
     }

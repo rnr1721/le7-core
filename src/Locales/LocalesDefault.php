@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Core\Locales;
 
-use Core\Interfaces\Locales;
-use Core\Interfaces\Config;
+use Core\Interfaces\LocalesInterface;
+use Core\Interfaces\ConfigInterface;
 
-class LocalesDefault implements Locales
+class LocalesDefault implements LocalesInterface
 {
 
-    protected Config $config;
+    protected ConfigInterface $config;
     protected string $defaultLocaleName = 'en_US';
     protected string $defaultLocaleShortname = 'en';
     protected string $defaultLocaleLabel = 'English';
@@ -20,7 +20,7 @@ class LocalesDefault implements Locales
     protected array $localesByName;
     protected array $localesByShortname;
 
-    public function __construct(Config $config)
+    public function __construct(ConfigInterface $config)
     {
 
         $this->config = $config;

@@ -6,7 +6,7 @@ namespace Core\Interfaces;
 
 use Stringable;
 
-interface Url extends Stringable
+interface UrlInterface extends Stringable
 {
 
     /**
@@ -60,10 +60,10 @@ interface Url extends Stringable
 
     /**
      * Get all language links for current page except current lang
-     * @param RouteHttp $currentRoute Current route
+     * @param RouteHttpInterface $currentRoute Current route
      * @return array
      */
-    public function getLanguageUrlVariants(RouteHttp $currentRoute): array;
+    public function getLanguageUrlVariants(RouteHttpInterface $currentRoute): array;
 
     public function __toString(): string;
 }

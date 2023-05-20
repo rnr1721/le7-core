@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\Request;
-use Core\Interfaces\Config;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\ConfigInterface;
 use \Exception;
 
 class RouteRepository
@@ -14,12 +14,15 @@ class RouteRepository
     private array $defaultLocales = [
         'en' => 'en_US|English'
     ];
-    private Request $request;
-    private Config $config;
+    private RequestInterface $request;
+    private ConfigInterface $config;
     private array $routes = array();
     private string $root;
 
-    public function __construct(Config $config, Request $request)
+    public function __construct(
+            ConfigInterface $config,
+            RequestInterface $request
+    )
     {
         $this->config = $config;
         $this->request = $request;
@@ -102,7 +105,7 @@ class RouteRepository
                 $this->addRoute(
                         $key . '_' . $lang,
                         $type,
-                        $lang . rtrim($address,'/'),
+                        $lang . rtrim($address, '/'),
                         $namespace,
                         $params,
                         $lang
@@ -131,7 +134,14 @@ class RouteRepository
         return $pattern . '?';
     }
 
-    private function addRoute(string $key, string $type, string $address, string $controllerNamespace, int $paramsCount = 7, string|null $language = null): self
+    private function addRoute(
+            string $key,
+            string $type,
+            string $address,
+            string $controllerNamespace,
+            int $paramsCount = 7,
+            string|null $language = null
+    ): self
     {
         $pattern = '#^' . ltrim($address, '/') . $this->generatePattern($paramsCount) . '$#';
 

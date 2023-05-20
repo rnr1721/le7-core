@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Interfaces;
 
-interface RouteHttp extends Route
+interface RouteHttpInterface extends RouteInterface
 {
 
     /**

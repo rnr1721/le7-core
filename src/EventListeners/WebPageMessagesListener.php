@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Core\EventListeners;
 
-use Core\Interfaces\MessageCollection;
+use Core\Interfaces\MessageCollectionInterface;
 use Core\EventDispatcher\Listener;
 
 class WebPageMessagesListener extends Listener
 {
 
-    private MessageCollection $messages;
+    private MessageCollectionInterface $messages;
 
     public function __construct(
-            MessageCollection $messages,
+            MessageCollectionInterface $messages,
     )
     {
         $this->messages = $messages;

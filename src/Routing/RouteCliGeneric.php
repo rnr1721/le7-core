@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
-use Core\Interfaces\RouteCli;
+use Core\Interfaces\RouteCliInterface;
 
-class RouteCliGeneric extends RouteGeneric implements RouteCli
+class RouteCliGeneric extends RouteGeneric implements RouteCliInterface
 {
 
     public function getOptions(): array
@@ -14,7 +14,10 @@ class RouteCliGeneric extends RouteGeneric implements RouteCli
         return $this->getArray('options');
     }
 
-    public function getParam(string $paramName, string|int|bool|null $default = null): string|int|bool|null
+    public function getParam(
+            string $paramName,
+            string|int|bool|null $default = null
+    ): string|int|bool|null
     {
         if (array_key_exists($paramName, $this->getArray('params'))) {
             return $this->route['params'][$paramName];

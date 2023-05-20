@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Core\ErrorHandler;
 
-use Core\Interfaces\MessageCollection;
-use Core\Interfaces\Config;
-use Core\Interfaces\ErrorOutputCli;
+use Core\Interfaces\MessageCollectionInterface;
+use Core\Interfaces\ConfigInterface;
+use Core\Interfaces\ErrorOutputCliInterface;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerCli extends ErrorHandlerAbstract
 {
 
-    protected ErrorOutputCli $output;
+    protected ErrorOutputCliInterface $output;
 
     public function __construct(
-            Config $config,
+            ConfigInterface $config,
             LoggerInterface $logger,
-            MessageCollection $messages,
-            ErrorOutputCli $ouptut
+            MessageCollectionInterface $messages,
+            ErrorOutputCliInterface $ouptut
     )
     {
         parent::__construct($config, $logger, $messages);
