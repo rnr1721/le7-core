@@ -65,5 +65,9 @@ interface UrlInterface extends Stringable
      */
     public function getLanguageUrlVariants(RouteHttpInterface $currentRoute): array;
 
+    /**
+     * When converted to string
+     * @return string
+     */
     public function __toString(): string;
 }

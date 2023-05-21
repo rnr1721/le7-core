@@ -10,15 +10,49 @@ use Core\Interfaces\RequestInterface;
 use Core\Interfaces\LocalesInterface;
 use Core\Interfaces\ConfigInterface;
 
+/**
+ * Class for building links
+ */
 class UrlBuilder implements UrlInterface
 {
 
+    /**
+     * System request object
+     * @var RequestInterface
+     */
     private RequestInterface $request;
+    
+    /**
+     * Locales
+     * @var LocalesInterface
+     */
     private LocalesInterface $locales;
+    
+    /**
+     * Config storage
+     * @var ConfigInterface
+     */
     private ConfigInterface $config;
+    
+    /**
+     * Current route
+     * @var RouteHttpInterface
+     */
     private RouteHttpInterface $route;
+    
+    /**
+     * Base url
+     * @var string
+     */
     private string $base;
 
+    /**
+     * URL builder Constructor
+     * @param ConfigInterface $config
+     * @param LocalesInterface $locales
+     * @param RequestInterface $request
+     * @param RouteHttpInterface $route
+     */
     public function __construct(
             ConfigInterface $config,
             LocalesInterface $locales,
@@ -35,11 +69,7 @@ class UrlBuilder implements UrlInterface
     }
 
     /**
-     * Get link to some internal page
-     * @param string|null $location Example: page/contacts
-     * @param string|array|null $params Example: ?param1=one&param2=two
-     * @param string|null $language current language. If null - will be default
-     * @return string
+     * @inheritDoc
      */
     public function get(
             string|null $location = null,
@@ -51,14 +81,14 @@ class UrlBuilder implements UrlInterface
         if ($location === null) {
             $location = '';
         }
-        $paramsString = is_string($params) ? $params : '';
+        $paramsString = is_string($params) ? '?' . $params : '';
 
-        if (is_array($params)) {
+        if (is_array($params) && count($params) !== 0) {
             $parameters = '';
             foreach ($params as $paramKey => $paramValue) {
                 $parameters .= '&' . $paramKey . '=' . $paramValue;
             }
-            $paramsString = ltrim($parameters, '&');
+            $paramsString = '?' . ltrim($parameters, '&');
         }
 
         $languageCurrent = $language ?? $this->locales->getCurrentLocaleShortname();
@@ -70,42 +100,57 @@ class UrlBuilder implements UrlInterface
         return $this->base . $lang . rtrim($clocation, '/') . $paramsString;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function theme(): string
     {
         $theme = $this->config->string('theme') ?? "main";
         return $this->base . '/themes/' . $theme . '/';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function libs(): string
     {
         return $this->base . '/libs';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function js(): string
     {
         return $this->theme() . 'js';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function css(): string
     {
         return $this->theme() . 'css';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function fonts(): string
     {
         return $this->theme() . 'fonts';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function images(): string
     {
         return $this->theme() . 'images';
     }
 
     /**
-     * Return array of links for current page in other languages
-     * except default language
-     * @param RouteHttpInterface|null $currentRoute
-     * @return array
+     * @inheritDoc
      */
     public function getLanguageUrlVariants(
             ?RouteHttpInterface $currentRoute = null

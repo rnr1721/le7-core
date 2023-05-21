@@ -1,8 +1,8 @@
 <?php
 
-namespace Core;
-
 declare(strict_types=1);
+
+namespace Core;
 
 use Core\Interfaces\RequestInterface;
 use Core\Interfaces\ConfigInterface;
@@ -10,18 +10,52 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * System request class
+ * This is decorator for PSR ServerRequest,
+ * but contain specific methods
+ */
 class Request implements RequestInterface
 {
 
+    /**
+     * Config storage
+     * @var ConfigInterface
+     */
     private ConfigInterface $config;
+
+    /**
+     * PSR ServerRequest
+     * @var ServerRequestInterface
+     */
     private ServerRequestInterface $request;
+
+    /**
+     * Base public path
+     * @var string|null
+     */
     private string|null $basePath = null;
+
+    /**
+     * Base url
+     * @var string|null
+     */
     private string|null $baseUrl = null;
+
+    /**
+     * body parsers
+     * @var array
+     */
     private array $parsers = [
         'application/json' => 'parserJson',
         'application/x-www-form-urlencoded' => 'parserXurlformencoded'
     ];
 
+    /**
+     * Request Constructor
+     * @param ServerRequestInterface $request PSR ServerRequest
+     * @param ConfigInterface $config Config storage
+     */
     public function __construct(
             ServerRequestInterface $request,
             ConfigInterface $config
@@ -31,11 +65,17 @@ class Request implements RequestInterface
         $this->config = $config;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getProtocolVersion(): string
     {
         return $this->request->getProtocolVersion();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withProtocolVersion($version): static
     {
         $clone = clone $this;
@@ -43,26 +83,41 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getHeaders(): array
     {
         return $this->request->getHeaders();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function hasHeader($name): bool
     {
         return $this->request->hasHeader($name);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getHeader($name): array
     {
         return $this->request->getHeader($name);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getHeaderLine($name): string
     {
         return $this->request->getHeaderLine($name);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withHeader($name, $value): static
     {
         $clone = clone $this;
@@ -70,6 +125,9 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withAddedHeader($name, $value): static
     {
         $clone = clone $this;
@@ -77,6 +135,9 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withoutHeader($name): static
     {
         $clone = clone $this;
@@ -84,11 +145,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getBody(): StreamInterface
     {
         return $this->request->getBody();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withBody(StreamInterface $body): static
     {
         $clone = clone $this;
@@ -96,11 +163,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getRequestTarget(): string
     {
         return $this->request->getRequestTarget();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withRequestTarget($requestTarget): static
     {
         $clone = clone $this;
@@ -108,11 +181,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getMethod(): string
     {
         return $this->request->getMethod();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withMethod($method): static
     {
         $clone = clone $this;
@@ -120,11 +199,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getUri(): UriInterface
     {
         return $this->request->getUri();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withUri(UriInterface $uri, $preserveHost = false): static
     {
         $clone = clone $this;
@@ -132,16 +217,25 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getServerParams(): array
     {
         return $this->request->getServerParams();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getCookieParams(): array
     {
         return $this->request->getCookieParams();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withCookieParams(array $cookies): static
     {
         $clone = clone $this;
@@ -149,11 +243,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getQueryParams(): array
     {
         return $this->request->getQueryParams();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withQueryParams(array $query): static
     {
         $clone = clone $this;
@@ -161,11 +261,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getUploadedFiles(): array
     {
         return $this->request->getUploadedFiles();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withUploadedFiles(array $uploadedFiles): static
     {
         $clone = clone $this;
@@ -173,11 +279,17 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getParsedBody()
     {
         return $this->request->getParsedBody();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withParsedBody($data): static
     {
         $clone = clone $this;
@@ -185,16 +297,25 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAttributes(): array
     {
         return $this->request->getAttributes();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAttribute($name, $default = null)
     {
         return $this->request->getAttribute($name, $default);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withAttribute($name, $value): static
     {
         $clone = clone $this;
@@ -202,6 +323,9 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function withoutAttribute($name): static
     {
         $clone = clone $this;
@@ -209,6 +333,9 @@ class Request implements RequestInterface
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getBase(): string
     {
         if ($this->basePath === null) {
@@ -217,6 +344,9 @@ class Request implements RequestInterface
         return '/' . ltrim($this->basePath, '/');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getBaseUrl(): string
     {
         if ($this->baseUrl === null) {
@@ -228,11 +358,17 @@ class Request implements RequestInterface
         return $this->baseUrl;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isAjax(): bool
     {
         return $this->request->getHeaderLine('X-Requested-With') === 'XMLHttpRequest';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isSecure(): bool
     {
         $scheme = $this->getUri()->getScheme();
@@ -242,6 +378,9 @@ class Request implements RequestInterface
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getContentLength(): int|null
     {
         $result = $this->request->getHeaderLine('Content-Length');
@@ -251,6 +390,9 @@ class Request implements RequestInterface
         return intval($result);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getContentType(): string
     {
         return $this->request->getHeaderLine('Content-Type');
@@ -282,6 +424,9 @@ class Request implements RequestInterface
         return $result;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getServerParam(
             string $name,
             string|null $default = null
@@ -294,6 +439,9 @@ class Request implements RequestInterface
         return $default;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getParams(): array
     {
 
@@ -319,6 +467,9 @@ class Request implements RequestInterface
         return [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getCookieParam(string $key, string|null $default = null): string|null
     {
         $cookies = $this->request->getCookieParams();
@@ -330,6 +481,9 @@ class Request implements RequestInterface
         return $default;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function wg(string $name, string|int|bool|null $default = null): string|array|int|bool|null
     {
         $params = $this->getQueryParams();
@@ -339,6 +493,9 @@ class Request implements RequestInterface
         return $default;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function wp(string $name, string|int|bool|null $default = null): string|array|int|bool|null
     {
         $params = $this->getParams();
@@ -348,23 +505,35 @@ class Request implements RequestInterface
         return $default;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setAttribute(string $name, mixed $value): self
     {
         $this->request = $this->request->withAttribute($name, $value);
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getRequest(): ServerRequestInterface
     {
         return $this->request;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setRequest(ServerRequestInterface $request): self
     {
         $this->request = $request;
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getVisitorIp(): string
     {
         $result = $this->getServerParam('REMOTE_ADDR');

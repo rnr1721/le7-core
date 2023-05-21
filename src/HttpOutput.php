@@ -36,6 +36,12 @@ class HttpOutput implements HttpOutputInterface
      */
     private MessageCollectionInterface $messageCollection;
 
+    /**
+     * HttpOutput Constructor
+     * @param ResponseBag $responseBag
+     * @param UrlInterface $url
+     * @param MessageCollectionInterface $messageCollection
+     */
     public function __construct(
             ResponseBag $responseBag,
             UrlInterface $url,
@@ -48,8 +54,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Get ResponseInterface generators as properties
-     * @param string $name Name of response generator
+     * @inheritDoc
      */
     public function __get(string $name)
     {
@@ -61,17 +66,12 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Redirect to another internal page
-     * @param string $location for example 'page/contacts'
-     * @param string $params Params, for example "?name=john&age=33"
-     * @param string $language Language for form link. Empty = default
-     * @param int $code Response code
-     * @return ResponseInterface
+     * @inheritDoc
      */
     public function redirect(
-            string $location = '',
-            string $params = '',
-            string $language = '',
+            string|null $location = null,
+            string|array|null $params = null,
+            string|null $language = null,
             int $code = 301
     ): ResponseInterface
     {
@@ -80,10 +80,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Redirect to any external page
-     * @param string $url Url to redirect
-     * @param int $code Response code
-     * @return ResponseInterface
+     * @inheritDoc
      */
     public function redirectExternal(
             string $url,
@@ -94,9 +91,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Replace ResponseInterface to another one
-     * @param ResponseInterface $response
-     * @return self
+     * @inheritDoc
      */
     public function updateResponse(ResponseInterface $response): self
     {
@@ -110,10 +105,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Get HTML response generator
-     * It can generate ResponseInterface with text/html header
-     * from string
-     * @return HtmlResponse
+     * @inheritDoc
      */
     public function toHtml(): HtmlResponse
     {
@@ -121,10 +113,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Get JSON response generator
-     * It can generate ResponseInterface with application/json header
-     * from string
-     * @return JsonResponse
+     * @inheritDoc
      */
     public function toJson(): JsonResponse
     {
@@ -132,10 +121,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Get JSONP response generator
-     * It can generate ResponseInterface for JSONP
-     * from string
-     * @return JsonpResponse
+     * @inheritDoc
      */
     public function toJsonp(): JsonpResponse
     {
@@ -143,10 +129,7 @@ class HttpOutput implements HttpOutputInterface
     }
 
     /**
-     * Get Text response generator
-     * It can generate ResponseInterface with text/plain header
-     * from string
-     * @return TextResponse
+     * @inheritDoc
      */
     public function toText(): TextResponse
     {

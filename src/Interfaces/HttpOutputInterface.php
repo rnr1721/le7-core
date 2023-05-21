@@ -25,13 +25,18 @@ interface HttpOutputInterface
 
     /**
      * Redirect to another internal page
-     * @param string $location for example 'page/contacts'
-     * @param string $params Params, for example "?name=john&age=33"
-     * @param string $language Language for form link. Empty = default
+     * @param string|null $location for example 'page/contacts'
+     * @param string|array|null $params Params, for example "name=john&age=33"
+     * @param string|null $language Language for form link. Null = default
      * @param int $code Response code
      * @return ResponseInterface
      */
-    public function redirect(string $location = '', string $params = '', string $language = '', int $code = 301): ResponseInterface;
+    public function redirect(
+            string|null $location = null,
+            string|array|null $params = null,
+            string|null $language = null,
+            int $code = 301
+    ): ResponseInterface;
 
     /**
      * Redirect to any external page
