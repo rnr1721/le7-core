@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Routing;
+namespace Core\Links;
 
 use Core\Interfaces\UrlInterface;
 use Core\Interfaces\RouteHttpInterface;
