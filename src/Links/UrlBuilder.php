@@ -106,7 +106,7 @@ class UrlBuilder implements UrlInterface
     public function theme(): string
     {
         $theme = $this->config->string('theme') ?? "main";
-        return $this->base . '/themes/' . $theme . '/';
+        return $this->base . '/themes/' . $theme;
     }
 
     /**
@@ -122,7 +122,7 @@ class UrlBuilder implements UrlInterface
      */
     public function js(): string
     {
-        return $this->theme() . 'js';
+        return $this->theme() . '/js';
     }
 
     /**
@@ -130,7 +130,7 @@ class UrlBuilder implements UrlInterface
      */
     public function css(): string
     {
-        return $this->theme() . 'css';
+        return $this->theme() . '/css';
     }
 
     /**
@@ -138,7 +138,7 @@ class UrlBuilder implements UrlInterface
      */
     public function fonts(): string
     {
-        return $this->theme() . 'fonts';
+        return $this->theme() . '/fonts';
     }
 
     /**
@@ -146,7 +146,7 @@ class UrlBuilder implements UrlInterface
      */
     public function images(): string
     {
-        return $this->theme() . 'images';
+        return $this->theme() . '/images';
     }
 
     /**
