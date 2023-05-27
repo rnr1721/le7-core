@@ -75,7 +75,7 @@ trait InitTrait
         $config = $container->get(ConfigInterface::class);
 
         $config->registerParam('loc', $this->topology);
-        $config->registerParam('isProduction', $config->bool('isProduction'));
+        $config->registerParam('isProduction', $this->isProduction);
         $config->applyFilter('current_theme', $config->string('theme') ?? 'Main');
         $config->applyFilter('base', $config->string('loc.base') ?? '');
         $config->applyFilter('var', $config->string('loc.var') ?? '');
