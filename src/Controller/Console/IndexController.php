@@ -16,7 +16,7 @@ class IndexController extends BaseController
         $this->stdout('Available controllers:');
 
         $ds = DIRECTORY_SEPARATOR;
-        $commandDirSystem = $config->string('loc.core') . $ds . 'Controller' . $ds . 'System';
+        $commandDirSystem = $config->string('loc.core') . $ds . 'Controller' . $ds . 'Console' . $ds . 'System';
         $commandDirUser = $config->string('loc.base') . $ds . str_replace('\\', $ds, $config->string('commandNamespace') ?? '');
         foreach ($this->getCommands([$commandDirSystem, $commandDirUser]) as $item) {
             $this->stdout(' ./cli ' . $item);

@@ -4,20 +4,51 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
+use Core\Interfaces\RouteRepositoryInterface;
 use Core\Interfaces\RequestInterface;
 use Core\Interfaces\ConfigInterface;
 use \Exception;
 
-class RouteRepository
+class RouteRepository implements RouteRepositoryInterface
 {
 
-    private array $defaultLocales = [
+    /**
+     * Default locales if not in config
+     * 
+     * @var array
+     */
+    protected array $defaultLocales = [
         'en' => 'en_US|English'
     ];
-    private RequestInterface $request;
-    private ConfigInterface $config;
-    private array $routes = array();
-    private string $root;
+
+    /**
+     * System request object
+     * 
+     * @var RequestInterface
+     */
+    protected RequestInterface $request;
+
+    /**
+     * Config manager
+     * 
+     * @var ConfigInterface
+     */
+    protected ConfigInterface $config;
+    protected array $routes = array();
+
+    /**
+     * Public base with folder
+     * 
+     * @var string
+     */
+    protected string $root;
+
+    /**
+     * Raw routes
+     * 
+     * @var array<array-key, array>
+     */
+    protected array $rawRoutes = [];
 
     public function __construct(
             ConfigInterface $config,
@@ -27,37 +58,6 @@ class RouteRepository
         $this->config = $config;
         $this->request = $request;
         $this->root = $request->getBase() === '/' ? '' : $request->getBase();
-
-        /** @var array<array-key, array> $routes */
-        $routes = $config->array('routes') ?? [];
-
-        foreach ($routes as $route) {
-            /** @var array<array-key, string|int|bool> $route */
-            $this->validateRoute($route);
-            /** @var string $addressRaw */
-            $addressRaw = $route['address'];
-            $address = '/' . ltrim($addressRaw, '/');
-            if ($route['multilang'] ?? false) {
-                $this->addMultilangRoutes($route, $address);
-            } else {
-                /** @var string $key */
-                $key = $route['key'];
-                /** @var string $type */
-                $type = $route['type'];
-                /** @var string $namespace */
-                $namespace = $route['namespace'];
-                /** @var int $params */
-                $params = $route['params'];
-                $this->addRoute(
-                        $key,
-                        $type,
-                        $address,
-                        $namespace,
-                        $params,
-                        $config->string('defaultLanguage', 'en')
-                );
-            }
-        }
     }
 
     private function validateRoute(array $route): void
@@ -155,8 +155,44 @@ class RouteRepository
         return $this;
     }
 
+    public function setRouteCollection(array $routes): self
+    {
+        $this->rawRoutes = array_merge($this->rawRoutes, $routes);
+        return $this;
+    }
+
     public function getRoutes(): array
     {
+        if (count($this->routes) !== 0) {
+            return $this->routes;
+        }
+        foreach ($this->rawRoutes as $route) {
+            /** @var array<array-key, string|int|bool> $route */
+            $this->validateRoute($route);
+            /** @var string $addressRaw */
+            $addressRaw = $route['address'];
+            $address = '/' . ltrim($addressRaw, '/');
+            if ($route['multilang'] ?? false) {
+                $this->addMultilangRoutes($route, $address);
+            } else {
+                /** @var string $key */
+                $key = $route['key'];
+                /** @var string $type */
+                $type = $route['type'];
+                /** @var string $namespace */
+                $namespace = $route['namespace'];
+                /** @var int $params */
+                $params = $route['params'];
+                $this->addRoute(
+                        $key,
+                        $type,
+                        $address,
+                        $namespace,
+                        $params,
+                        $this->config->string('defaultLanguage', 'en')
+                );
+            }
+        }
         return $this->routes;
     }
 

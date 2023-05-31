@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core\Routing;
 
+use Core\Interfaces\RouteRepositoryInterface;
 use Core\Interfaces\RequestInterface;
 use Core\Interfaces\RouteHttpInterface;
 use Core\Interfaces\ConfigInterface;
@@ -19,7 +20,7 @@ class RouteBuilderHttp
 {
 
     private CacheInterface $cache;
-    private RouteRepository $routeCollection;
+    private RouteRepositoryInterface $routeCollection;
     private ConfigInterface $config;
     private RequestInterface $request;
     private DispatcherReflection $reflection;
@@ -29,7 +30,7 @@ class RouteBuilderHttp
             CacheInterface $cache,
             ConfigInterface $config,
             RequestInterface $request,
-            RouteRepository $routeCollection,
+            RouteRepositoryInterface $routeCollection,
             DispatcherReflection $reflection,
     )
     {

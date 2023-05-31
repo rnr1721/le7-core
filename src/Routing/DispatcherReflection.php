@@ -58,6 +58,7 @@ class DispatcherReflection
     {
         $result = [
             'csrf' => true,
+            'active' => true,
             'allowedParams' => 0,
             'middleware' => []
         ];
@@ -77,6 +78,9 @@ class DispatcherReflection
                 }
                 if (array_key_exists('csrf', $arguments)) {
                     $result['csrf'] = (bool) $arguments['csrf'];
+                }
+                if (array_key_exists('active', $arguments)) {
+                    $result['active'] = (bool) $arguments['active'];
                 }
             }
 

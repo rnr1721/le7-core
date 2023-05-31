@@ -153,7 +153,7 @@ abstract class Dispatcher
         /** @var string[] $middleware */
         $middleware = array_merge($controllerParams['middleware'], $actionParams['middleware']);
 
-        if (count($data['params']) > $allowedParams) {
+        if (count($data['params']) > $allowedParams || $actionParams['active'] === false) {
             return $this->getNotFound(
                             $uri,
                             $method,
@@ -177,6 +177,7 @@ abstract class Dispatcher
             'response' => 200,
             'params' => $data['params'],
             'middleware' => array_unique($middleware),
+            'active' => $actionParams['active'],
             'csrf' => $actionParams['csrf'],
             'notfound' => $this->getNotFound(
                     $uri,
@@ -246,6 +247,7 @@ abstract class Dispatcher
             'response' => 404,
             'params' => $data['params'],
             'middleware' => [],
+            'active' => true,
             'csrf' => true
         );
         return $result;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Core;
 
+use Core\Interfaces\BundleManagerInterface;
 use Core\Interfaces\ResponseEmitterInterface;
 use Core\Interfaces\MiddlewareFactoryInterface;
 use Core\Interfaces\LocalesInterface;
@@ -14,6 +15,7 @@ use Core\Routing\RouteBuilderHttp;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use \Exception;
 use \Throwable;
 
 /**
@@ -54,6 +56,7 @@ class InitHttp implements RequestHandlerInterface
         $requestBag->setServerRequest($request);
         /** @var RouteBag $routeBag */
         $routeBag = $container->get(RouteBag::class);
+        $this->initBundles();
         /** @var RouteBuilderHttp $routeBuilder */
         $routeBuilder = $container->get(RouteBuilderHttp::class);
         $route = $routeBuilder->getCurrentRoute();
@@ -80,6 +83,19 @@ class InitHttp implements RequestHandlerInterface
         }
 
         return $response;
+    }
+
+    public function initBundles(): void
+    {
+        $container = $this->getContainer();
+        /** @var BundleManagerInterface $bundleManager */
+        $bundleManager = $container->get(BundleManagerInterface::class);
+        if ($this->config === null) {
+            throw new Exception('ConfigInterface not found');
+        }
+        $bundles = $this->config->array('bundles.list') ?? [];
+        $bundleManager->addBundles($bundles);
+        $bundleManager->initAll();
     }
 
 }
