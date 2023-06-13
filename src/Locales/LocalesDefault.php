@@ -72,6 +72,20 @@ class LocalesDefault implements LocalesInterface
     }
 
     /**
+     * add locale from plugin
+     * 
+     * @param string $textdomain Textdomain
+     * @param string $path Locales path
+     * @return self
+     */
+    public function addLocale(string $textdomain, string $path): self
+    {
+        bindtextdomain($textdomain, $path);
+        textdomain($textdomain);
+        return $this;
+    }
+
+    /**
      * Получение всех данных локали по её системному имени
      * @param string $localeName
      * @return array
@@ -214,5 +228,4 @@ class LocalesDefault implements LocalesInterface
     {
         return array_key_exists($shortname, $this->localesByShortname);
     }
-
 }

@@ -5,32 +5,26 @@ declare(strict_types=1);
 namespace Core\Bundles;
 
 use Core\Interfaces\BundleInterface;
-use Core\Interfaces\RouteRepositoryInterface;
 use Core\Interfaces\ConfigInterface;
 
 class Root implements BundleInterface
 {
 
     protected ConfigInterface $config;
-    protected RouteRepositoryInterface $routeRepository;
 
     public function __construct(
-            ConfigInterface $config,
-            RouteRepositoryInterface $routeRepository
+            ConfigInterface $config
     )
     {
         $this->config = $config;
-        $this->routeRepository = $routeRepository;
     }
 
     public function init(): void
     {
-        /** @var array<array-key, array> $routes */
-        $routes = $this->config->array('routes') ?? [];
-        $this->routeRepository->setRouteCollection($routes);
+        
     }
 
-    public function conflict(): array
+    public function getConflicts(): array
     {
         return [];
     }
@@ -42,17 +36,31 @@ class Root implements BundleInterface
 
     public function getName(): string
     {
-        return 'Root';
+        return 'root';
     }
 
-    public function require(): array
+    public function getRequired(): array
     {
         return [];
     }
 
-    public function config(): array
+    public function getConfig(): array
     {
         return [];
     }
 
+    public function getMenu(): array
+    {
+        return [];
+    }
+
+    public function getPath(): string
+    {
+        return __DIR__;
+    }
+
+    public function getRoutes(): array
+    {
+        return $this->config->array('routes') ?? [];
+    }
 }

@@ -11,15 +11,26 @@ interface BundleInterface
 {
 
     /**
-     * Initializes the bundle.
-     *
-     * This method is called when the bundle is created. It can be used to perform
-     * any necessary initialization logic. Dependencies that are injected into the
-     * constructor can be used in this method.
-     *
-     * @return void
+     * Get bundle routes array
+     * 
+     * @return array
      */
-    public function init(): void;
+    public function getRoutes(): array;
+
+    /**
+     * Get global menu config
+     * Keys of this array will be added to global menu config
+     * 
+     * @return array Can be empty array if no menu items
+     */
+    public function getMenu(): array;
+
+    /**
+     * Get bundle directory
+     * 
+     * @return string|null
+     */
+    public function getPath(): ?string;
 
     /**
      * Returns the name of the bundle.
@@ -44,7 +55,7 @@ interface BundleInterface
      *
      * @return array The list of conflicting bundle names.
      */
-    public function conflict(): array;
+    public function getConflicts(): array;
 
     /**
      * Returns a list of bundles that are required by this bundle.
@@ -55,12 +66,12 @@ interface BundleInterface
      *
      * @return array The list of required bundle names.
      */
-    public function require(): array;
+    public function getRequired(): array;
 
     /**
      * Returns a config for this bundle
      * 
      * @return array The list of parameters for bundle
      */
-    public function config(): array;
+    public function getConfig(): array;
 }

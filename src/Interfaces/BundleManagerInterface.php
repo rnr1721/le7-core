@@ -11,11 +11,18 @@ interface BundleManagerInterface
 {
 
     /**
-     * Initializes all added bundles.
+     * Initializes configuration of all added bundles.
      *
      * After calling this method, if you try to add more bundles, it will
      * throw an exception.
      *
+     * @return void
+     */
+    public function configureAll(): void;
+
+    /**
+     * Run init method on all added bundles
+     * 
      * @return void
      */
     public function initAll(): void;

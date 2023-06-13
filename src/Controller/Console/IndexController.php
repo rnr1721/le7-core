@@ -26,6 +26,7 @@ class IndexController extends BaseController
     private function getCommands(array $commandDir = []): array
     {
         $result = [];
+        /** @var string $currentCommandDir */
         foreach ($commandDir as $currentCommandDir) {
             $controllers = glob($currentCommandDir . '/*Controller.php');
             $search = ['Controller', '.php'];
@@ -36,5 +37,4 @@ class IndexController extends BaseController
         }
         return $result;
     }
-
 }

@@ -157,7 +157,7 @@ class RouteRepository implements RouteRepositoryInterface
 
     public function setRouteCollection(array $routes): self
     {
-        $this->rawRoutes = array_merge($this->rawRoutes, $routes);
+        $this->rawRoutes = array_merge($routes, $this->rawRoutes);
         return $this;
     }
 
@@ -193,7 +193,7 @@ class RouteRepository implements RouteRepositoryInterface
                 );
             }
         }
+
         return $this->routes;
     }
-
 }

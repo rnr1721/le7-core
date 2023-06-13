@@ -15,6 +15,15 @@ interface LocalesInterface
     public function setLocale(string $localeShortname): bool;
 
     /**
+     * Bind textdomain from plugin
+     * 
+     * @param string $textdomain
+     * @param string $path
+     * @return self
+     */
+    public function addLocale(string $textdomain, string $path): self;
+
+    /**
      * Get locale by name e.g. ru_RU
      * @param string $localeName
      * @return array
