@@ -49,7 +49,9 @@ class BundleManager implements BundleManagerInterface
             throw new Exception('Bundles already configured');
         }
         $this->checkRequired();
-        $globalsConfig = [];
+        $globalsConfig = [
+            'viewDirs' => []
+        ];
         /** @var BundleInterface $bundleObject */
         foreach ($this->bundles as $bundleName => $bundleObject) {
             $path = $bundleObject->getPath() . DIRECTORY_SEPARATOR;
