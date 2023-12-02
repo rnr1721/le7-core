@@ -34,6 +34,16 @@ foreach ($composerInfo['installed'] as $package) {
                         echo 'no plugin update file ' . $pluginUpdateFile . ' in package ' . $packageName . "\r\n";
                     }
                 }
+                if (isset($pluginJsonData['dir'])) {
+                    if (is_string($pluginJsonData['dir'])) {
+                        $newDir = $pluginJsonData['dir'];
+                        if (!file_exists($newDir)) {
+                            mkdir($newDir, 0775, true);
+                        }
+                    } else {
+                        echo 'wrong plugin configuration ' . $packageName . " - invalid format of dir key\r\n";
+                    }
+                }
                 if (isset($pluginJsonData['copy'])) {
                     if (is_array($pluginJsonData['copy'])) {
                         foreach ($pluginJsonData['copy'] as $copyItem => $copyValue) {
