@@ -35,10 +35,13 @@ foreach ($composerInfo['installed'] as $package) {
                     }
                 }
                 if (isset($pluginJsonData['dir'])) {
-                    if (is_string($pluginJsonData['dir'])) {
-                        $newDir = $pluginJsonData['dir'];
-                        if (!file_exists($newDir)) {
-                            mkdir($newDir, 0775, true);
+                    if (is_array($pluginJsonData['dir'])) {
+                        foreach ($pluginJsonData['dir'] as $dirItem => $dirValue) {
+                            echo "create dir $dirItem - $dirValue\r\n";
+                            $newDir = $dirValue;
+                            if (!file_exists($dirValue)) {
+                                mkdir($dirValue, 0775, true);
+                            }
                         }
                     } else {
                         echo 'wrong plugin configuration ' . $packageName . " - invalid format of dir key\r\n";
