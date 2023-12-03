@@ -73,14 +73,8 @@ trait InitTrait
     {
 
         if (!file_exists($this->topology['config'])) {
-            $configSource = $this->topology['base'] . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'config';
-
-            if (!file_exists($configSource)) {
-                echo "Fatal: source config directory not exists: " . $configSource;
-                die;
-            }
-
-            $this->copyDirectory($configSource, $this->topology['config']);
+            echo "Please run 'composer update' to update configuration";
+            die;
         }
 
         /** @var ConfigInterface $config */
@@ -131,41 +125,5 @@ trait InitTrait
             throw new Exception("Container not initialized");
         }
         return $this->container;
-    }
-
-    /**
-     * Recursively copies files and directories from the source to the destination.
-     *
-     * @param string $source      The path to the source directory or file.
-     * @param string $destination The path to the destination directory.
-     *
-     * @return bool              Returns true on successful copying, false on failure.
-     */
-    private function copyDirectory($source, $destination)
-    {
-        if (!file_exists($destination)) {
-            mkdir($destination, 0777, true);
-        }
-
-        $dir = opendir($source);
-        if (!$dir) {
-            return false;
-        }
-
-        while (false !== ($file = readdir($dir))) {
-            if (($file != '.') && ($file != '..')) {
-                $sourceFile = $source . DIRECTORY_SEPARATOR . $file;
-                $destFile = $destination . DIRECTORY_SEPARATOR . $file;
-
-                if (is_dir($sourceFile)) {
-                    $this->copyDirectory($sourceFile, $destFile);
-                } else {
-                    copy($sourceFile, $destFile);
-                }
-            }
-        }
-
-        closedir($dir);
-        return true;
     }
 }

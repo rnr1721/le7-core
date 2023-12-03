@@ -1,0 +1,32 @@
+{
+    "description": "le7 PHP MVC framework core",
+    "update_description": "will be created config and var items if need",
+    "copy": {
+        "{plugin_root}/dist/config/assets.php": "{project_root}/config/assets.php",
+        "{plugin_root}/dist/config/bundles.php": "{project_root}/config/bundles.php",
+        "{plugin_root}/dist/config/config.php": "{project_root}/config/config.php",
+        "{plugin_root}/dist/config/cookies.php": "{project_root}/config/cookies.php",
+        "{plugin_root}/dist/config/debugbar.php": "{project_root}/config/debugbar.php",
+        "{plugin_root}/dist/config/events.php": "{project_root}/config/events.php",
+        "{plugin_root}/dist/config/headers.php": "{project_root}/config/headers.php",
+        "{plugin_root}/dist/config/locales.php": "{project_root}/config/locales.php",
+        "{plugin_root}/dist/config/middleware.php": "{project_root}/config/middleware.php",
+        "{plugin_root}/dist/config/README.md": "{project_root}/config/README.md",
+        "{plugin_root}/dist/config/routes.php": "{project_root}/config/routes.php",
+        "{plugin_root}/dist/config/user.php": "{project_root}/config/user.php"
+    },
+    "dir": {
+        "uploads": "{project_root}/uploads",
+        "config": "{project_root}/config",
+        "var": "{project_root}/var",
+        "cache": "{project_root}/var/cache",
+        "sessions": "{project_root}/var/sessions",
+        "logs": "{project_root}/var/logs",
+        "temp": "{project_root}/var/temp",
+        "templates cache": "{project_root}/var/templates_cache",
+        "templates_compiled": "{project_root}/var/templates_compiled",
+        "containers": "{project_root}/var/containers",
+        "proxies": "{project_root}/var/containers/proxies",
+        "local repository": "{project_root}/dist/local-repository"
+    }
+}
